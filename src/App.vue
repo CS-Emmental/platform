@@ -1,32 +1,34 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <emmental-navbar/>
+    <emmental-sidebar/>
+    <router-view class="main"/>
   </div>
 </template>
 
+<script>
+import EmmentalNavbar from '@/views/EmmentalNavbar.vue';
+import EmmentalSidebar from '@/views/EmmentalSidebar.vue';
+
+export default {
+  components: {
+    EmmentalNavbar,
+    EmmentalSidebar,
+  },
+};
+</script>
+
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Orbitron&display=swap');
+@import '@/bulma-theme.scss';
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Orbitron', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
+  height: 100vh;
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.main {
+  margin-left: 15vw;
 }
 </style>

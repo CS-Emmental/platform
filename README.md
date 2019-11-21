@@ -1,4 +1,4 @@
-# cs-emental
+# cs-emmental
 
 ## Project setup
 ```
