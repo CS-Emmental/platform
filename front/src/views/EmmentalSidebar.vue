@@ -12,7 +12,9 @@
         <li
           v-for="category in categoryGroup.categories"
           :key="category.id">
-          <a class="menu-item" :class="{'is-active': category.id == menuActive.category}">
+          <a
+            class="menu-item" 
+            :class="{'is-active': category.id == menuActive.category}">
             {{category.title}}
             <span class="tag is-rounded is-small">
             <b>{{category.count}}</b>
@@ -28,10 +30,27 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
+interface ChallengeCategory {
+  title: string;
+  kebab: string;
+  id: string;
+  count: number;
+}
+
+interface ChallengeCategoryGroup {
+  title: string;
+  id: string;
+  categories: ChallengeCategory[];
+}
+
+interface ChallengeSidebarProps {
+  categoryGroups: ChallengeCategoryGroup[];
+}
+
 @Component({})
 export default class EmmentalSidebar extends Vue {
   public name: string = 'EmmentalSidebar';
-  private menuModel: object = {
+  private menuModel: ChallengeSidebarProps = {
     categoryGroups: [
     {
       title: 'Web',
@@ -41,19 +60,19 @@ export default class EmmentalSidebar extends Vue {
           title: 'SQL Injection',
           kebab: 'sql-injection',
           id: 'd3f9f26f-7c3b-4a96-a52d-efd50d846734',
-          count: '5',
+          count: 5,
         },
         {
           title: 'XSS Injection',
           kebab: 'xss-injection',
           id: 'd3f9f26f-7c3b-4a96-a52d-efd50d846735',
-          count: '2',
+          count: 2,
         },
         {
           title: 'Directory Traversal',
           kebab: 'directory-traversal',
           id: 'd3f9f26f-7c3b-4a96-a52d-efd50d846736',
-          count: '3',
+          count: 3,
         },
       ],
     },
@@ -65,19 +84,19 @@ export default class EmmentalSidebar extends Vue {
           title: 'SQL Injection',
           kebab: 'sql-injection',
           id: 'd3f9f26f-7c3b-4a96-a52d-efd50d846737',
-          count: '5',
+          count: 5,
         },
         {
           title: 'XSS Injection',
           kebab: 'xss-injection',
           id: 'd3f9f26f-7c3b-4a96-a52d-efd50d846738',
-          count: '2',
+          count: 2,
         },
         {
           title: 'Directory Traversal',
           kebab: 'directory-traversal',
           id: 'd3f9f26f-7c3b-4a96-a52d-efd50d846739',
-          count: '3',
+          count: 3,
         },
       ],
     },
@@ -89,19 +108,19 @@ export default class EmmentalSidebar extends Vue {
           title: 'SQL Injection',
           kebab: 'sql-injection',
           id: 'd3f9f26f-7c3b-4a96-a52d-efd50d846740',
-          count: '5',
+          count: 5,
         },
         {
           title: 'XSS Injection',
           kebab: 'xss-injection',
           id: 'd3f9f26f-7c3b-4a96-a52d-efd50d846741',
-          count: '2',
+          count: 2,
         },
         {
           title: 'Directory Traversal',
           kebab: 'directory-traversal',
           id: 'd3f9f26f-7c3b-4a96-a52d-efd50d846742',
-          count: '3',
+          count: 3,
         },
       ],
     },
