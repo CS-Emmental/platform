@@ -29,6 +29,6 @@ export default {
   height: 100vh;
 }
 .main {
-  margin-left: 15vw;
+  margin-left: 18vw;
 }
 </style>
