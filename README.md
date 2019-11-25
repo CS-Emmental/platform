@@ -9,7 +9,7 @@
 
 *  [Télécharger](https://drive.google.com/open?id=1rX1tePughA2alUDQ74jRkjONKfvRIqv4) et copier à la racine les volumes locaux de mongodb
 *  Lancer l'application: `make run`
-*  Aller sur la [page d'accueil](localhost:8080/) de l'application:
+*  Aller sur la [page d'accueil](http://localhost:8080/) de l'application
 
 ## Développement
 
