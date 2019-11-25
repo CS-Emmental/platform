@@ -11,6 +11,8 @@
 *  Lancer l'application: `make run`
 *  Aller sur la [page d'accueil](http://localhost:8080/) de l'application
 
+NB: Lors de la première installation, il est prudent de lancer `pipenv install` dans le dossier back et `npm install && npm run serve` dans le dossier front
+
 ## Développement
 
 *  Le hot reload est activé sur les docker back et front
