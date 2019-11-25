@@ -6,16 +6,18 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
 import EmmentalNavbar from '@/views/EmmentalNavbar.vue';
 import EmmentalSidebar from '@/views/EmmentalSidebar.vue';
 
-export default {
+@Component({
   components: {
     EmmentalNavbar,
     EmmentalSidebar,
   },
-};
+})
+export default class App extends Vue {}
 </script>
 
 <style lang="scss">

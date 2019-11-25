@@ -45,13 +45,13 @@
 </nav>
 </template>
 
-<script>
-export default {
-  data: () => ({
-    isActive: false,
-  }),
-  name: 'EmmentalNavbar',
-};
+<script  lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+@Component({})
+export default class EmmentalNavbar extends Vue {
+  public name: string = 'EmmentalNavbar';
+  private isActive: boolean = false;
+}
 </script>
 
 <style lang="scss" scoped>
