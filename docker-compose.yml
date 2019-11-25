@@ -32,3 +32,10 @@ services:
     ports:
     - 5000:5000
     command: flask run --host=0.0.0.0 --port 5000
+
+  mongo:
+    image: mongo
+    volumes:
+    - ./mongo-volume:/data/db
+    ports:
+    - 27017:27017
