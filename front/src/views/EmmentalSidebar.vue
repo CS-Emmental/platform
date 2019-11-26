@@ -7,19 +7,22 @@
     <li
       v-for='categoryGroup in menuModel.categoryGroups'
       :key='categoryGroup.id'>
-      <a>{{categoryGroup.title}}</a>
-      <ul v-if="categoryGroup.id == menuActive.group">
+      <router-link :to="`/challenges/${categoryGroup.kebab}`"
+        :class="{'is-active': categoryGroup.kebab == menuActive.group && menuActive.category == undefined}">
+        {{categoryGroup.title}}
+      </router-link>
+      <ul v-if="categoryGroup.kebab == menuActive.group">
         <li
           v-for="category in categoryGroup.categories"
           :key="category.id">
-          <a
+          <router-link :to="`/challenges/${categoryGroup.kebab}/${category.kebab}`"
             class="menu-item" 
-            :class="{'is-active': category.id == menuActive.category}">
+            :class="{'is-active': category.kebab == menuActive.category}">
             {{category.title}}
             <span class="tag is-rounded is-small">
             <b>{{category.count}}</b>
           </span>
-          </a>
+          </router-link>
         </li>
       </ul>
     </li>
@@ -39,6 +42,7 @@ interface ChallengeCategory {
 
 interface ChallengeCategoryGroup {
   title: string;
+  kebab: string;
   id: string;
   categories: ChallengeCategory[];
 }
@@ -47,13 +51,14 @@ interface ChallengeSidebarProps {
   categoryGroups: ChallengeCategoryGroup[];
 }
 
-@Component({})
+@Component
 export default class EmmentalSidebar extends Vue {
   public name: string = 'EmmentalSidebar';
   private menuModel: ChallengeSidebarProps = {
     categoryGroups: [
     {
       title: 'Web',
+      kebab: 'web',
       id: 'd2d82047-3411-4787-9e0e-4f893af2bc77',
       categories: [
         {
@@ -78,6 +83,7 @@ export default class EmmentalSidebar extends Vue {
     },
     {
       title: 'Network',
+      kebab: 'network',
       id: 'd2d82047-3411-4787-9e0e-4f893af2bc78',
       categories: [
         {
@@ -102,6 +108,7 @@ export default class EmmentalSidebar extends Vue {
     },
     {
       title: 'Cryptography',
+      kebab: 'cryptography',
       id: 'd2d82047-3411-4787-9e0e-4f893af2bc79',
       categories: [
         {
@@ -125,10 +132,13 @@ export default class EmmentalSidebar extends Vue {
       ],
     },
   ]};
-  private menuActive: object = {
-    group: 'd2d82047-3411-4787-9e0e-4f893af2bc77',
-    category: 'd3f9f26f-7c3b-4a96-a52d-efd50d846735',
-  };
+  get menuActive() {
+    const route = this.$route;
+    return {
+      group: route.path.split('/')[2],
+      category: route.path.split('/')[3],
+    };
+  }
 }
 </script>
 
@@ -153,9 +163,5 @@ aside {
   flex-direction: row;
   align-items: center;
   justify-content: space-between
-}
-.menu-item.is-active {
-  background-color: whitesmoke;
-  color: #334557;
 }
 </style>

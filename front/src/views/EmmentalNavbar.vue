@@ -20,13 +20,13 @@
 
   <div id="navbarEmmental" class="navbar-menu" :class="{'is-active': isActive}">
     <div class="navbar-start">
-      <a class="navbar-item is-active">
+      <router-link class="navbar-item is-active" to="/challenges">
         Challenges
-      </a>
+      </router-link>
 
-      <a class="navbar-item">
+      <router-link class="navbar-item" to="/leaderboard">
         Leaderboard
-      </a>
+      </router-link>
     </div>
 
     <div class="navbar-end">
