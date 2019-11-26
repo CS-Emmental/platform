@@ -20,7 +20,7 @@
 
   <div id="navbarEmmental" class="navbar-menu" :class="{'is-active': isActive}">
     <div class="navbar-start">
-      <router-link class="navbar-item is-active" to="/challenges">
+      <router-link class="navbar-item" to="/challenges">
         Challenges
       </router-link>
 

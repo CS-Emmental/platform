@@ -29,8 +29,10 @@ export default class App extends Vue {}
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   height: 100vh;
+  background-color: #f5f5f5;
 }
 .main {
   margin-left: 18vw;
+  padding: 1rem;
 }
 </style>
