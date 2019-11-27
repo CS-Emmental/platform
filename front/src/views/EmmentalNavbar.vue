@@ -1,10 +1,12 @@
 <template>
 <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <router-link to="/" class="navbar-item">
-      <img src="../assets/cheese.png" width="35" height="60">
+    <router-link to="/" class="navbar-item brand-item">
+      <img src="../assets/cheese.png" class ="emmental-logo">
+      <p class="subtitle is-4 has-text-white">
+        CS Emmental
+      </p>
     </router-link>
-
     <a role="button"
        class="navbar-burger burger"
        :class="{'is-active': isActive}"
@@ -19,16 +21,6 @@
   </div>
 
   <div id="navbarEmmental" class="navbar-menu" :class="{'is-active': isActive}">
-    <div class="navbar-start">
-      <router-link class="navbar-item" to="/challenges">
-        Challenges
-      </router-link>
-
-      <router-link class="navbar-item" to="/leaderboard">
-        Leaderboard
-      </router-link>
-    </div>
-
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
@@ -55,4 +47,14 @@ export default class EmmentalNavbar extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.emmental-logo {
+  width: 35px;
+  height: 60px;
+  margin-right: 1rem;
+}
+.brand-item {
+  width: 18vw;
+  text-align: center;
+  padding-left: 2rem;
+}
 </style>

@@ -6,11 +6,40 @@
       Challenges
     </h1>
     <p class="subtitle is-4">
-      Un nombre incroyable de 1 challenge super compliqué !
+      An incredible amount of 1 super hard challenge !
     </p>
     <p>
-      Cliquez sur une des catégories suivantes afin d'explorer les nombreux challenges proposés sur CS Emmental.
+      Click on one of the following categories to explore numerous challenges proposed by CS Emmental team or others.
     </p>
+    </div>
+    <div class="categories">
+      <div class="box category-box">
+        <p class="subtitle is-4">
+          <i class="fas fa-globe category-icon"></i>
+          Web
+        </p>
+        <p>
+          Exploit common websites weaknesses, configuration mistakes and vulnerability patterns...
+        </p>
+      </div>
+      <div class="box category-box">
+        <p class="subtitle is-4">
+          <i class="fas fa-network-wired category-icon"></i>
+          Network
+        </p>
+        <p>
+          Exploit common websites weaknesses, configuration mistakes and vulnerability patterns...
+        </p>
+      </div>
+      <div class="box category-box">
+        <p class="subtitle is-4">
+          <i class="fas fa-unlock-alt category-icon"></i>
+          Cryptography
+        </p>
+        <p>
+          Exploit common websites weaknesses, configuration mistakes and vulnerability patterns...
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -27,5 +56,15 @@ export default class Challenges extends Vue {
 <style lang="scss" scoped>
 .title-icon {
   margin-right: .5rem;
+}
+.categories {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 2rem;
+  height: auto;
+  margin-top: 5rem;
+}
+.category-box:not(:last-child) {
+  margin-bottom: 0;
 }
 </style>

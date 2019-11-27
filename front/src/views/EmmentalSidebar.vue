@@ -1,8 +1,8 @@
 <template>
 <aside class="menu">
-  <p class="menu-label has-text-primary">
-    Categories
-  </p>
+  <router-link to="/challenges" class="menu-label has-text-primary">
+    Challenges
+  </router-link>
   <ul class="menu-list">
     <li
       v-for='categoryGroup in menuModel.categoryGroups'
@@ -27,6 +27,9 @@
       </ul>
     </li>
   </ul>
+  <router-link to="/community" class="menu-label has-text-primary">
+    Community
+  </router-link>
 </aside>
 </template>
 
@@ -151,9 +154,9 @@ aside {
   top: 0;
   left: 0;
   overflow-x: hidden;
-  margin-top: 6vh;
   padding: .5rem;
-  background-color: #334557;
+  padding-top: 7vh;
+  background-color: #253341;
   a {
     color: white;
   }
