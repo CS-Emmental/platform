@@ -14,27 +14,36 @@
     </div>
     <div class="categories">
       <div class="box category-box">
-        <p class="subtitle is-4">
+        <router-link to="/challenges/web" class="subtitle is-4">
           <i class="fas fa-globe category-icon"></i>
           Web
+        </router-link>
+        <p class="subtitle is-6">
+          <b>6</b> Challenges
         </p>
         <p>
           Exploit common websites weaknesses, configuration mistakes and vulnerability patterns...
         </p>
       </div>
       <div class="box category-box">
-        <p class="subtitle is-4">
+        <router-link to ="/challenges/network" class="subtitle is-4">
           <i class="fas fa-network-wired category-icon"></i>
           Network
+        </router-link>
+        <p class="subtitle is-6">
+          <b>2</b> Challenges
         </p>
         <p>
           Exploit common websites weaknesses, configuration mistakes and vulnerability patterns...
         </p>
       </div>
       <div class="box category-box">
-        <p class="subtitle is-4">
+        <router-link to="/challenges/cryptography" class="subtitle is-4">
           <i class="fas fa-unlock-alt category-icon"></i>
           Cryptography
+        </router-link>
+        <p class="subtitle is-6">
+          <b>3</b> Challenges
         </p>
         <p>
           Exploit common websites weaknesses, configuration mistakes and vulnerability patterns...
@@ -66,5 +75,10 @@ export default class Challenges extends Vue {
 }
 .category-box:not(:last-child) {
   margin-bottom: 0;
+  
+}
+
+.subtitle.is-6 {
+  margin-top: 1rem;
 }
 </style>
