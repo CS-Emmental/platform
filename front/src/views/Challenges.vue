@@ -29,32 +29,12 @@ import ChallengeGroupBox from '@/components/ChallengeGroupBox.vue';
   },
 })
 export default class Challenges extends Vue {
-  public groups = [
-    {
-      title: 'Web',
-      kebab: 'web',
-      id: 'aefdcjnevfptrhfmvdcs',
-      icon: 'fas fa-globe',
-      description: 'Exploit common websites weaknesses, configuration mistakes and vulnerability patterns...',
-      challengesCount: 6,
-    },
-    {
-      title: 'Network',
-      kebab: 'network',
-      id: 'aefdcjnevfdjkdskdscs',
-      icon: 'fas fa-network-wired',
-      description: 'Exploit common websites weaknesses, configuration mistakes and vulnerability patterns...',
-      challengesCount: 2,
-    },
-    {
-      title: 'Cryptography',
-      kebab: 'cryptography',
-      id: 'aefdcjnevfredfdcs',
-      icon: 'fas fa-unlock-alt',
-      description: 'Exploit common websites weaknesses, configuration mistakes and vulnerability patterns...',
-      challengesCount: 3,
-    },
-  ];
+  get groups() {
+    return this.$store.state.challengeGroups;
+  }
+  public created() {
+    this.$store.dispatch('getChallengeGroups');
+  }
 }
 </script>
 
