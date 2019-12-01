@@ -1,25 +1,27 @@
 import os
 
-from flask import Flask, jsonify
+from flask import Flask
 from flask_cors import CORS
+from flask_mongoengine import MongoEngine
 
+from routes.challenge_groups import challenge_groups
 
-
-def create_app(test_config=None):
+def create_app():
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    CORS(app)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
+        MONGODB_SETTINGS={
+            'db': 'cs-emmental',
+            'host': 'mongo',
+            'port': 27017,
+        },
     )
 
-    if test_config is None:
-        # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        # load the test config if passed in
-        app.config.from_mapping(test_config)
+    CORS(app)
+    MongoEngine(app)
+
+    app.config.from_pyfile('config.py', silent=True)
 
     # ensure the instance folder exists
     try:
@@ -27,38 +29,6 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
-    
-    @app.route('/challenge-groups')
-    def challenge_groups():
-        return jsonify([
-            {
-                'title': 'Web',
-                'kebab': 'web',
-                'id': 'aefdcjnevfptrhfmvdcs',
-                'icon': 'fas fa-globe',
-                'description': 'Exploit common websites weaknesses, configuration mistakes and vulnerability patterns...',
-                'challengesCount': 6,
-            },
-            {
-                'title': 'Network',
-                'kebab': 'network',
-                'id': 'aefdcjnevfdjkdskdscs',
-                'icon': 'fas fa-network-wired',
-                'description': 'Exploit common websites weaknesses, configuration mistakes and vulnerability patterns...',
-                'challengesCount': 2,
-            },
-            {
-                'title': 'Cryptography',
-                'kebab': 'cryptography',
-                'id': 'aefdcjnevfredfdcs',
-                'icon': 'fas fa-unlock-alt',
-                'description': 'Exploit common websites weaknesses, configuration mistakes and vulnerability patterns...',
-                'challengesCount': 3,
-            }
-        ])
+    app.register_blueprint(challenge_groups, url_prefix='/challenge-groups')
 
     return app

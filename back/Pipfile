@@ -5,10 +5,12 @@ verify_ssl = true
 
 [dev-packages]
 pylint-flask = "*"
+pylint-mongoengine = "*"
 
 [packages]
 flask = "*"
 flask-cors = "*"
+flask-mongoengine = "*"
 
 [requires]
 python_version = "3.6"
