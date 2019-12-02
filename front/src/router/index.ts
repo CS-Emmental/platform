@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Challenges from '../views/Challenges.vue';
-import ChallengesGroup from '../views/ChallengesGroup.vue';
 import ChallengesCategory from '../views/ChallengesCategory.vue';
 
 Vue.use(VueRouter);
@@ -13,13 +12,7 @@ const routes = [
     component: Challenges,
   },
   {
-      path: '/challenges/:group',
-      name: 'ChallengesGroup',
-      component: ChallengesGroup,
-      props: true,
-  },
-  {
-    path: '/challenges/:group/:category',
+    path: '/challenges/:category',
     name: 'ChallengesCategory',
     component: ChallengesCategory,
     props: true,

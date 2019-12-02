@@ -13,27 +13,27 @@
     </p>
     </div>
     <div class="categories">
-      <challenge-group-box v-for="group in groups" :key="group.id" :group="group"/>
+      <challenge-category-box v-for="category in categories" :key="category.id" :category="category"/>
     </div>
   </div>
 </template>
 
 <script  lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import ChallengeGroupBox from '@/components/ChallengeGroupBox.vue';
+import ChallengeCategoryBox from '@/components/ChallengeCategoryBox.vue';
 
 @Component({
   name: 'Challenges',
   components: {
-    ChallengeGroupBox,
+    ChallengeCategoryBox,
   },
 })
 export default class Challenges extends Vue {
-  get groups() {
-    return this.$store.state.challengeGroups;
+  get categories() {
+    return this.$store.state.challengeCategories;
   }
   public created() {
-    this.$store.dispatch('getChallengeGroups');
+    this.$store.dispatch('getChallengeCategories');
   }
 }
 </script>

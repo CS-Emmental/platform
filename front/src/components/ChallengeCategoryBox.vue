@@ -6,7 +6,7 @@
 import { Prop, Component, Vue } from 'vue-property-decorator';
 import EmmentalBox from '@/components/EmmentalBox.vue';
 
-interface ChallengeGroupInterface {
+interface ChallengeCategoryInterface {
   title: string;
   kebab: string;
   id: string;
@@ -16,24 +16,24 @@ interface ChallengeGroupInterface {
 }
 
 @Component({
-  name: 'ChallengeGroupBox',
+  name: 'ChallengeCategoryBox',
   components: {
     EmmentalBox,
   },
 })
-export default class EmmentalGroupBox extends Vue {
+export default class ChallengeCategoryBox extends Vue {
   @Prop({
-    type: Object as () => ChallengeGroupInterface,
+    type: Object as () => ChallengeCategoryInterface,
     required: true,
   })
-  public group;
+  public category;
 
   private boxProps = {
-    title: this.group.title,
-    link: `/challenges/${this.group.kebab}`,
-    icon: this.group.icon,
-    subtitle: `${this.group.challengesCount} Challenges`,
-    content: this.group.description,
+    title: this.category.title,
+    link: `/challenges/${this.category.kebab}`,
+    icon: this.category.icon,
+    subtitle: `${this.category.challengesCount} Challenges`,
+    content: this.category.description,
   };
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="challenges-category">
     <h1>Challenges Category</h1>
-    <p>{{group}} > {{category}}</p>
+    <p>{{category}}</p>
   </div>
 </template>
 
@@ -13,7 +13,5 @@ export default class ChallengesCategory extends Vue {
   public name: string = 'ChallengesCategory';
   @Prop()
   public category: string;
-  @Prop()
-  public group: string;
 }
 </script>

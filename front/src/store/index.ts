@@ -6,19 +6,17 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    challengeGroups: [],
+    challengeCategories: [],
   },
   mutations: {
-    setChallengeGroups(state, groups) {
-      state.challengeGroups = groups;
+    setChallengeCategories(state, categories) {
+      state.challengeCategories = categories;
     },
   },
   actions: {
-    getChallengeGroups({commit}) {
-      API().get('challenge-groups').then((res) => {
-        commit('setChallengeGroups', res.data);
-      }).catch((error) => {
-        console.log(error);
+    getChallengeCategories({commit}) {
+      API().get('challenge-categories').then((res) => {
+        commit('setChallengeCategories', res.data);
       });
     },
   },

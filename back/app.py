@@ -4,7 +4,7 @@ from flask import Flask
 from flask_cors import CORS
 from flask_mongoengine import MongoEngine
 
-from routes.challenge_groups import challenge_groups
+from routes.challenges import challenges
 
 def create_app():
     # create and configure the app
@@ -29,6 +29,6 @@ def create_app():
     except OSError:
         pass
 
-    app.register_blueprint(challenge_groups, url_prefix='/challenge-groups')
+    app.register_blueprint(challenges)
 
     return app
