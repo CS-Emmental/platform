@@ -1,9 +1,9 @@
-from flask import Blueprint, jsonify
-from challenges.models import ChallengeCategory
+from flask import Blueprint, jsonify, current_app
+# from challenges.models import ChallengeCategory
 
 challenges = Blueprint('challenges', 'challenges')
 
 @challenges.route('/challenge-categories')
 def get_challenge_categories():
-    groups = ChallengeCategory.objects.all()
+    groups = list(current_app.mongo.db.challenge_categories.find())
     return jsonify(groups)
