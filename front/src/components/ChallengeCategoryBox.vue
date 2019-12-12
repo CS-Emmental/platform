@@ -32,7 +32,7 @@ export default class ChallengeCategoryBox extends Vue {
     title: this.category.title,
     link: `/challenges/${this.category.kebab}`,
     icon: this.category.icon,
-    subtitle: `${this.category.challengesCount} Challenges`,
+    subtitle: `${this.category.challengesCount ? this.category.challengesCount : 0} Challenges`,
     content: this.category.description,
   };
 }

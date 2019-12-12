@@ -6,7 +6,7 @@
       Challenges
     </h1>
     <p class="subtitle is-4">
-      An incredible amount of 1 super hard challenge !
+      Many challenges to train various skills, from server attack to cryptography.
     </p>
     <p>
       Click on one of the following categories to explore numerous challenges proposed by CS Emmental team or others.
