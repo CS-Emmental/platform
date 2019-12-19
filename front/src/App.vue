@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <emmental-navbar/>
-    <emmental-sidebar/>
-    <router-view class="main"/>
+    <emmental-navbar />
+    <emmental-sidebar />
+    <router-view class="main" />
   </div>
 </template>
 

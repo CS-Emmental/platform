@@ -1,5 +1,5 @@
 <template>
-<emmental-card :card-props="cardProps"/>
+  <emmental-card :card-props="cardProps" />
 </template>
 
 <script lang="ts">

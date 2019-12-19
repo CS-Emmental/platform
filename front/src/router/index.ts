@@ -16,7 +16,7 @@ const routes = [
     name: 'ChallengesCategory',
     component: ChallengesCategory,
     props: true,
-},
+  },
 ];
 
 const router = new VueRouter({
