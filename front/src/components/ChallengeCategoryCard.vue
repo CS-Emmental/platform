@@ -1,10 +1,10 @@
 <template>
-<emmental-box :box-props="boxProps"/>
+<emmental-card :card-props="cardProps"/>
 </template>
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
-import EmmentalBox from '@/components/EmmentalBox.vue';
+import EmmentalCard from '@/components/EmmentalCard.vue';
 
 interface ChallengeCategoryInterface {
   title: string;
@@ -18,17 +18,17 @@ interface ChallengeCategoryInterface {
 @Component({
   name: 'ChallengeCategoryBox',
   components: {
-    EmmentalBox,
+    EmmentalCard,
   },
 })
-export default class ChallengeCategoryBox extends Vue {
+export default class ChallengeCategoryCard extends Vue {
   @Prop({
     type: Object as () => ChallengeCategoryInterface,
     required: true,
   })
   public category;
 
-  private boxProps = {
+  private cardProps = {
     title: this.category.title,
     link: `/challenges/${this.category.kebab}`,
     icon: this.category.icon,

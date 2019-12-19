@@ -1,5 +1,8 @@
 <template>
 <aside class="menu">
+  <router-link to="/" class="menu-label has-text-primary">
+    Home
+  </router-link>
   <router-link to="/challenges" class="menu-label has-text-primary">
     Challenges
   </router-link>
@@ -17,29 +20,42 @@
       </router-link>
     </li>
   </ul>
-  <router-link to="/community" class="menu-label has-text-primary">
-    Community
+  <router-link to="/articles" class="menu-label has-text-primary">
+    Articles
+  </router-link>
+  <router-link to="/Leaderboard" class="menu-label has-text-primary">
+    Leaderboard
   </router-link>
 </aside>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { State, Action, Getter } from 'vuex-class';
+import { ChallengesState } from '../store/challenges/types';
 
-@Component
+const namespace: string = 'challenges';
+
+@Component({
+  name: 'EmmentalSidebar'
+})
 export default class EmmentalSidebar extends Vue {
-  public name: string = 'EmmentalSidebar';
+  @State('challenges') challenges: ChallengesState;
+  @Action('getChallengeCategories', { namespace }) getChallengeCategories: any;
+
+  get categories() {
+    const categories = this.challenges && this.challenges.challengeCategories;
+    return categories || [];
+  }
   get menuActive() {
     const route = this.$route;
     return {
       category: route.path.split('/')[2],
     };
   }
-  get categories() {
-    return this.$store.state.challengeCategories;
-  }
-  public created() {
-    this.$store.dispatch('getChallengeCategories');
+
+  created() {
+    this.getChallengeCategories();
   }
 }
 </script>
@@ -65,5 +81,8 @@ aside {
   flex-direction: row;
   align-items: center;
   justify-content: space-between
+}
+.menu-label {
+  display: block;
 }
 </style>

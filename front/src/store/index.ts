@@ -1,25 +1,17 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
-import API from '@/store/api';
+import Vuex, { StoreOptions } from 'vuex';
+import { RootState } from './types';
+import { challenges } from './challenges/index';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store: StoreOptions<RootState> = {
   state: {
-    challengeCategories: [],
-  },
-  mutations: {
-    setChallengeCategories(state, categories) {
-      state.challengeCategories = categories;
-    },
-  },
-  actions: {
-    getChallengeCategories({commit}) {
-      API().get('challenge-categories').then((res) => {
-        commit('setChallengeCategories', res.data);
-      });
-    },
+    version: '1.0.0'
   },
   modules: {
-  },
-});
+    challenges
+  }
+};
+
+export default new Vuex.Store<RootState>(store);

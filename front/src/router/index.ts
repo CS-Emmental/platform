@@ -12,7 +12,7 @@ const routes = [
     component: Challenges,
   },
   {
-    path: '/challenges/:category',
+    path: '/challenges/:categoryKebab',
     name: 'ChallengesCategory',
     component: ChallengesCategory,
     props: true,

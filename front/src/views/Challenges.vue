@@ -13,35 +13,42 @@
     </p>
     </div>
     <div class="categories">
-      <challenge-category-box v-for="category in categories" :key="category.id" :category="category"/>
+      <challenge-category-card v-for="category in categories" :key="category.id" :category="category"/>
     </div>
   </div>
 </template>
 
 <script  lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import ChallengeCategoryBox from '@/components/ChallengeCategoryBox.vue';
+import { State, Action } from 'vuex-class';
+import { ChallengesState } from '../store/challenges/types';
+
+import ChallengeCategoryCard from '@/components/ChallengeCategoryCard.vue';
+
+const namespace: string = 'challenges';
 
 @Component({
   name: 'Challenges',
   components: {
-    ChallengeCategoryBox,
+    ChallengeCategoryCard,
   },
 })
 export default class Challenges extends Vue {
+  @State('challenges') challenges: ChallengesState;
+  @Action('getChallengeCategories', { namespace }) getChallengeCategories: any;
+
   get categories() {
-    return this.$store.state.challengeCategories;
+    const categories = this.challenges && this.challenges.challengeCategories;
+    return categories || [];
   }
-  public created() {
-    this.$store.dispatch('getChallengeCategories');
+  
+  created() {
+    this.getChallengeCategories();
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.title-icon {
-  margin-right: .5rem;
-}
 .categories {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
