@@ -34,15 +34,15 @@ const namespace: string = 'challenges';
   },
 })
 export default class Challenges extends Vue {
-  @State('challenges') challenges: ChallengesState;
-  @Action('getChallengeCategories', { namespace }) getChallengeCategories: any;
+  @State('challenges') public challenges: ChallengesState;
+  @Action('getChallengeCategories', { namespace }) public getChallengeCategories: any;
 
   get categories() {
     const categories = this.challenges && this.challenges.challengeCategories;
     return categories || [];
   }
-  
-  created() {
+
+  public created() {
     this.getChallengeCategories();
   }
 }

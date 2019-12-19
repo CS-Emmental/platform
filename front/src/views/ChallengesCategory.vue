@@ -26,8 +26,8 @@ const namespace: string = 'challenges';
   name: 'ChallengesCategory',
 })
 export default class ChallengesCategory extends Vue {
-  @Prop() categoryKebab: string;
-  @Getter('getCategoryFromKebab', { namespace }) getCategoryFromKebab;
+  @Prop() public categoryKebab: string;
+  @Getter('getCategoryFromKebab', { namespace }) public getCategoryFromKebab;
   get category(): ChallengeCategory {
     return this.getCategoryFromKebab(this.categoryKebab);
   }

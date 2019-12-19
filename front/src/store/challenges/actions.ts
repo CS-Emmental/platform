@@ -11,5 +11,5 @@ export const actions: ActionTree<ChallengesState, RootState> = {
       const categories: ChallengeCategory[] = res && res.data;
       commit('setChallengeCategories', categories);
     });
-  }
+  },
 };

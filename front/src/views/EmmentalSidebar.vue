@@ -37,11 +37,11 @@ import { ChallengesState } from '../store/challenges/types';
 const namespace: string = 'challenges';
 
 @Component({
-  name: 'EmmentalSidebar'
+  name: 'EmmentalSidebar',
 })
 export default class EmmentalSidebar extends Vue {
-  @State('challenges') challenges: ChallengesState;
-  @Action('getChallengeCategories', { namespace }) getChallengeCategories: any;
+  @State('challenges') public challenges: ChallengesState;
+  @Action('getChallengeCategories', { namespace }) public getChallengeCategories: any;
 
   get categories() {
     const categories = this.challenges && this.challenges.challengeCategories;
@@ -54,7 +54,7 @@ export default class EmmentalSidebar extends Vue {
     };
   }
 
-  created() {
+  public created() {
     this.getChallengeCategories();
   }
 }

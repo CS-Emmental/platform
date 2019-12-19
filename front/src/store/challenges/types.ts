@@ -1,7 +1,7 @@
 export interface ChallengesState {
   challengeCategories: ChallengeCategory[];
 }
-  
+
 export interface ChallengeCategory {
   title: string;
   kebab: string;
