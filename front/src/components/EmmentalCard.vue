@@ -42,7 +42,7 @@ interface CardPropsInterface {
 }
 
 @Component({
-  name: 'EmmentalBox',
+  name: 'EmmentalCard',
 })
 export default class EmmentalCard extends Vue {
   @Prop({

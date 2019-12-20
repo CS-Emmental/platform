@@ -1,18 +1,9 @@
 <template>
   <div class="challenges">
-    <div class="box">
-      <h1 class="title is-1">
-        <i class="fas fa-shield-alt title-icon" />
-        Challenges
-      </h1>
-      <p class="subtitle is-4">
-        Many challenges to train various skills, from server attack to cryptography.
-      </p>
-      <p>
-        Click on one of the following categories to explore numerous
-        challenges proposed by CS Emmental team or others.
-      </p>
-    </div>
+    <emmental-box
+      class="header-box"
+      :box-props="boxContent"
+    />
     <div class="categories">
       <challenge-category-card
         v-for="category in categories"
@@ -29,6 +20,7 @@ import { State, Action } from 'vuex-class';
 import { ChallengesState } from '../store/challenges/types';
 
 import ChallengeCategoryCard from '@/components/ChallengeCategoryCard.vue';
+import EmmentalBox from '@/components/EmmentalBox.vue';
 
 const namespace = 'challenges';
 
@@ -36,10 +28,18 @@ const namespace = 'challenges';
   name: 'Challenges',
   components: {
     ChallengeCategoryCard,
+    EmmentalBox,
   },
 })
 export default class Challenges extends Vue {
   @State('challenges') public challenges: ChallengesState;
+
+  public boxContent = {
+    title: 'Challenges',
+    icon: 'fas fa-shield-alt',
+    subtitle: 'Many challenges to train various skills, from server attack to cryptography.',
+    content: 'Click on one of the following categories to explore numerous challenges proposed by CS Emmental team or others.',
+  }
 
   @Action('getChallengeCategories', { namespace })
   public getChallengeCategories: CallableFunction;
@@ -61,6 +61,10 @@ export default class Challenges extends Vue {
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 2rem;
   height: auto;
-  margin-top: 5rem;
+  margin-top: 3rem;
+}
+.header-box {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 </style>
