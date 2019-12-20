@@ -8,8 +8,8 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import EmmentalNavbar from '@/views/EmmentalNavbar.vue';
-import EmmentalSidebar from '@/views/EmmentalSidebar.vue';
+import EmmentalNavbar from '@/components/EmmentalNavbar.vue';
+import EmmentalSidebar from '@/components/EmmentalSidebar.vue';
 
 @Component({
   components: {
