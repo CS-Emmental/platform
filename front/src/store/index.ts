@@ -1,5 +1,7 @@
 import Vue from 'vue';
-import Vuex, { StoreOptions, ActionTree, MutationTree } from 'vuex';
+import Vuex, {
+  StoreOptions, ActionTree, MutationTree, GetterTree,
+} from 'vuex';
 import { RootState, User } from './types';
 import { challenges } from './challenges/index';
 import api from './api';
@@ -47,14 +49,22 @@ const mutations: MutationTree<RootState> = {
   },
 };
 
+const getters: GetterTree<RootState, RootState> = {
+  hasPermission(state) {
+    return (permission: string): boolean => state.currentUser !== undefined
+      && state.currentUser.permissions.includes(permission);
+  },
+};
+
 const store: StoreOptions<RootState> = {
   state: {
-    version: '1.0.0',
+    version: '0.0.1',
     currentUser: undefined,
     isAuthenticated: false,
   },
   actions,
   mutations,
+  getters,
   modules: {
     challenges,
   },

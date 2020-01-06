@@ -11,11 +11,39 @@
         />
         {{ cardProps.title }}
       </router-link>
-      <p class="card-header-icon">
-        <span class="icon">
-          <i class="fas fa-ellipsis-h" />
-        </span>
-      </p>
+      <div
+        v-if="hasPermission('admin')"
+        class="card-header-icon"
+      >
+        <div
+          v-on-clickaway="away"
+          class="dropdown"
+          :class="{'is-active': dropdownActive}"
+        >
+          <div
+            class="dropdown-trigger"
+            @click="dropdownActive = !dropdownActive"
+          >
+            <span class="icon">
+              <i class="fas fa-ellipsis-h" />
+            </span>
+          </div>
+          <div
+            id="dropdown-menu"
+            class="dropdown-menu"
+            role="menu"
+          >
+            <div class="dropdown-content">
+              <a class="dropdown-item">
+                Edit
+              </a>
+              <a class="dropdown-item">
+                Delete
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </header>
     <div class="card-content">
       <p class="subtitle is-6">
@@ -32,6 +60,8 @@
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Getter } from 'vuex-class';
+import { mixin as clickaway } from 'vue-clickaway';
 
 interface CardPropsInterface {
   title: string;
@@ -43,13 +73,22 @@ interface CardPropsInterface {
 
 @Component({
   name: 'EmmentalCard',
+  mixins: [clickaway],
 })
-export default class EmmentalCard extends Vue {
+export default class EmmentalCard extends Vue implements clickaway {
   @Prop({
     type: Object as () => CardPropsInterface,
     required: true,
   })
   public cardProps;
+
+  @Getter('hasPermission') public hasPermission;
+
+  public dropdownActive = false;
+
+  public away() {
+    this.dropdownActive = false;
+  }
 }
 </script>
 
