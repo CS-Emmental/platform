@@ -40,12 +40,29 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary">
+            <a
+              v-if="!isAuthenticated"
+              class="button is-primary"
+              @click="logout"
+            >
               <strong>Sign up</strong>
             </a>
-            <a class="button is-light">
+            <a
+              v-if="!isAuthenticated"
+              class="button is-light"
+              @click="login"
+            >
               Log in
             </a>
+            <div v-else>
+              <a
+                class="button is-light"
+                @click="logout"
+              >
+                Log out
+              </a>
+              <span>{{ currentUser.username }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -55,11 +72,23 @@
 
 <script  lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { State, Action } from 'vuex-class';
+import { User } from '../store/types';
 @Component({})
 export default class EmmentalNavbar extends Vue {
   public name = 'EmmentalNavbar';
 
   private isActive = false;
+
+  @State('currentUser') public currentUser: User;
+
+  @State('isAuthenticated') public isAuthenticated: User;
+
+  @Action('login')
+  public login: CallableFunction;
+
+  @Action('logout')
+  public logout: CallableFunction;
 }
 </script>
 

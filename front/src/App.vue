@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import { Action } from 'vuex-class';
 import EmmentalNavbar from '@/components/EmmentalNavbar.vue';
 import EmmentalSidebar from '@/components/EmmentalSidebar.vue';
 
@@ -17,7 +18,14 @@ import EmmentalSidebar from '@/components/EmmentalSidebar.vue';
     EmmentalSidebar,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  @Action('getCurrentUser')
+  public getCurrentUser: CallableFunction;
+
+  public created() {
+    this.getCurrentUser();
+  }
+}
 </script>
 
 <style lang="scss">
