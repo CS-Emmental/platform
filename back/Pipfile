@@ -10,6 +10,7 @@ pylint-flask = "*"
 flask = "*"
 flask-cors = "*"
 Flask-PyMongo = "*"
+flask-login = "*"
 
 [requires]
 python_version = "3.6"
