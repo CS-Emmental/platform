@@ -8,5 +8,8 @@ class UserManager(MongoManager):
     def get(self, user_id):
         return User.from_dict(self.collection.find({"_id": user_id})[0])
 
+    def get_one_by_query(self, query):
+        return User.from_dict(self.collection.find_one(query))
+
     def get_all(self):
         return [User.from_dict(x) for x in super().get_all()]
