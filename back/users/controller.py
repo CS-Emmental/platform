@@ -1,4 +1,4 @@
-from flask_login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user
 
 from users.manager import UserManager
 
@@ -9,6 +9,3 @@ def login(inputs):
 
 def logout():
     logout_user()
-
-def get_current_user():
-    return current_user

@@ -12,11 +12,6 @@ def login():
     user = ctrl.login(inputs)
     return jsonify(user.to_dict())
 
-@users.route('/current-user')
-@login_required
-def current_user():
-    return jsonify(ctrl.get_current_user().to_dict())
-
 @users.route('/logout')
 @login_required
 def logout():

@@ -20,12 +20,15 @@ const actions: ActionTree<RootState, RootState> = {
       location.reload();
     });
   },
-  getCurrentUser({ commit }): void {
-    api().get('current-user').then((res) => {
-      const user: User = res && res.data;
-      commit('setCurrentUser', user);
-      if (user) {
-        commit('setIsAuthenticated', true);
+  getConfig({ commit }): void {
+    api().get('config').then((res) => {
+      const version: string = res && res.data && res.data.version;
+      commit('setVersion', version);
+      const isAuthenticated = res && res.data && res.data.authenticated;
+      commit('setIsAuthenticated', isAuthenticated);
+      if (isAuthenticated) {
+        const user: User = res && res.data && res.data.currentUser;
+        commit('setCurrentUser', user);
       }
     });
   },
@@ -46,6 +49,9 @@ const mutations: MutationTree<RootState> = {
   },
   setIsAuthenticated(state, isAuthenticated: boolean) {
     state.isAuthenticated = isAuthenticated;
+  },
+  setVersion(state, version: string) {
+    state.version = version;
   },
 };
 

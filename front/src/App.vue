@@ -19,11 +19,11 @@ import EmmentalSidebar from '@/components/EmmentalSidebar.vue';
   },
 })
 export default class App extends Vue {
-  @Action('getCurrentUser')
-  public getCurrentUser: CallableFunction;
+  @Action('getConfig')
+  public getConfig: CallableFunction;
 
   public created() {
-    this.getCurrentUser();
+    this.getConfig();
   }
 }
 </script>
