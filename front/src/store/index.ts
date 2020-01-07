@@ -24,7 +24,7 @@ const actions: ActionTree<RootState, RootState> = {
     api().get('config').then((res) => {
       const version: string = res && res.data && res.data.version;
       commit('setVersion', version);
-      const isAuthenticated = res && res.data && res.data.authenticated;
+      const isAuthenticated = res && res.data && res.data.isAuthenticated;
       commit('setIsAuthenticated', isAuthenticated);
       if (isAuthenticated) {
         const user: User = res && res.data && res.data.currentUser;

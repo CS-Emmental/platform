@@ -39,11 +39,9 @@ def create_app():
 
     @app.route('/config')
     def config():
-        res = {'version': '0.0.1'}
+        res = {'version': '0.0.1', 'isAuthenticated': current_user.is_authenticated}
         if current_user.is_authenticated:
-            res.update({'currentUser': current_user.to_dict(), 'authenticated': True})
-        else:
-            res.update({'authenticated': False})
+            res.update({'currentUser': current_user.to_dict()})
         return jsonify(res)
 
     return app
