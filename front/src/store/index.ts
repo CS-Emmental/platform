@@ -10,8 +10,8 @@ import router from '../router';
 Vue.use(Vuex);
 
 const actions: ActionTree<RootState, RootState> = {
-  login({ commit }): void {
-    api().get('login').then((res) => {
+  login({ commit }, inputs): void {
+    api().post('login', inputs).then((res) => {
       const user: User = res && res.data;
       commit('setCurrentUser', user);
       commit('setIsAuthenticated', true);

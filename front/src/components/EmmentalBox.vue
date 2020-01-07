@@ -39,10 +39,10 @@ export default class EmmentalBox extends Vue {
 .card-header-title {
   margin-bottom: 0;
 }
-.emmental-card:not(:last-child) {
+.emmental-box:not(:last-child) {
   margin-bottom: 0;
 }
-.emmental-card {
+.emmental-box {
   border-radius: 5px;
 }
 .title-icon {

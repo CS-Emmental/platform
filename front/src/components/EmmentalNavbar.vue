@@ -47,13 +47,13 @@
             >
               <strong>Sign up</strong>
             </a>
-            <a
+            <router-link
               v-if="!isAuthenticated"
+              to="/login"
               class="button is-light"
-              @click="login"
             >
               Log in
-            </a>
+            </router-link>
             <div v-else>
               <a
                 class="button is-light"
@@ -83,9 +83,6 @@ export default class EmmentalNavbar extends Vue {
   @State('currentUser') public currentUser: User;
 
   @State('isAuthenticated') public isAuthenticated: User;
-
-  @Action('login')
-  public login: CallableFunction;
 
   @Action('logout')
   public logout: CallableFunction;
