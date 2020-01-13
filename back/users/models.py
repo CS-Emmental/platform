@@ -29,7 +29,7 @@ class User(Document, UserMixin):
     ]
     
     def __init__(self,
-                 _id: str = uuid4(),
+                 _id: str = str(uuid4()),
                  username: str = "",
                  password: str = "",
                  email: str = "",

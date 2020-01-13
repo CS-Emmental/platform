@@ -21,7 +21,7 @@ class ChallengeCategory(Document):
     ]
 
     def __init__(self,
-                 _id: str = uuid4(),
+                 _id: str = str(uuid4()),
                  title: str = "",
                  icon: str = "fas fa-shield-alt",
                  description: str = "",
@@ -54,7 +54,7 @@ class Challenge(Document):
     ]
     
     def __init__(self,
-                 _id: str = uuid4(),
+                 _id: str = str(uuid4()),
                  title: str = "",
                  description: str = "",
                  created_at: float = time.time()):

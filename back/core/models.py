@@ -4,6 +4,9 @@ class Document():
 
     def to_dict(self):
         return {key: getattr(self, key) for key in self.export_fields}
+    
+    def to_insert_dict(self):
+        return {key: getattr(self, key) for key in self.fields}
         
     @staticmethod
     def from_dict(dict_object: dict):
