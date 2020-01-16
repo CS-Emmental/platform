@@ -8,5 +8,5 @@ class MongoManager():
         return self.collection.find()
 
     def update_one(self,data):
-        self.collection.update({"_id":data["_id"]};{"$set":data})
-        return collection.find({"_id":data["_id"]})
+        self.collection.update({"_id":data["_id"]},{"$set":data})
+        return self.collection.find({"_id":data["_id"]})
