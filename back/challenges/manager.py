@@ -11,3 +11,7 @@ class ChallengeCategoriesManager(MongoManager):
     
     def get_all(self):
         return [ChallengeCategory.from_dict(x) for x in super().get_all()]
+    
+    def update_one(self,data):
+        super().update_one(data)
+        return 1
