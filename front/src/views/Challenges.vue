@@ -1,8 +1,12 @@
 <template>
   <div class="challenges">
     <emmental-box
+      title="Challenges"
+      icon="fas fa-shield-alt"
+      subtitle="Many challenges to train various skills, from server attack to cryptography."
+      content="Click on one of the following categories to
+        explore numerous challenges proposed by CS Emmental team or others."
       class="header-box"
-      :box-props="boxContent"
     />
     <div class="categories">
       <challenge-category-card
@@ -33,13 +37,6 @@ const namespace = 'challenges';
 })
 export default class Challenges extends Vue {
   @State('challenges') public challenges: ChallengesState;
-
-  public boxContent = {
-    title: 'Challenges',
-    icon: 'fas fa-shield-alt',
-    subtitle: 'Many challenges to train various skills, from server attack to cryptography.',
-    content: 'Click on one of the following categories to explore numerous challenges proposed by CS Emmental team or others.',
-  }
 
   @Action('getChallengeCategories', { namespace })
   public getChallengeCategories: CallableFunction;

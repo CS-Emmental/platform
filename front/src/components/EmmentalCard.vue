@@ -2,22 +2,22 @@
   <div class="card emmental-card">
     <header class="card-header">
       <router-link
-        :to="cardProps.link"
+        :to="link"
         class="subtitle is-4 card-header-title"
       >
         <i
           class="title-icon"
-          :class="cardProps.icon"
+          :class="icon"
         />
-        {{ cardProps.title }}
+        {{ title }}
       </router-link>
       <div
-        v-if="hasPermission('admin')"
+        v-if="actions"
         class="card-header-icon"
       >
         <div
           v-on-clickaway="away"
-          class="dropdown"
+          class="dropdown is-right"
           :class="{'is-active': dropdownActive}"
         >
           <div
@@ -34,11 +34,13 @@
             role="menu"
           >
             <div class="dropdown-content">
-              <a class="dropdown-item">
-                Edit
-              </a>
-              <a class="dropdown-item">
-                Delete
+              <a
+                v-for="action in actions"
+                :key="action.text"
+                class="dropdown-item"
+                @click="$emit(action.signal)"
+              >
+                {{ action.text }}
               </a>
             </div>
           </div>
@@ -47,11 +49,11 @@
     </header>
     <div class="card-content">
       <p class="subtitle is-6">
-        {{ cardProps.subtitle }}
+        {{ subtitle }}
       </p>
       <slot name="content">
         <p>
-          {{ cardProps.content }}
+          {{ content }}
         </p>
       </slot>
     </div>
@@ -60,15 +62,12 @@
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
-import { Getter } from 'vuex-class';
 import { mixin as clickaway } from 'vue-clickaway';
 
-interface CardPropsInterface {
-  title: string;
-  link?: string;
-  icon?: string;
-  subtitle?: string;
-  content?: string;
+
+interface Action {
+  text: string;
+  signal: string;
 }
 
 @Component({
@@ -77,12 +76,41 @@ interface CardPropsInterface {
 })
 export default class EmmentalCard extends Vue implements clickaway {
   @Prop({
-    type: Object as () => CardPropsInterface,
+    type: String,
     required: true,
   })
-  public cardProps;
+  public title;
 
-  @Getter('hasPermission') public hasPermission;
+  @Prop({
+    type: String,
+    required: true,
+  })
+  public link;
+
+
+  @Prop({
+    type: String,
+    required: true,
+  })
+  public icon;
+
+  @Prop({
+    type: String,
+    required: true,
+  })
+  public subtitle;
+
+  @Prop({
+    type: String,
+    required: true,
+  })
+  public content;
+
+  @Prop({
+    type: Array as () => Action[],
+    required: false,
+  })
+  public actions;
 
   public dropdownActive = false;
 
@@ -104,5 +132,8 @@ export default class EmmentalCard extends Vue implements clickaway {
 }
 .title-icon {
   margin-right: .5rem;
+}
+.dropdown-trigger {
+  cursor: pointer;
 }
 </style>

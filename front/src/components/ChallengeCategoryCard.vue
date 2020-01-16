@@ -1,19 +1,19 @@
 <template>
-  <emmental-card :card-props="cardProps" />
+  <emmental-card
+    :title="category.title"
+    :link="`/challenges/${category.kebab}`"
+    :icon="category.icon"
+    :subtitle="`${category.challengesCount ? category.challengesCount : 0} Challenges`"
+    :content="category.description"
+    :actions="actions"
+  />
 </template>
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Getter } from 'vuex-class';
 import EmmentalCard from '@/components/EmmentalCard.vue';
-
-interface ChallengeCategoryInterface {
-  title: string;
-  kebab: string;
-  id: string;
-  icon: string;
-  description: string;
-  challengesCount: number;
-}
+import { ChallengeCategory } from '../store/challenges/types';
 
 @Component({
   name: 'ChallengeCategoryBox',
@@ -23,18 +23,29 @@ interface ChallengeCategoryInterface {
 })
 export default class ChallengeCategoryCard extends Vue {
   @Prop({
-    type: Object as () => ChallengeCategoryInterface,
+    type: Object as () => ChallengeCategory,
     required: true,
   })
   public category;
 
-  private cardProps = {
-    title: this.category.title,
-    link: `/challenges/${this.category.kebab}`,
-    icon: this.category.icon,
-    subtitle: `${this.category.challengesCount ? this.category.challengesCount : 0} Challenges`,
-    content: this.category.description,
-  };
+  @Getter('hasPermission') public hasPermission: CallableFunction;
+
+  get actions() {
+    let actions;
+    if (this.hasPermission('admin')) {
+      actions = [
+        {
+          text: 'Edit',
+          signal: 'edit',
+        },
+        {
+          text: 'Delete',
+          signal: 'delete',
+        },
+      ];
+    }
+    return actions;
+  }
 }
 </script>
 
