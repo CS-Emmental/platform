@@ -15,6 +15,10 @@
         :key="challenge.challenge_id"
         :challenge="challenge"
       />
+      <new-box
+        v-if="hasPermission('admin')"
+        collection="challenge"
+      />
     </div>
   </div>
 </template>
@@ -25,6 +29,7 @@ import { Getter } from 'vuex-class';
 import { ChallengeCategory } from '../store/challenges/types';
 
 import EmmentalBox from '@/components/EmmentalBox.vue';
+import NewBox from '@/components/NewBox.vue';
 import ChallengeCard from '@/components/ChallengeCard.vue';
 
 const namespace = 'challenges';
@@ -33,6 +38,7 @@ const namespace = 'challenges';
   name: 'ChallengesCategory',
   components: {
     EmmentalBox,
+    NewBox,
     ChallengeCard,
   },
 })
@@ -89,5 +95,12 @@ export default class ChallengesCategory extends Vue {
   grid-gap: 2rem;
   height: auto;
   margin-top: 3rem;
+}
+.new-box {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  text-align: center;
 }
 </style>
