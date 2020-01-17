@@ -23,7 +23,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { State, Action } from 'vuex-class';
 import { ChallengesState } from '../store/challenges/types';
 
-import ChallengeCategoryCard from '@/components/ChallengeCategoryCard.vue';
+import ChallengesCategoryCard from '@/components/ChallengesCategoryCard.vue';
 import EmmentalBox from '@/components/EmmentalBox.vue';
 
 const namespace = 'challenges';
@@ -31,7 +31,7 @@ const namespace = 'challenges';
 @Component({
   name: 'Challenges',
   components: {
-    ChallengeCategoryCard,
+    ChallengesCategoryCard,
     EmmentalBox,
   },
 })
