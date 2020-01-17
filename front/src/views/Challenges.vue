@@ -9,7 +9,7 @@
       class="header-box"
     />
     <div class="categories">
-      <challenge-category-card
+      <challenges-category-card
         v-for="category in categories"
         :key="category.id"
         :category="category"
