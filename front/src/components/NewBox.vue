@@ -1,5 +1,5 @@
 <template>
-  <a class="box new-box">
+  <a class="box new-box" @click="$emit(`new-${collection}`)">
     <div>
       <i class="fas fa-plus-circle"/>
       Create new {{ collection }}
