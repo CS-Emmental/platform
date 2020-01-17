@@ -74,43 +74,43 @@ interface Action {
   name: 'EmmentalCard',
   mixins: [clickaway],
 })
-export default class EmmentalCard extends Vue implements clickaway {
+export default class EmmentalCard extends Vue {
   @Prop({
     type: String,
     required: true,
   })
-  public title;
+  public title!: string;
 
   @Prop({
     type: String,
-    required: true,
+    required: false,
   })
-  public link;
+  public link: string|undefined;
 
 
   @Prop({
     type: String,
-    required: true,
+    required: false,
   })
-  public icon;
+  public icon: string|undefined;
 
   @Prop({
     type: String,
-    required: true,
+    required: false,
   })
-  public subtitle;
+  public subtitle: string|undefined;
 
   @Prop({
     type: String,
-    required: true,
+    required: false,
   })
-  public content;
+  public content: string|undefined;
 
   @Prop({
     type: Array as () => Action[],
     required: false,
   })
-  public actions;
+  public actions: Action[]|undefined;
 
   public dropdownActive = false;
 

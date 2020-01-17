@@ -80,12 +80,12 @@ export default class EmmentalNavbar extends Vue {
 
   private isActive = false;
 
-  @State('currentUser') public currentUser: User;
+  @State('currentUser') public currentUser: User|undefined;
 
-  @State('isAuthenticated') public isAuthenticated: User;
+  @State('isAuthenticated') public isAuthenticated!: boolean;
 
   @Action('logout')
-  public logout: CallableFunction;
+  public logout!: CallableFunction;
 }
 </script>
 

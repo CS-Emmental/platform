@@ -68,31 +68,31 @@ export default class EmmentalBox extends Vue {
     type: String,
     required: true,
   })
-  public title;
+  public title!: string;
 
   @Prop({
     type: String,
-    required: true,
+    required: false,
   })
-  public subtitle;
+  public subtitle: string|undefined;
 
   @Prop({
     type: String,
-    required: true,
+    required: false,
   })
-  public icon;
+  public icon: string|undefined;
 
   @Prop({
     type: String,
-    required: true,
+    required: false,
   })
-  public content;
+  public content: string|undefined;
 
   @Prop({
     type: Array as () => Action[],
     required: false,
   })
-  public actions;
+  public actions: Action[]|undefined;
 
   public dropdownActive = false;
 

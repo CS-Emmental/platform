@@ -1,9 +1,10 @@
 <template>
   <emmental-card
-    :title="challenge.title"
-    :link="`/challenges/todo/${challenge.kebab}`"
-    :subtitle="challenge.description"
-    content="0/100 points"
+    :title="category.title"
+    :link="`/challenges/${category.kebab}`"
+    :icon="category.icon"
+    :subtitle="`${categoryCount} Challenge${categoryCount == 1 ? '' : 's'}`"
+    :content="category.description"
     :actions="actions"
   />
 </template>
@@ -12,23 +13,32 @@
 import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import EmmentalCard from '@/components/EmmentalCard.vue';
-import { Challenge } from '../store/challenges/types';
+import { ChallengeCategory } from '../store/challenges/types';
+
+const namespace = 'challenges';
 
 @Component({
-  name: 'ChallengeCard',
+  name: 'ChallengesCategoryCard',
   components: {
     EmmentalCard,
   },
 })
-export default class ChallengeCard extends Vue {
+export default class ChallengesCategoryCard extends Vue {
   @Prop({
-    type: Object as () => Challenge,
+    type: Object as () => ChallengeCategory,
     required: true,
   })
-  public challenge!: Challenge;
+  public category!: ChallengeCategory;
 
   @Getter('hasPermission')
   public hasPermission!: CallableFunction;
+
+  @Getter('getChallengesCountByCategory', { namespace })
+  public getChallengesCountByCategory!: CallableFunction;
+
+  get categoryCount() {
+    return this.category && this.getChallengesCountByCategory(this.category.category_id);
+  }
 
   get actions() {
     let actions;

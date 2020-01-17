@@ -20,7 +20,7 @@ import EmmentalSidebar from '@/components/EmmentalSidebar.vue';
 })
 export default class App extends Vue {
   @Action('getConfig')
-  public getConfig: CallableFunction;
+  public getConfig!: CallableFunction;
 
   public created() {
     this.getConfig();

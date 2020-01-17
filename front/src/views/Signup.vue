@@ -101,7 +101,7 @@ export default class Signup extends Vue {
   };
 
   @Action('signup')
-  public signup: CallableFunction;
+  public signup!: CallableFunction;
 }
 </script>
 

@@ -11,7 +11,7 @@
     <div class="categories">
       <challenges-category-card
         v-for="category in categories"
-        :key="category.id"
+        :key="category.category_id"
         :category="category"
       />
     </div>
@@ -36,10 +36,10 @@ const namespace = 'challenges';
   },
 })
 export default class Challenges extends Vue {
-  @State('challenges') public challenges: ChallengesState;
+  @State('challenges') public challenges: ChallengesState|undefined;
 
   @Action('getChallengeCategories', { namespace })
-  public getChallengeCategories: CallableFunction;
+  public getChallengeCategories!: CallableFunction;
 
   get categories() {
     const categories = this.challenges && this.challenges.challengeCategories;

@@ -60,7 +60,7 @@ export default class Login extends Vue {
   public passwordInput = '';
 
   @Action('login')
-  public login: CallableFunction;
+  public login!: CallableFunction;
 }
 </script>
 
