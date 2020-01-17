@@ -9,7 +9,10 @@
       :actions="actions"
       class="header-box"
     />
-    <div class="challenges" v-if="category">
+    <div
+      v-if="category"
+      class="challenges"
+    >
       <challenge-card
         v-for="challenge in getChallengesByCategory(category.category_id)"
         :key="challenge.challenge_id"
