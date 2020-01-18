@@ -3,7 +3,10 @@
     <div class="box-header level">
       <div class="level-left">
         <h1 class="title is- level-item">
-          <i :class="icon" class="title-icon"/>
+          <i
+            :class="icon"
+            class="title-icon"
+          />
           {{ title }}
         </h1>
       </div>

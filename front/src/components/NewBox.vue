@@ -1,7 +1,10 @@
 <template>
-  <a class="box new-box" @click="$emit(`new-${collection}`)">
+  <a
+    class="box new-box"
+    @click="$emit(`new-${collection}`)"
+  >
     <div>
-      <i class="fas fa-plus-circle"/>
+      <i class="fas fa-plus-circle" />
       Create new {{ collection }}
     </div>
   </a>
