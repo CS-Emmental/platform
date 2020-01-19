@@ -2,8 +2,8 @@
   <emmental-card
     :title="challenge.title"
     :link="`/challenges/${parentCategory.kebab}/${challenge.kebab}`"
-    :subtitle="challenge.description"
-    content="0/100 points"
+    :content="challenge.summary"
+    :subtitle="`todo/${challenge.total_points} points`"
     :actions="actions"
   />
 </template>

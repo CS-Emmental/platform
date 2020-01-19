@@ -13,6 +13,11 @@ const getters: GetterTree<ChallengesState, RootState> = {
       (cat: ChallengeCategory) => cat.category_id === categoryId,
     );
   },
+  getChallengeFromKebab(state) {
+    return (kebabStr: string): Challenge|undefined => state.challenges.find(
+      (chal: Challenge) => chal.kebab === kebabStr,
+    );
+  },
   getChallengesByCategory(state) {
     return (categoryId: string): Challenge[] => state.challenges.filter(
       (chal: Challenge) => chal.category_id === categoryId,

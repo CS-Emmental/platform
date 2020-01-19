@@ -16,6 +16,7 @@ export interface Challenge {
   kebab: string;
   category_id: string;
   icon: string;
+  summary: string;
   description: string;
-  challengesCount: number;
+  total_points: number;
 }

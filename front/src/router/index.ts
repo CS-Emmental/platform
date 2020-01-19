@@ -1,13 +1,24 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Challenges from '../views/Challenges.vue';
-import ChallengesCategory from '../views/ChallengesCategory.vue';
 import Login from '../views/Login.vue';
 import Signup from '../views/Signup.vue';
+import Challenges from '../views/Challenges.vue';
+import ChallengesCategory from '../views/ChallengesCategory.vue';
+import ChallengeDetails from '../views/ChallengeDetails.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: Signup,
+  },
   {
     path: '/challenges',
     name: 'Challenges',
@@ -20,14 +31,10 @@ const routes = [
     props: true,
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: Login,
-  },
-  {
-    path: '/signup',
-    name: 'Signup',
-    component: Signup,
+    path: '/challenges/:categoryKebab/:challengeKebab',
+    name: 'ChallengeDetails',
+    component: ChallengeDetails,
+    props: true,
   },
 ];
 
