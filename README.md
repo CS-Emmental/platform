@@ -5,11 +5,11 @@
 *  Vérifier l'installation de docker-compose, sinon installer: `docker-compose --version`
 *  Vérifier l'installation de make, sinon installer: `make --version`
 
-## Lancer la plateforme en local
+## Lancer la plateforme en local en dev
 
 *  [Télécharger](https://drive.google.com/open?id=1rX1tePughA2alUDQ74jRkjONKfvRIqv4) et copier à la racine les volumes locaux de mongodb
 *  Lancer l'application: `make run`
-*  Aller sur la [page d'accueil](http://localhost/) de l'application
+*  Aller sur la [page d'accueil](http://localhost/8080) de l'application
 
 NB: Lors de la première installation, il est prudent de lancer `pipenv install` dans le dossier back et `npm install && npm run serve` dans le dossier front
 
