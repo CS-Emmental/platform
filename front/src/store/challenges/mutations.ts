@@ -4,12 +4,12 @@ import { ChallengesState, ChallengeCategory, Challenge } from './types';
 const mutations: MutationTree<ChallengesState> = {
   setChallengeCategories(state, categories: ChallengeCategory[]) {
     state.challengeCategories = categories.map(
-      (cat: ChallengeCategory) => ({ ...cat, kebab: cat.title.toLowerCase().replace(/ /g, '-') }),
+      (cat: ChallengeCategory) => ({ ...cat, slug: cat.title.toLowerCase().replace(/ /g, '-') }),
     );
   },
   setChallenges(state, challenges: Challenge[]) {
     state.challenges = challenges.map(
-      (chal: Challenge) => ({ ...chal, kebab: chal.title.toLowerCase().replace(/ /g, '-') }),
+      (chal: Challenge) => ({ ...chal, slug: chal.title.toLowerCase().replace(/ /g, '-') }),
     );
   },
 };

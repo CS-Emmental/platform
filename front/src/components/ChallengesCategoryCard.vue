@@ -1,7 +1,7 @@
 <template>
   <emmental-card
     :title="category.title"
-    :link="`/challenges/${category.kebab}`"
+    :link="`/challenges/${category.slug}`"
     :icon="category.icon"
     :subtitle="`${categoryCount} Challenge${categoryCount == 1 ? '' : 's'}`"
     :content="category.description"

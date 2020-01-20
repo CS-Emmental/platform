@@ -1,7 +1,7 @@
 <template>
   <emmental-card
     :title="challenge.title"
-    :link="`/challenges/${parentCategory.kebab}/${challenge.kebab}`"
+    :link="`/challenges/${parentCategory.slug}/${challenge.slug}`"
     :content="challenge.summary"
     :subtitle="`todo/${challenge.total_points} points`"
     :actions="actions"
