@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, current_app
 
-from challenges.controller import get_challenge_categories,update_challenge_categories,delete_challenge_categories,create_challenge_categories
+from challenges.controller import get_challenge_categories,update_challenge_categories,delete_challenge_categories,create_challenge_categories,get_all_challenges
 
 challenges = Blueprint('challenges', 'challenges')
 
@@ -28,3 +28,8 @@ def create_categories():
     current_app.logger.debug(inputs)
     categories_updated = create_challenge_categories(inputs)
     return jsonify([c.to_dict() for c in categories_updated])
+    
+@challenges.route('/challenges')
+def get_challenges():
+    challenges = get_all_challenges()
+    return jsonify([c.to_dict() for c in challenges])

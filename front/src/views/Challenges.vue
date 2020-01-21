@@ -1,13 +1,17 @@
 <template>
   <div class="challenges">
     <emmental-box
+      title="Challenges"
+      icon="fas fa-shield-alt"
+      subtitle="Many challenges to train various skills, from server attack to cryptography."
+      content="Click on one of the following categories to
+        explore numerous challenges proposed by CS Emmental team or others."
       class="header-box"
-      :box-props="boxContent"
     />
     <div class="categories">
-      <challenge-category-card
+      <challenges-category-card
         v-for="category in categories"
-        :key="category.id"
+        :key="category.category_id"
         :category="category"
       />
     </div>
@@ -19,7 +23,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { State, Action } from 'vuex-class';
 import { ChallengesState } from '../store/challenges/types';
 
-import ChallengeCategoryCard from '@/components/ChallengeCategoryCard.vue';
+import ChallengesCategoryCard from '@/components/ChallengesCategoryCard.vue';
 import EmmentalBox from '@/components/EmmentalBox.vue';
 
 const namespace = 'challenges';
@@ -27,22 +31,15 @@ const namespace = 'challenges';
 @Component({
   name: 'Challenges',
   components: {
-    ChallengeCategoryCard,
+    ChallengesCategoryCard,
     EmmentalBox,
   },
 })
 export default class Challenges extends Vue {
-  @State('challenges') public challenges: ChallengesState;
-
-  public boxContent = {
-    title: 'Challenges',
-    icon: 'fas fa-shield-alt',
-    subtitle: 'Many challenges to train various skills, from server attack to cryptography.',
-    content: 'Click on one of the following categories to explore numerous challenges proposed by CS Emmental team or others.',
-  }
+  @State('challenges') public challenges: ChallengesState|undefined;
 
   @Action('getChallengeCategories', { namespace })
-  public getChallengeCategories: CallableFunction;
+  public getChallengeCategories!: CallableFunction;
 
   get categories() {
     const categories = this.challenges && this.challenges.challengeCategories;

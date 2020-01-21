@@ -7,6 +7,7 @@ import getters from './getters';
 
 export const state: ChallengesState = {
   challengeCategories: [],
+  challenges: [],
 };
 
 const namespaced = true;

@@ -1,16 +1,24 @@
 <template>
-  <div class="challenges-category">
-    <div class="box">
-      <h1 class="title is-1">
-        <i :class="category.icon" />
-        {{ category.title }}
-      </h1>
-      <p class="subtitle is-4">
-        {{ category.count ? category.count : 0 }} Challenges
-      </p>
-      <p>
-        {{ category.description }}
-      </p>
+  <div class="challenge-category">
+    <emmental-box
+      v-if="category"
+      :title="category.title"
+      :icon="category.icon"
+      :subtitle="`${categoryCount} Challenge${categoryCount == 1 ? '' : 's'}`"
+      :content="category.description"
+      :actions="actions"
+      class="header-box"
+    />
+    <div class="challenges" v-if="category">
+      <challenge-card
+        v-for="challenge in getChallengesByCategory(category.category_id)"
+        :key="challenge.challenge_id"
+        :challenge="challenge"
+      />
+      <new-box
+        v-if="hasPermission('admin')"
+        collection="challenge"
+      />
     </div>
   </div>
 </template>
@@ -20,18 +28,79 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import { ChallengeCategory } from '../store/challenges/types';
 
+import EmmentalBox from '@/components/EmmentalBox.vue';
+import NewBox from '@/components/NewBox.vue';
+import ChallengeCard from '@/components/ChallengeCard.vue';
+
 const namespace = 'challenges';
 
 @Component({
   name: 'ChallengesCategory',
+  components: {
+    EmmentalBox,
+    NewBox,
+    ChallengeCard,
+  },
 })
 export default class ChallengesCategory extends Vue {
-  @Prop() public categoryKebab: string;
+  @Prop({
+    type: String,
+    required: true,
+  })
+  public categoryKebab!: string;
 
-  @Getter('getCategoryFromKebab', { namespace }) public getCategoryFromKebab;
+  @Getter('getCategoryFromKebab', { namespace })
+  public getCategoryFromKebab!: CallableFunction;
+
+  @Getter('hasPermission')
+  public hasPermission!: CallableFunction;
+
+  @Getter('getChallengesCountByCategory', { namespace })
+  public getChallengesCountByCategory!: CallableFunction;
+
+  @Getter('getChallengesByCategory', { namespace })
+  public getChallengesByCategory!: CallableFunction;
+
+  get categoryCount() {
+    return this.category && this.getChallengesCountByCategory(this.category.category_id);
+  }
 
   get category(): ChallengeCategory {
     return this.getCategoryFromKebab(this.categoryKebab);
   }
+
+  get actions() {
+    let actions;
+    if (this.hasPermission('admin')) {
+      actions = [
+        {
+          text: 'Edit',
+          signal: 'edit',
+        },
+        {
+          text: 'Delete',
+          signal: 'delete',
+        },
+      ];
+    }
+    return actions;
+  }
 }
 </script>
+
+<style lang="scss" scoped>
+.challenges {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 2rem;
+  height: auto;
+  margin-top: 3rem;
+}
+.new-box {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+</style>

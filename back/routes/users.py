@@ -8,8 +8,14 @@ users = Blueprint('users', 'users')
 @users.route('/login', methods=['POST'])
 def login():
     inputs = request.json
-    current_app.logger.debug(inputs)
     user = ctrl.login(inputs)
+    return jsonify(user.to_dict())
+
+@users.route('/signup', methods=['POST'])
+def signup():
+    inputs = request.json
+    current_app.logger.debug(inputs)
+    user = ctrl.signup(inputs)
     return jsonify(user.to_dict())
 
 @users.route('/logout')

@@ -10,16 +10,6 @@ import router from '../router';
 Vue.use(Vuex);
 
 const actions: ActionTree<RootState, RootState> = {
-  login({ commit }, inputs): void {
-    api().post('login', inputs).then((res) => {
-      const user: User = res && res.data;
-      commit('setCurrentUser', user);
-      commit('setIsAuthenticated', true);
-      router.push('/');
-      // eslint-disable-next-line
-      location.reload();
-    });
-  },
   getConfig({ commit }): void {
     api().get('config').then((res) => {
       const version: string = res && res.data && res.data.version;
@@ -32,13 +22,33 @@ const actions: ActionTree<RootState, RootState> = {
       }
     });
   },
+  login({ commit }, inputs): void {
+    api().post('login', inputs).then((res) => {
+      const user: User = res && res.data;
+      commit('setCurrentUser', user);
+      commit('setIsAuthenticated', true);
+
+      router.push('/');
+      window.location.reload();
+    });
+  },
+  signup({ commit }, inputs): void {
+    api().post('signup', inputs).then((res) => {
+      const user: User = res && res.data;
+      commit('setCurrentUser', user);
+      commit('setIsAuthenticated', true);
+
+      router.push('/');
+      window.location.reload();
+    });
+  },
   logout({ commit }): void {
     api().get('logout').then(() => {
       commit('setCurrentUser', undefined);
       commit('setIsAuthenticated', false);
+
       router.push('/');
-      // eslint-disable-next-line
-      location.reload();
+      window.location.reload();
     });
   },
 };

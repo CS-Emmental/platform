@@ -21,7 +21,7 @@ class ChallengeCategory(Document):
     ]
 
     def __init__(self,
-                 _id: str = uuid4(),
+                 _id: str = str(uuid4()),
                  title: str = "",
                  icon: str = "fas fa-shield-alt",
                  description: str = "",
@@ -43,6 +43,7 @@ class Challenge(Document):
         '_id',
         'title',
         'description',
+        'category_id',
         'created_at',
     ]
 
@@ -50,18 +51,21 @@ class Challenge(Document):
         'challenge_id',
         'title',
         'description',
+        'category_id',
         'created_at'
     ]
     
     def __init__(self,
-                 _id: str = uuid4(),
+                 _id: str = str(uuid4()),
                  title: str = "",
                  description: str = "",
+                 category_id: str = "",
                  created_at: float = time.time()):
         self._id = _id
         self.challenge_id = _id
         self.title = title
         self.description = description
+        self.category_id = category_id
         self.created_at = created_at
 
     @staticmethod

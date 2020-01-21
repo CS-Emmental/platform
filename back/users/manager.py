@@ -13,3 +13,6 @@ class UserManager(MongoManager):
 
     def get_all(self):
         return [User.from_dict(x) for x in super().get_all()]
+    
+    def insert_one(self, user):
+        return self.collection.insert(user.to_insert_dict())

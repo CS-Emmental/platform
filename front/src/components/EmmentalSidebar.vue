@@ -15,7 +15,7 @@
     <ul class="menu-list">
       <li
         v-for="category in categories"
-        :key="category.id"
+        :key="category.category_id"
       >
         <router-link
           :to="`/challenges/${category.title.toLowerCase().replace(' ', '-')}`"
@@ -26,7 +26,7 @@
         >
           {{ category.title }}
           <span class="tag is-rounded is-small">
-            <b>{{ category.challengesCount ? category.challengesCount : 0 }}</b>
+            <b>{{ getChallengesCountByCategory(category.category_id) }}</b>
           </span>
         </router-link>
       </li>
@@ -48,7 +48,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { State, Action } from 'vuex-class';
+import { State, Action, Getter } from 'vuex-class';
 import { ChallengesState } from '../store/challenges/types';
 
 const namespace = 'challenges';
@@ -57,10 +57,16 @@ const namespace = 'challenges';
   name: 'EmmentalSidebar',
 })
 export default class EmmentalSidebar extends Vue {
-  @State('challenges') public challenges: ChallengesState;
+  @State('challenges') public challenges: ChallengesState|undefined;
 
   @Action('getChallengeCategories', { namespace })
-  public getChallengeCategories: CallableFunction;
+  public getChallengeCategories!: CallableFunction;
+
+  @Action('getChallenges', { namespace })
+  public getChallenges!: CallableFunction;
+
+  @Getter('getChallengesCountByCategory', { namespace })
+  public getChallengesCountByCategory!: CallableFunction;
 
   get categories() {
     const categories = this.challenges && this.challenges.challengeCategories;
@@ -76,6 +82,7 @@ export default class EmmentalSidebar extends Vue {
 
   public created() {
     this.getChallengeCategories();
+    this.getChallenges();
   }
 }
 </script>
@@ -104,5 +111,8 @@ aside {
 }
 .menu-label {
   display: block;
+}
+.tag {
+  min-width: 2rem;
 }
 </style>

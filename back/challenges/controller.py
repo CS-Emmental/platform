@@ -1,4 +1,4 @@
-from challenges.manager import ChallengeCategoriesManager
+from challenges.manager import ChallengeCategoriesManager, ChallengesManager
 
 def get_challenge_categories():
     categories = ChallengeCategoriesManager().get_all()
@@ -15,3 +15,7 @@ def delete_challenge_categories(data):
 def create_challenge_categories(data):
     ChallengeCategoriesManager().create_one(data)
     return get_challenge_categories()
+    
+def get_all_challenges():
+    challenges = ChallengesManager().get_all()
+    return challenges
