@@ -215,7 +215,6 @@ export default class ChallengeEditCard extends Vue {
     title: '',
     summary: '',
     description: '',
-    slug: '',
     category_id: '',
     icon: '',
     total_points: 0,
@@ -270,7 +269,7 @@ export default class ChallengeEditCard extends Vue {
   }
 
   public save() {
-    this.postChallenge(this.challenge);
+    this.postChallenge(this.challengeEdit);
     this.$emit('quit');
   }
 }

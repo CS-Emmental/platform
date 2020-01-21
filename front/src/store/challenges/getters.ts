@@ -1,11 +1,12 @@
 import { GetterTree } from 'vuex';
 import { ChallengesState, ChallengeCategory, Challenge } from './types';
 import { RootState } from '../types';
+import { slug } from '../utils';
 
 const getters: GetterTree<ChallengesState, RootState> = {
   getCategoryFromSlug(state) {
     return (slugStr: string): ChallengeCategory|undefined => state.challengeCategories.find(
-      (cat: ChallengeCategory) => cat.slug === slugStr,
+      (cat: ChallengeCategory) => slug(cat.title) === slugStr,
     );
   },
   getCategoryById(state) {
@@ -15,7 +16,7 @@ const getters: GetterTree<ChallengesState, RootState> = {
   },
   getChallengeFromSlug(state) {
     return (slugStr: string): Challenge|undefined => state.challenges.find(
-      (chal: Challenge) => chal.slug === slugStr,
+      (chal: Challenge) => slug(chal.title) === slugStr,
     );
   },
   getChallengesByCategory(state) {

@@ -5,7 +5,6 @@ export interface ChallengesState {
 
 export interface ChallengeCategory {
   title: string;
-  slug: string;
   category_id: string;
   icon: string;
   description: string;
@@ -14,7 +13,6 @@ export interface ChallengeCategory {
 export interface Challenge {
   challenge_id: string;
   title: string;
-  slug: string;
   category_id: string;
   icon: string;
   summary: string;
