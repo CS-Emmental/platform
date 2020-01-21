@@ -1,9 +1,7 @@
 version: "3"
 services:
   front:
-    build:
-      context: ./front
-      dockerfile: prod.Dockerfile
+    image: front:latest
     working_dir: /usr/src/app
     volumes:
       - ./front:/usr/src/app:cached
@@ -15,9 +13,7 @@ services:
       - back
 
   back:
-    build:
-      context: ./back
-      dockerfile: Dockerfile
+    image: back:latest
     working_dir: /app/
     volumes:
       - ./back:/app/
