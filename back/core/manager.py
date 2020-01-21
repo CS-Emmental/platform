@@ -1,4 +1,6 @@
 from flask import current_app
+from uuid import uuid4
+import time
 
 class MongoManager():
     def __init__(self, collection: str):
@@ -8,5 +10,14 @@ class MongoManager():
         return self.collection.find()
 
     def update_one(self,data):
-        self.collection.update({"_id":data["_id"]},{"$set":data})
-        return self.collection.find({"_id":data["_id"]})
+        print(data)
+        self.collection.update({"_id":data["category_id"]},{"$set":data})
+        return self.collection.find({"_id":data["category_id"]})
+
+    def delete_one(self,data):
+        self.collection.remove({"_id":data["category_id"]})
+        return {"message":"Successfully deleted"}
+    
+    def insert_one(self,data):
+        self.collection.insert(data)
+        return self.collection.find()

@@ -13,5 +13,10 @@ class ChallengeCategoriesManager(MongoManager):
         return [ChallengeCategory.from_dict(x) for x in super().get_all()]
     
     def update_one(self,data):
-        super().update_one(data)
-        return 1
+        return super().update_one(data)
+    
+    def delete_one(self,data):
+        return super().delete_one(data)
+
+    def create_one(self,data):
+        return super().insert_one(data)
