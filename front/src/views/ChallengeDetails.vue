@@ -140,10 +140,10 @@ export default class ChallengesCategory extends Vue {
       text: 'Bonjour 2',
     },
     {
-      text: 'Bonjour 1',
+      text: 'Bonjour 3',
     },
     {
-      text: 'Bonjour 2',
+      text: 'Bonjour 4',
     },
   ];
 
