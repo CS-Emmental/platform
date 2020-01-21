@@ -51,6 +51,9 @@ class User(Document, UserMixin):
     def get_id(self):
         return self.user_id
 
+    def has_permissions(self, permissions):
+        return set(permission) <= set(self.permissions)
+
     @staticmethod
     def from_dict(dict_object: dict):
         return from_dict_class(dict_object, User)
