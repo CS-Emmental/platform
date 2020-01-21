@@ -16,3 +16,6 @@ class UserManager(MongoManager):
     
     def insert_one(self, user):
         return self.collection.insert(user.to_insert_dict())
+
+    def update_one(self, user):
+        return self.collection.update({'_id':user.user_id}, user.to_insert_dict())
