@@ -50,10 +50,10 @@ export default class ChallengesCategory extends Vue {
     type: String,
     required: true,
   })
-  public categoryKebab!: string;
+  public categorySlug!: string;
 
-  @Getter('getCategoryFromKebab', { namespace })
-  public getCategoryFromKebab!: CallableFunction;
+  @Getter('getCategoryFromSlug', { namespace })
+  public getCategoryFromSlug!: CallableFunction;
 
   @Getter('hasPermission')
   public hasPermission!: CallableFunction;
@@ -69,7 +69,7 @@ export default class ChallengesCategory extends Vue {
   }
 
   get category(): ChallengeCategory {
-    return this.getCategoryFromKebab(this.categoryKebab);
+    return this.getCategoryFromSlug(this.categorySlug);
   }
 
   get actions() {

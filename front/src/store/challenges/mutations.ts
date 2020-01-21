@@ -12,5 +12,10 @@ const mutations: MutationTree<ChallengesState> = {
       (chal: Challenge) => ({ ...chal, slug: chal.title.toLowerCase().replace(/ /g, '-') }),
     );
   },
+  setChallenge(state, editedChallenge: Challenge) {
+    const index = state.challenges
+      .findIndex((chall: Challenge) => chall.challenge_id === editedChallenge.challenge_id);
+    state.challenges.splice(index, 0, editedChallenge);
+  },
 };
 export default mutations;

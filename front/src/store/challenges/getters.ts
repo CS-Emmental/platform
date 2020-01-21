@@ -3,7 +3,7 @@ import { ChallengesState, ChallengeCategory, Challenge } from './types';
 import { RootState } from '../types';
 
 const getters: GetterTree<ChallengesState, RootState> = {
-  getCategoryFromKebab(state) {
+  getCategoryFromSlug(state) {
     return (slugStr: string): ChallengeCategory|undefined => state.challengeCategories.find(
       (cat: ChallengeCategory) => cat.slug === slugStr,
     );
@@ -13,7 +13,7 @@ const getters: GetterTree<ChallengesState, RootState> = {
       (cat: ChallengeCategory) => cat.category_id === categoryId,
     );
   },
-  getChallengeFromKebab(state) {
+  getChallengeFromSlug(state) {
     return (slugStr: string): Challenge|undefined => state.challenges.find(
       (chal: Challenge) => chal.slug === slugStr,
     );

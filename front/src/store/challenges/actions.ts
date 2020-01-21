@@ -17,5 +17,10 @@ const actions: ActionTree<ChallengesState, RootState> = {
       commit('setChallenges', challenges);
     });
   },
+  postChallenge({ commit }, edited: Challenge): void {
+    api().post(`challenge/${edited.challenge_id}`, edited).then(() => {
+      commit('setChallenge', edited);
+    });
+  },
 };
 export default actions;

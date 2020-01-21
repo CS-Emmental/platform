@@ -25,13 +25,13 @@ const routes = [
     component: Challenges,
   },
   {
-    path: '/challenges/:categoryKebab',
+    path: '/challenges/:categorySlug',
     name: 'ChallengesCategory',
     component: ChallengesCategory,
     props: true,
   },
   {
-    path: '/challenges/:categoryKebab/:challengeKebab',
+    path: '/challenges/:categorySlug/:challengeSlug',
     name: 'ChallengeDetails',
     component: ChallengeDetails,
     props: true,

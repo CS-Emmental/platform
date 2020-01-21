@@ -12,6 +12,7 @@ export interface ChallengeCategory {
 }
 
 export interface Challenge {
+  challenge_id: string;
   title: string;
   slug: string;
   category_id: string;

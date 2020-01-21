@@ -2,7 +2,7 @@
   <div class="card emmental-card">
     <header class="card-header">
       <router-link
-        :to="link"
+        :to="link ? link : ''"
         class="subtitle is-4 card-header-title"
       >
         <i

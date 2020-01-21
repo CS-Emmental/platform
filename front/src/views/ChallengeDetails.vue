@@ -9,10 +9,11 @@
       :content="challenge.summary"
       :actions="actions"
       class="header-box"
+      @edit="editMode=true"
     />
     <div class="columns">
       <div class="column is-two-thirds">
-        <div class="box">
+        <div class="box description-box">
           <div
             class="content"
             v-html="challenge.description"
@@ -30,7 +31,11 @@
               <p v-if="activeHints.includes(index)">
                 Hint n° {{ index }}: {{ hint.text }}
               </p>
-              <button v-else class="button" @click="activeHints.push(index)">
+              <button
+                v-else
+                class="button"
+                @click="activeHints.push(index)"
+              >
                 Show hint n°{{ index }}
               </button>
             </div>
@@ -71,6 +76,18 @@
         </div>
       </div>
     </div>
+    <div
+      class="modal"
+      :class="{'is-active': editMode}"
+    >
+      <div class="modal-background" />
+      <div class="modal-content">
+        <challenge-edit-card
+          :challenge="challenge"
+          @quit="editMode=false"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -80,6 +97,8 @@ import { Getter } from 'vuex-class';
 import { Challenge } from '../store/challenges/types';
 
 import EmmentalBox from '@/components/EmmentalBox.vue';
+import EmmentalCard from '@/components/EmmentalCard.vue';
+import ChallengeEditCard from '@/components/ChallengeEditCard.vue';
 
 const namespace = 'challenges';
 
@@ -87,6 +106,8 @@ const namespace = 'challenges';
   name: 'ChallengesCategory',
   components: {
     EmmentalBox,
+    EmmentalCard,
+    ChallengeEditCard,
   },
 })
 export default class ChallengesCategory extends Vue {
@@ -94,14 +115,15 @@ export default class ChallengesCategory extends Vue {
     type: String,
     required: true,
   })
-  public categoryKebab!: string;
+  public categorySlug!: string;
 
   @Prop({
     type: String,
     required: true,
   })
-  public challengeKebab!: string;
+  public challengeSlug!: string;
 
+  public editMode = false;
 
   // todo
   public points = 0;
@@ -117,16 +139,27 @@ export default class ChallengesCategory extends Vue {
     {
       text: 'Bonjour 2',
     },
+    {
+      text: 'Bonjour 1',
+    },
+    {
+      text: 'Bonjour 2',
+    },
   ];
 
-  @Getter('getChallengeFromKebab', { namespace })
-  public getChallengeFromKebab!: CallableFunction;
+  @Getter('getChallengeFromSlug', { namespace })
+  public getChallengeFromSlug!: CallableFunction;
 
   @Getter('hasPermission')
   public hasPermission!: CallableFunction;
 
   get challenge(): Challenge {
-    return this.getChallengeFromKebab(this.challengeKebab);
+    return this.getChallengeFromSlug(this.challengeSlug);
+  }
+
+  get challengeEdit(): Challenge {
+    const chall = { ...this.challenge };
+    return chall;
   }
 
   get actions() {
@@ -171,5 +204,30 @@ export default class ChallengesCategory extends Vue {
 }
 .start {
   margin-bottom: 1rem;
+}
+.modal-content {
+  width: 60vw;
+}
+.description-box {
+  height: 65vh;
+  overflow-y: auto;
+}
+
+.description-box::-webkit-scrollbar-track
+{
+  border-radius: 10px;
+  background-color: #EEE;
+}
+
+.description-box::-webkit-scrollbar
+{
+  width: 12px;
+  background-color: #F5F5F5;
+}
+
+.description-box::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  background-color: #2c3e50;
 }
 </style>
