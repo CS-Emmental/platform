@@ -2,9 +2,6 @@ version: "3"
 services:
   front:
     image: front:latest
-    working_dir: /usr/src/app
-    volumes:
-      - ./front:/usr/src/app:cached
     environment:
       - HOST=0.0.0.0
     ports:
