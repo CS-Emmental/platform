@@ -1,4 +1,4 @@
-export function slug(title: string):string {
+export function slug(title: string): string {
   return title.toLowerCase().replace(/ /g, '-');
 }
 

@@ -164,7 +164,7 @@
     <footer class="card-footer">
       <a
         class="card-footer-item"
-        @click="save"
+        @click="$emit('save', challengeEdit)"
       >Save</a>
       <a
         class="card-footer-item"
@@ -176,7 +176,6 @@
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
-import { Action } from 'vuex-class';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import {
   Heading,
@@ -193,8 +192,6 @@ import {
 } from 'tiptap-extensions';
 
 import { Challenge } from '../store/challenges/types';
-
-const namespace = 'challenges';
 
 @Component({
   name: 'ChallengeEditCard',
@@ -219,9 +216,6 @@ export default class ChallengeEditCard extends Vue {
     icon: '',
     total_points: 0,
   };
-
-  @Action('postChallenge', { namespace })
-  public postChallenge!: CallableFunction;
 
   public editor = new Editor({
     extensions: [
@@ -266,11 +260,6 @@ export default class ChallengeEditCard extends Vue {
 
   public beforeDestroy() {
     this.editor.destroy();
-  }
-
-  public save() {
-    this.postChallenge(this.challengeEdit);
-    this.$emit('quit');
   }
 }
 </script>

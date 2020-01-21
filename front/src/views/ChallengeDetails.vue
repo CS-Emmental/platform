@@ -85,6 +85,7 @@
         <challenge-edit-card
           :challenge="challenge"
           @quit="editMode=false"
+          @save="save"
         />
       </div>
     </div>
@@ -93,8 +94,9 @@
 
 <script  lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
-import { Getter } from 'vuex-class';
+import { Getter, Action } from 'vuex-class';
 import { Challenge } from '../store/challenges/types';
+import { slug } from '../store/utils';
 
 import EmmentalBox from '@/components/EmmentalBox.vue';
 import EmmentalCard from '@/components/EmmentalCard.vue';
@@ -153,13 +155,14 @@ export default class ChallengesCategory extends Vue {
   @Getter('hasPermission')
   public hasPermission!: CallableFunction;
 
+  @Getter('getCategoryById', { namespace })
+  public getCategoryById!: CallableFunction;
+
+  @Action('postChallenge', { namespace })
+  public postChallenge!: CallableFunction;
+
   get challenge(): Challenge {
     return this.getChallengeFromSlug(this.challengeSlug);
-  }
-
-  get challengeEdit(): Challenge {
-    const chall = { ...this.challenge };
-    return chall;
   }
 
   get actions() {
@@ -177,6 +180,18 @@ export default class ChallengesCategory extends Vue {
       ];
     }
     return actions;
+  }
+
+  public save(edited: Challenge) {
+    this.postChallenge(edited).then(() => {
+      this.editMode = false;
+      if (edited.title !== this.challenge.title
+        || edited.category_id !== this.challenge.category_id) {
+        const catSlug = slug(this.getCategoryById(edited.category_id).title);
+        const challSlug = slug(edited.title);
+        this.$router.push(`/challenges/${catSlug}/${challSlug}`);
+      }
+    });
   }
 }
 </script>
