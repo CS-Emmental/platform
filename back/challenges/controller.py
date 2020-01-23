@@ -7,10 +7,11 @@ def get_challenge_categories():
     return categories
 
 def update_challenge_categories(inputs):
-    existingCategory = ChallengeCategoriesManager().get_one(inputs['category_id'])
-    categorieToUpdate = ChallengeCategory(inputs['category_id'],existingCategory)
+    current_id = inputs['category_id']
+    existingCategory = ChallengeCategoriesManager().get_one(current_id)
+    categorieToUpdate = ChallengeCategory(current_id,existingCategory)
     categorieToUpdate.update(inputs)
-    if ChallengeCategoriesManager().update_one(categorieToUpdate.to_update_dict(),inputs['category_id']):
+    if ChallengeCategoriesManager().update_one(categorieToUpdate.to_update_dict(),current_id):
         return str(categorieToUpdate.title) +" successfully updated"
     else:
         return "error"
