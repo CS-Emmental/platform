@@ -1,5 +1,8 @@
 <template>
-  <div class="card">
+  <div
+    class="card"
+    @keyup.enter="$emit('save', challengeEdit)"
+  >
     <header class="card-header">
       <p class="card-header-title">
         Edit Challenge
@@ -112,5 +115,8 @@ export default class ChallengeEditCard extends Vue {
 }
 .buttons {
   margin-bottom: 0;
+}
+.card {
+  border-radius: 5px;
 }
 </style>

@@ -1,5 +1,8 @@
 <template>
-  <div class="control">
+  <div
+    class="control"
+    @keyup.enter.stop=""
+  >
     <editor-menu-bar
       v-slot="{ commands, isActive }"
       :editor="editor"
@@ -179,6 +182,8 @@ export default class EmmentalRichTextEditor extends Vue {
   padding: .5rem;
   border: solid 1px #dbdbdb;
   border-radius: 4px;
+  height: 40vh;
+  overflow-y: auto;
 }
 ::v-deep .ProseMirror:focus {
   outline: none;

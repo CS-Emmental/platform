@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="box login-box">
+    <div
+      class="box login-box"
+      @keyup.enter="onLogin"
+    >
       <div class="title">
         Log In
       </div>
@@ -37,7 +40,7 @@
         <p class="control">
           <button
             class="button is-primary"
-            @click="login({email: emailInput, password: passwordInput})"
+            @click="onLogin"
           >
             Login
           </button>
@@ -61,6 +64,10 @@ export default class Login extends Vue {
 
   @Action('login')
   public login!: CallableFunction;
+
+  public onLogin() {
+    this.login({ email: this.emailInput, password: this.passwordInput });
+  }
 }
 </script>
 
