@@ -4,7 +4,6 @@
     :link="`/challenges/${categorySlug}/${challengeSlug}`"
     :content="challenge.summary"
     :subtitle="`todo/${challenge.total_points} points`"
-    :actions="actions"
   />
 </template>
 
@@ -30,9 +29,6 @@ export default class ChallengeCard extends Vue {
   })
   public challenge!: Challenge;
 
-  @Getter('hasPermission')
-  public hasPermission!: CallableFunction;
-
   @Getter('getCategoryById', { namespace })
   public getCategoryById!: CallableFunction;
 
@@ -46,23 +42,6 @@ export default class ChallengeCard extends Vue {
 
   get challengeSlug() {
     return this.challenge && slug(this.challenge.title);
-  }
-
-  get actions() {
-    let actions;
-    if (this.hasPermission('admin')) {
-      actions = [
-        {
-          text: 'Edit',
-          signal: 'edit',
-        },
-        {
-          text: 'Delete',
-          signal: 'delete',
-        },
-      ];
-    }
-    return actions;
   }
 }
 </script>
