@@ -9,12 +9,15 @@ class MongoManager():
     def get_all(self):
         return self.collection.find()
 
-    def update_one(self,data):
-        return self.collection.update({"_id":data["category_id"]},{"$set":data})
+    def update_one(self,data,id):
+        return self.collection.update({"_id":id},{"$set":data})
 
-    def remove_one(self,data):
-        return self.collection.remove({"_id":data["category_id"]})
+    def remove_one(self,id):
+        return self.collection.remove({"_id":id})
     
     def insert_one(self,data):
         return self.collection.insert(data)
+
+    def get_one(self,id):
+        return self.collection.find({"_id":id})
         
