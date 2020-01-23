@@ -1,6 +1,6 @@
 import time
 from uuid import uuid4
-
+from flask import current_app
 from core.models import Document, from_dict_class
 
 class ChallengeCategory(Document):
@@ -20,6 +20,12 @@ class ChallengeCategory(Document):
         'created_at'
     ]
 
+    editable_fields = [
+        'title',
+        'icon',
+        'description',
+    ]
+
     def __init__(self,
                  _id: str = None,
                  title: str = "",
@@ -34,6 +40,11 @@ class ChallengeCategory(Document):
         self.created_at = created_at
         self._id = str(uuid4()) if not created_at else created_at
 
+
+    def update(self,inputs: dict = {}):
+        inputs = {k: inputs[k] for k in self.editable_fields}
+        for key in inputs:
+            setattr(self, key, inputs[key])
 
     @staticmethod
     def from_dict(dict_object: dict):
