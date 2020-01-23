@@ -6,3 +6,9 @@ class MongoManager():
 
     def get_all(self):
         return self.collection.find()
+
+    def get(self, _id):
+        return self.collection.find_one({'_id': _id})
+
+    def update_one(self, _id, update_dict):
+        return self.collection.update({'_id': _id}, {'$set': insert_dict})

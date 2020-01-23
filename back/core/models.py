@@ -11,6 +11,11 @@ class Document():
 
     def to_update_dict(self):
         return {key: getattr(self, key) for key in self.editable_fields}
+
+    def update(self, inputs: dict = {}):
+        inputs = {k: inputs[k] for k in self.editable_fields}
+        for key in inputs:
+            setattr(self, key, inputs[key])
         
     @staticmethod
     def from_dict(dict_object: dict):
