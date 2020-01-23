@@ -5,7 +5,6 @@
     :icon="category.icon"
     :subtitle="`${categoryCount} Challenge${categoryCount == 1 ? '' : 's'}`"
     :content="category.description"
-    :actions="actions"
   />
 </template>
 
@@ -31,9 +30,6 @@ export default class ChallengesCategoryCard extends Vue {
   })
   public category!: ChallengeCategory;
 
-  @Getter('hasPermission')
-  public hasPermission!: CallableFunction;
-
   @Getter('getChallengesCountByCategory', { namespace })
   public getChallengesCountByCategory!: CallableFunction;
 
@@ -43,23 +39,6 @@ export default class ChallengesCategoryCard extends Vue {
 
   get categorySlug() {
     return this.category && slug(this.category.title);
-  }
-
-  get actions() {
-    let actions;
-    if (this.hasPermission('admin')) {
-      actions = [
-        {
-          text: 'Edit',
-          signal: 'edit',
-        },
-        {
-          text: 'Delete',
-          signal: 'delete',
-        },
-      ];
-    }
-    return actions;
   }
 }
 </script>
