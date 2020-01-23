@@ -58,6 +58,14 @@ class Challenge(Document):
         'total_points',
         'summary',
     ]
+
+    editable_fields = [
+        'title',
+        'description',
+        'category_id',
+        'total_points',
+        'summary',
+    ]
     
     def __init__(self,
                  _id: str = str(uuid4()),
