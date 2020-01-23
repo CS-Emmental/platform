@@ -57,11 +57,6 @@ class User(Document, UserMixin):
     def get_id(self):
         return self.user_id
 
-    def update(inputs: dict = {}):
-        inputs = {k: inputs[k] for k in self.editable_fields}
-        for key in inputs:
-            self.setattr(self, key, inputs[key])
-
     def has_permissions(self, permissions):
         return set(permissions) <= set(self.permissions)
 
