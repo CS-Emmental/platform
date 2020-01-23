@@ -12,22 +12,30 @@ def get_categories():
 
 @challenges.route('/challenge-categories/update', methods=['POST'])
 def update_categories():
-    inputs = request.json
-    current_app.logger.debug(inputs)
-    return update_challenge_categories(inputs)
-
+    if current_user.has_permissions(['admin']):
+        inputs = request.json
+        current_app.logger.debug(inputs)
+        return update_challenge_categories(inputs)
+    else :
+        return jsonify('error') 
 
 @challenges.route('/challenge-categories/delete', methods=['POST'])
 def delete_categories():
-    inputs = request.json
-    current_app.logger.debug(inputs)
-    return delete_challenge_categories(inputs)
+    if current_user.has_permissions(['admin']):
+        inputs = request.json
+        current_app.logger.debug(inputs)
+        return delete_challenge_categories(inputs)
+    else :
+        return jsonify('error') 
 
 @challenges.route('/challenge-categories/create', methods=['POST'])
 def create_categories():
-    inputs = request.json
-    current_app.logger.debug(inputs)
-    return create_challenge_categories(inputs)
+    if current_user.has_permissions(['admin']):
+        inputs = request.json
+        current_app.logger.debug(inputs)
+        return create_challenge_categories(inputs)
+    else :
+        return jsonify('error')  
     
 @challenges.route('/challenges')
 def get_challenges():
