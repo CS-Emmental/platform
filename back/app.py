@@ -45,3 +45,6 @@ def create_app():
         return jsonify(res)
 
     return app
+
+
+application = create_app()
