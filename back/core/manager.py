@@ -10,7 +10,6 @@ class MongoManager():
         return self.collection.find()
 
     def update_one(self,data,id):
-        current_app.logger.debug({"_id":id},{"$set":data})
         return self.collection.update({"_id":id},{"$set":data})
 
     def remove_one(self,id):

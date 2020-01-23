@@ -10,15 +10,16 @@ def update_challenge_categories(inputs):
     existingCategory = ChallengeCategoriesManager().get_one(inputs['category_id'])
     categorieToUpdate = ChallengeCategory(inputs['category_id'],existingCategory)
     categorieToUpdate.update(inputs)
-    current_app.logger.debug(categorieToUpdate.to_update_dict())
     if ChallengeCategoriesManager().update_one(categorieToUpdate.to_update_dict(),inputs['category_id']):
         return str(categorieToUpdate.title) +" successfully updated"
     else:
         return "error"
 
 def delete_challenge_categories(inputs):
-    ChallengeCategoriesManager().delete_one(inputs["category_id"])
-    return get_challenge_categories()
+    if ChallengeCategoriesManager().remove_one(inputs["category_id"]):
+        return str(inputs['title']) +" successfully deleted"
+    else:
+        return "error"
 
 def create_challenge_categories(inputs):
     challengeCategory = ChallengeCategory(**inputs)

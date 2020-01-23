@@ -21,7 +21,7 @@ class ChallengeCategoriesManager(MongoManager):
     def update_one(self, data, id):
         return super().update_one(data,id)
 
-    def delete_one(self,id):
+    def remove_one(self,id):
         return super().remove_one(id)
 
     def insert_one(self,data):
