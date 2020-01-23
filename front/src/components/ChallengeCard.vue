@@ -1,9 +1,9 @@
 <template>
   <emmental-card
     :title="challenge.title"
-    :link="`/challenges/${parentCategory.kebab}/${challenge.kebab}`"
-    :subtitle="challenge.description"
-    content="0/100 points"
+    :link="`/challenges/${categorySlug}/${challengeSlug}`"
+    :content="challenge.summary"
+    :subtitle="`todo/${challenge.total_points} points`"
     :actions="actions"
   />
 </template>
@@ -13,6 +13,7 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import EmmentalCard from '@/components/EmmentalCard.vue';
 import { Challenge } from '../store/challenges/types';
+import { slug } from '../store/utils';
 
 const namespace = 'challenges';
 
@@ -37,6 +38,14 @@ export default class ChallengeCard extends Vue {
 
   get parentCategory() {
     return this.getCategoryById(this.challenge.category_id);
+  }
+
+  get categorySlug() {
+    return this.parentCategory && slug(this.parentCategory.title);
+  }
+
+  get challengeSlug() {
+    return this.challenge && slug(this.challenge.title);
   }
 
   get actions() {

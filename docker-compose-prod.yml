@@ -3,16 +3,16 @@ services:
   front:
     build:
       context: ./front
-      dockerfile: Dockerfile
+      dockerfile: prod.Dockerfile
     working_dir: /usr/src/app
     volumes:
       - ./front:/usr/src/app:cached
     environment:
       - HOST=0.0.0.0
-      - CHOKIDAR_USEPOLLING=true
-      - CHOKIDAR_INTERVAL=1000
     ports:
-      - 8080:8080
+      - 80:80
+    depends_on:
+      - back
 
   back:
     build:
@@ -24,7 +24,7 @@ services:
     environment:
       - FLASK_APP=app.py
       - HOST=0.0.0.0
-      - FLASK_DEBUG=1
+      - FLASK_DEBUG=0
     ports:
       - 5000:5000
     command: flask run --host=0.0.0.0 --port 5000
@@ -35,14 +35,3 @@ services:
       - ./mongo-volume:/data/db
     ports:
       - 27017:27017
-
-  nginx:
-    build:
-      context: ./front
-      dockerfile: nginx.dev.Dockerfile
-    ports:
-      - "3000:3000"
-      - "443:443"
-    depends_on:
-      - back
-      - front

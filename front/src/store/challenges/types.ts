@@ -5,17 +5,17 @@ export interface ChallengesState {
 
 export interface ChallengeCategory {
   title: string;
-  kebab: string;
   category_id: string;
   icon: string;
   description: string;
 }
 
 export interface Challenge {
+  challenge_id: string;
   title: string;
-  kebab: string;
   category_id: string;
   icon: string;
+  summary: string;
   description: string;
-  challengesCount: number;
+  total_points: number;
 }
