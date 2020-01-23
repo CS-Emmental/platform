@@ -79,6 +79,8 @@
     <div
       class="modal"
       :class="{'is-active': editMode}"
+      @keyup.esc="editMode=false"
+      tabindex="0"
     >
       <div class="modal-background" />
       <div class="modal-content">
@@ -226,23 +228,5 @@ export default class ChallengesCategory extends Vue {
 .description-box {
   height: 65vh;
   overflow-y: auto;
-}
-
-.description-box::-webkit-scrollbar-track
-{
-  border-radius: 10px;
-  background-color: #EEE;
-}
-
-.description-box::-webkit-scrollbar
-{
-  width: 12px;
-  background-color: #F5F5F5;
-}
-
-.description-box::-webkit-scrollbar-thumb
-{
-  border-radius: 10px;
-  background-color: #2c3e50;
 }
 </style>
