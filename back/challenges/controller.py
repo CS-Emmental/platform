@@ -11,7 +11,7 @@ def update_challenge_categories(inputs):
     categorieToUpdate = ChallengeCategory(inputs['category_id'],existingCategory)
     categorieToUpdate.update(inputs)
     current_app.logger.debug(categorieToUpdate.to_update_dict())
-    if ChallengeCategoriesManager().update_one(categorieToUpdate.to_update_dict(),['category_id']):
+    if ChallengeCategoriesManager().update_one(categorieToUpdate.to_update_dict(),inputs['category_id']):
         return str(categorieToUpdate.title) +" successfully updated"
     else:
         return "error"

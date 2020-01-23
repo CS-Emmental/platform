@@ -14,8 +14,8 @@ def get_categories():
 def update_categories():
     inputs = request.json
     current_app.logger.debug(inputs)
-    categories_updated = update_challenge_categories(inputs)
-    return jsonify([c.to_dict() for c in categories_updated])
+    return update_challenge_categories(inputs)
+
 
 @challenges.route('/challenge-categories/delete', methods=['POST'])
 def delete_categories():
