@@ -21,17 +21,19 @@ class ChallengeCategory(Document):
     ]
 
     def __init__(self,
-                 _id: str = str(uuid4()),
+                 _id: str = None,
                  title: str = "",
                  icon: str = "fas fa-shield-alt",
                  description: str = "",
-                 created_at: float = time.time()):
-        self._id = _id
-        self.category_id = _id
+                 created_at: float = None):
+        self._id = str(uuid4()) if not _id else _id
+        self.category_id = self._id
         self.title = title
         self.icon = icon
         self.description = description
         self.created_at = created_at
+        self._id = str(uuid4()) if not created_at else created_at
+
 
     @staticmethod
     def from_dict(dict_object: dict):
