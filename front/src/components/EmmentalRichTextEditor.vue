@@ -182,7 +182,7 @@ export default class EmmentalRichTextEditor extends Vue {
   padding: .5rem;
   border: solid 1px #dbdbdb;
   border-radius: 4px;
-  height: 40vh;
+  height: 30vh;
   overflow-y: auto;
 }
 ::v-deep .ProseMirror:focus {

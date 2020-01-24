@@ -79,8 +79,8 @@
     <div
       class="modal"
       :class="{'is-active': editMode}"
-      @keyup.esc="editMode=false"
       tabindex="0"
+      @keyup.esc="editMode=false"
     >
       <div class="modal-background" />
       <div class="modal-content">

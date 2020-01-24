@@ -12,3 +12,6 @@ class MongoManager():
 
     def update_one(self, _id, update_dict):
         return self.collection.update({'_id': _id}, {'$set': update_dict})
+    
+    def insert_one(self, insert_dict):
+        return self.collection.insert(insert_dict)

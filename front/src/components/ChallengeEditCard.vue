@@ -115,7 +115,6 @@ export default class ChallengeEditCard extends Vue {
     summary: '',
     description: '',
     category_id: '',
-    icon: '',
     total_points: 0,
   };
 
