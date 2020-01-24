@@ -30,6 +30,7 @@ export default class App extends Vue {
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Orbitron&display=swap');
+@import "vue-select/src/scss/vue-select.scss";
 @import '@/bulma-theme.scss';
 #app {
   font-family: 'Orbitron', Helvetica, Arial, sans-serif;
