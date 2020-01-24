@@ -11,4 +11,4 @@ class MongoManager():
         return self.collection.find_one({'_id': _id})
 
     def update_one(self, _id, update_dict):
-        return self.collection.update({'_id': _id}, {'$set': insert_dict})
+        return self.collection.update({'_id': _id}, {'$set': update_dict})
