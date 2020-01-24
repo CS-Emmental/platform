@@ -1,7 +1,9 @@
 <template>
   <div
     class="card"
+    tabindex="0"
     @keyup.enter="$emit('save', challengeEdit)"
+    @keyup.esc="$emit('quit')"
   >
     <header class="card-header">
       <p class="card-header-title">
@@ -144,5 +146,7 @@ export default class ChallengeEditCard extends Vue {
 }
 .card {
   border-radius: 5px;
+  width: 60vw;
+  margin: auto;
 }
 </style>

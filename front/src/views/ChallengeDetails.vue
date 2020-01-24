@@ -10,7 +10,7 @@
       :actions="actions"
       class="header-box"
       @edit="editMode=true"
-      @delete="onDelete"
+      @delete="confirmDeleteMode=true"
     />
     <div class="columns">
       <div class="column is-two-thirds">
@@ -77,21 +77,48 @@
         </div>
       </div>
     </div>
-    <div
-      class="modal"
-      :class="{'is-active': editMode}"
-      tabindex="0"
-      @keyup.esc="editMode=false"
-    >
-      <div class="modal-background" />
-      <div class="modal-content">
-        <challenge-edit-card
-          :challenge="challenge"
-          @quit="editMode=false"
-          @save="save"
-        />
+    <emmental-modal :is-active="editMode">
+      <challenge-edit-card
+        :challenge="challenge"
+        @quit="editMode=false"
+        @save="save"
+      />
+    </emmental-modal>
+    <emmental-modal :is-active="confirmDeleteMode">
+      <div
+        class="card confirm-delete-card"
+        tabindex="0"
+        @keyup.enter="onDelete"
+        @keyup.esc="confirmDeleteMode=false"
+      >
+        <header class="card-header">
+          <p class="card-header-title">
+            Delete Challenge
+          </p>
+          <div class="card-header-icon">
+            <button
+              class="delete"
+              @click="confirmDeleteMode=false"
+            />
+          </div>
+        </header>
+        <div class="card-content">
+          <p>
+            Are you sure you want to delete this challenge ?
+          </p>
+        </div>
+        <footer class="card-footer">
+          <a
+            class="card-footer-item"
+            @click="onDelete"
+          >Confirm</a>
+          <a
+            class="card-footer-item"
+            @click="confirmDeleteMode=false"
+          >Cancel</a>
+        </footer>
       </div>
-    </div>
+    </emmental-modal>
   </div>
 </template>
 
@@ -103,6 +130,7 @@ import { slug } from '../store/utils';
 
 import EmmentalBox from '@/components/EmmentalBox.vue';
 import EmmentalCard from '@/components/EmmentalCard.vue';
+import EmmentalModal from '@/components/EmmentalModal.vue';
 import ChallengeEditCard from '@/components/ChallengeEditCard.vue';
 
 const namespace = 'challenges';
@@ -112,6 +140,7 @@ const namespace = 'challenges';
   components: {
     EmmentalBox,
     EmmentalCard,
+    EmmentalModal,
     ChallengeEditCard,
   },
 })
@@ -129,6 +158,8 @@ export default class ChallengesCategory extends Vue {
   public challengeSlug!: string;
 
   public editMode = false;
+
+  public confirmDeleteMode = false;
 
   // todo
   public points = 0;
@@ -233,11 +264,12 @@ export default class ChallengesCategory extends Vue {
 .start {
   margin-bottom: 1rem;
 }
-.modal-content {
-  width: 60vw;
-}
 .description-box {
   height: 65vh;
   overflow-y: auto;
+}
+.confirm-delete-card {
+  width: 30vw;
+  margin: auto;
 }
 </style>

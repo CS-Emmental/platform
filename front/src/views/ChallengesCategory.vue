@@ -24,21 +24,13 @@
         @click.native="createMode=true"
       />
     </div>
-    <div
-      class="modal"
-      :class="{'is-active': createMode}"
-      tabindex="0"
-      @keyup.esc="createMode=false"
-    >
-      <div class="modal-background" />
-      <div class="modal-content">
-        <challenge-edit-card
-          :challenge="newChallenge"
-          @quit="createMode=false"
-          @save="insert"
-        />
-      </div>
-    </div>
+    <emmental-modal :is-active="createMode">
+      <challenge-edit-card
+        :challenge="newChallenge"
+        @quit="createMode=false"
+        @save="insert"
+      />
+    </emmental-modal>
   </div>
 </template>
 
@@ -48,6 +40,7 @@ import { Getter, Action } from 'vuex-class';
 import { ChallengeCategory, Challenge } from '../store/challenges/types';
 
 import EmmentalBox from '@/components/EmmentalBox.vue';
+import EmmentalModal from '@/components/EmmentalModal.vue';
 import NewBox from '@/components/NewBox.vue';
 import ChallengeCard from '@/components/ChallengeCard.vue';
 import ChallengeEditCard from '@/components/ChallengeEditCard.vue';
@@ -58,6 +51,7 @@ const namespace = 'challenges';
   name: 'ChallengesCategory',
   components: {
     EmmentalBox,
+    EmmentalModal,
     NewBox,
     ChallengeCard,
     ChallengeEditCard,
@@ -71,6 +65,8 @@ export default class ChallengesCategory extends Vue {
   public categorySlug!: string;
 
   public createMode = false;
+
+  public confirmDeleteMode = false;
 
   @Getter('getCategoryFromSlug', { namespace })
   public getCategoryFromSlug!: CallableFunction;
