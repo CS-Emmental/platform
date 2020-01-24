@@ -33,6 +33,7 @@
       <div class="modal-background" />
       <div class="modal-content">
         <challenge-edit-card
+          :challenge="newChallenge"
           @quit="createMode=false"
           @save="insert"
         />
@@ -92,6 +93,17 @@ export default class ChallengesCategory extends Vue {
     this.insertChallenge(inserted).then(() => {
       this.createMode = false;
     });
+  }
+
+  get newChallenge(): Challenge {
+    return this.category && {
+      challenge_id: '',
+      title: '',
+      summary: '',
+      description: '',
+      category_id: this.category.category_id,
+      total_points: 100,
+    };
   }
 
   get categoryCount() {
