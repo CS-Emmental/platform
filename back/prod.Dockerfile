@@ -23,4 +23,4 @@ RUN pip install Emmental*.whl
 RUN pip install uwsgi
 EXPOSE 5000
 WORKDIR /app/Emmental
-CMD uwsgi -s /tmp/Emmental.sock --manage-script-name --wsgi-file ./app.py --http :9090
+CMD uwsgi --ini uwsgi.ini
