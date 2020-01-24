@@ -25,3 +25,10 @@ def insert_challenge(inputs: dict):
         return challenge_inserted
     except Exception:
         return 'error'
+
+def remove_challenge(challenge_id: str):
+    challenge_deleted = ChallengesManager().get(challenge_id)
+    try:
+        return ChallengesManager().remove_one(challenge_deleted)
+    except Exception:
+        return 'error' 

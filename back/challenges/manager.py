@@ -16,6 +16,9 @@ class ChallengesManager(MongoManager):
     
     def insert_one(self, challenge):
         return super().insert_one(challenge.to_insert_dict())
+    
+    def remove_one(self, challenge):
+        return super().remove_one(challenge.challenge_id)
 
 class ChallengeCategoriesManager(MongoManager):
     def __init__(self):

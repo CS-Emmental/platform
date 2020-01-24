@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, current_app, request
 from flask_login import current_user, login_required
 
-from challenges.controller import get_challenge_categories, get_all_challenges, update_challenge, insert_challenge
+from challenges.controller import get_challenge_categories, get_all_challenges, update_challenge, insert_challenge, remove_challenge
 
 challenges = Blueprint('challenges', 'challenges')
 
@@ -33,5 +33,14 @@ def put_challenge():
     if current_user.has_permissions(['admin']):
         inserted = insert_challenge(insert_dict)
         return jsonify(inserted.to_dict())
+    else:
+        return jsonify('unauthorized')
+
+@challenges.route('/challenges/<challenge_id>', methods=['DELETE'])
+@login_required
+def delete_challenge(challenge_id: str):
+    if current_user.has_permissions(['admin']):
+        deleted_response = remove_challenge(challenge_id)
+        return jsonify(deleted_response)
     else:
         return jsonify('unauthorized')

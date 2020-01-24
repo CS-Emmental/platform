@@ -15,3 +15,6 @@ class MongoManager():
     
     def insert_one(self, insert_dict):
         return self.collection.insert(insert_dict)
+
+    def remove_one(self, delete_id):
+        return self.collection.remove({'_id': delete_id})

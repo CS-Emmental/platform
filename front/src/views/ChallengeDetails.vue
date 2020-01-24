@@ -10,6 +10,7 @@
       :actions="actions"
       class="header-box"
       @edit="editMode=true"
+      @delete="onDelete"
     />
     <div class="columns">
       <div class="column is-two-thirds">
@@ -163,6 +164,9 @@ export default class ChallengesCategory extends Vue {
   @Action('postChallenge', { namespace })
   public postChallenge!: CallableFunction;
 
+  @Action('deleteChallenge', { namespace })
+  public deleteChallenge!: CallableFunction;
+
   get challenge(): Challenge {
     return this.getChallengeFromSlug(this.challengeSlug);
   }
@@ -193,6 +197,13 @@ export default class ChallengesCategory extends Vue {
         const challSlug = slug(edited.title);
         this.$router.push(`/challenges/${catSlug}/${challSlug}`);
       }
+    });
+  }
+
+  public onDelete() {
+    const catSlug = slug(this.getCategoryById(this.challenge.category_id).title);
+    this.deleteChallenge(this.challenge.challenge_id).then(() => {
+      this.$router.push(`/challenges/${catSlug}`);
     });
   }
 }

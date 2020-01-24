@@ -29,5 +29,10 @@ const actions: ActionTree<ChallengesState, RootState> = {
       commit('insertChallenge', challengeInserted);
     });
   },
+  deleteChallenge({ commit }, challengeId: string): void {
+    api().delete(`challenges/${challengeId}`).then(() => {
+      commit('deleteChallenge', challengeId);
+    });
+  },
 };
 export default actions;
