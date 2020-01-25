@@ -6,7 +6,7 @@ class UserManager(MongoManager):
         super().__init__('users')
 
     def get(self, user_id):
-        return User.from_dict(self.collection.find({"_id": user_id})[0])
+        return User.from_dict(self.collection.find_one({"_id": user_id}))
 
     def get_one_by_query(self, query):
         return User.from_dict(self.collection.find_one(query))
@@ -16,3 +16,6 @@ class UserManager(MongoManager):
     
     def insert_one(self, user):
         return self.collection.insert(user.to_insert_dict())
+
+    def update_one(self, user):
+        return self.collection.update({'_id':user.user_id}, user.to_insert_dict())

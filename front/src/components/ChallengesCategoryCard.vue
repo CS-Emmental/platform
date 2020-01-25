@@ -1,11 +1,10 @@
 <template>
   <emmental-card
     :title="category.title"
-    :link="`/challenges/${category.kebab}`"
+    :link="`/challenges/${categorySlug}`"
     :icon="category.icon"
     :subtitle="`${categoryCount} Challenge${categoryCount == 1 ? '' : 's'}`"
     :content="category.description"
-    :actions="actions"
   />
 </template>
 
@@ -14,6 +13,7 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import EmmentalCard from '@/components/EmmentalCard.vue';
 import { ChallengeCategory } from '../store/challenges/types';
+import { slug } from '../store/utils';
 
 const namespace = 'challenges';
 
@@ -30,9 +30,6 @@ export default class ChallengesCategoryCard extends Vue {
   })
   public category!: ChallengeCategory;
 
-  @Getter('hasPermission')
-  public hasPermission!: CallableFunction;
-
   @Getter('getChallengesCountByCategory', { namespace })
   public getChallengesCountByCategory!: CallableFunction;
 
@@ -40,21 +37,8 @@ export default class ChallengesCategoryCard extends Vue {
     return this.category && this.getChallengesCountByCategory(this.category.category_id);
   }
 
-  get actions() {
-    let actions;
-    if (this.hasPermission('admin')) {
-      actions = [
-        {
-          text: 'Edit',
-          signal: 'edit',
-        },
-        {
-          text: 'Delete',
-          signal: 'delete',
-        },
-      ];
-    }
-    return actions;
+  get categorySlug() {
+    return this.category && slug(this.category.title);
   }
 }
 </script>

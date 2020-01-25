@@ -1,10 +1,9 @@
 <template>
   <emmental-card
     :title="challenge.title"
-    :link="`/challenges/${parentCategory.kebab}/${challenge.kebab}`"
-    :subtitle="challenge.description"
-    content="0/100 points"
-    :actions="actions"
+    :link="`/challenges/${categorySlug}/${challengeSlug}`"
+    :content="challenge.summary"
+    :subtitle="`todo/${challenge.total_points} points`"
   />
 </template>
 
@@ -13,6 +12,7 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import EmmentalCard from '@/components/EmmentalCard.vue';
 import { Challenge } from '../store/challenges/types';
+import { slug } from '../store/utils';
 
 const namespace = 'challenges';
 
@@ -29,9 +29,6 @@ export default class ChallengeCard extends Vue {
   })
   public challenge!: Challenge;
 
-  @Getter('hasPermission')
-  public hasPermission!: CallableFunction;
-
   @Getter('getCategoryById', { namespace })
   public getCategoryById!: CallableFunction;
 
@@ -39,21 +36,12 @@ export default class ChallengeCard extends Vue {
     return this.getCategoryById(this.challenge.category_id);
   }
 
-  get actions() {
-    let actions;
-    if (this.hasPermission('admin')) {
-      actions = [
-        {
-          text: 'Edit',
-          signal: 'edit',
-        },
-        {
-          text: 'Delete',
-          signal: 'delete',
-        },
-      ];
-    }
-    return actions;
+  get categorySlug() {
+    return this.parentCategory && slug(this.parentCategory.title);
+  }
+
+  get challengeSlug() {
+    return this.challenge && slug(this.challenge.title);
   }
 }
 </script>

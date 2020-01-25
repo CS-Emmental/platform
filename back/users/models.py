@@ -27,9 +27,15 @@ class User(Document, UserMixin):
         'created_at',
         'permissions',
     ]
+
+    editable_fields = [
+        'email',
+        'firstname',
+        'lastname',
+    ]
     
     def __init__(self,
-                 _id: str = str(uuid4()),
+                 _id: str = None,
                  username: str = "",
                  password: str = "",
                  email: str = "",
@@ -37,19 +43,22 @@ class User(Document, UserMixin):
                  lastname: str = "",
                  is_active: bool = True,
                  permissions: list = [],
-                 created_at: float = time.time()):
-        self._id = _id
-        self.user_id = _id
+                 created_at: float = None):
+        self._id = str(uuid4()) if not _id else _id
+        self.user_id = self._id
         self.username = username
         self.password = password
         self.email = email
         self.firstname = firstname
         self.lastname = lastname  
         self.permissions = permissions
-        self.created_at = created_at
+        self.created_at = time.time() if not created_at else created_at
 
     def get_id(self):
         return self.user_id
+
+    def has_permissions(self, permissions):
+        return set(permissions) <= set(self.permissions)
 
     @staticmethod
     def from_dict(dict_object: dict):

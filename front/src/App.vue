@@ -30,6 +30,7 @@ export default class App extends Vue {
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Orbitron&display=swap');
+@import "vue-select/src/scss/vue-select.scss";
 @import '@/bulma-theme.scss';
 #app {
   font-family: 'Orbitron', Helvetica, Arial, sans-serif;
@@ -42,5 +43,23 @@ export default class App extends Vue {
 .main {
   margin-left: 18vw;
   padding: 1rem;
+}
+*::-webkit-scrollbar-track
+{
+  border-radius: 10px;
+  background-color: #EEE;
+}
+
+*::-webkit-scrollbar
+{
+  width: 12px;
+  border-radius: 10px;
+  background-color: #F5F5F5;
+}
+
+*::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  background-color: #2c3e50;
 }
 </style>

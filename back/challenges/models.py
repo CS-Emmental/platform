@@ -45,6 +45,8 @@ class Challenge(Document):
         'description',
         'category_id',
         'created_at',
+        'total_points',
+        'summary',
     ]
 
     export_fields = [
@@ -52,19 +54,33 @@ class Challenge(Document):
         'title',
         'description',
         'category_id',
-        'created_at'
+        'created_at',
+        'total_points',
+        'summary',
+    ]
+
+    editable_fields = [
+        'title',
+        'description',
+        'category_id',
+        'total_points',
+        'summary',
     ]
     
     def __init__(self,
                  _id: str = str(uuid4()),
                  title: str = "",
                  description: str = "",
+                 summary: str = "",
                  category_id: str = "",
+                 total_points: int = 0,
                  created_at: float = time.time()):
         self._id = _id
         self.challenge_id = _id
         self.title = title
         self.description = description
+        self.summary = summary
+        self.total_points = total_points
         self.category_id = category_id
         self.created_at = created_at
 
