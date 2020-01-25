@@ -11,9 +11,6 @@ services:
 
   back:
     image: back:latest
-    working_dir: /app/
-    volumes:
-      - ./back:/app/
     environment:
       - FLASK_APP=app.py
       - HOST=0.0.0.0
