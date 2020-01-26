@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import { ActionTree } from 'vuex';
 import { ChallengesState, ChallengeCategory, Challenge } from './types';
 import { RootState } from '../types';
@@ -21,6 +22,7 @@ const actions: ActionTree<ChallengesState, RootState> = {
     api().post(`challenges/${edited.challenge_id}`, edited).then((res) => {
       const challengeEdited: Challenge = res && res.data;
       commit('setChallenge', challengeEdited);
+      Vue.toasted.show(`'${edited.title}' Challenge edited`);
     });
   },
   insertChallenge({ commit }, inputs: Challenge): void {

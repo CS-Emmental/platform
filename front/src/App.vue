@@ -24,6 +24,7 @@ export default class App extends Vue {
 
   public created() {
     this.getConfig();
+    this.$toasted.show('Bonjour');
   }
 }
 </script>
@@ -61,5 +62,15 @@ export default class App extends Vue {
 {
   border-radius: 10px;
   background-color: #2c3e50;
+}
+
+.toasted.toasted-primary.emmental-toast {
+  background-color: #2c3e50;
+  border-radius: 5px;
+  font-family: 'Orbitron', Helvetica, Arial, sans-serif;
+}
+
+.toasted.toasted-primary.emmental-toast-action {
+  color: white;
 }
 </style>
