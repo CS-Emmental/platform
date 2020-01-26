@@ -17,5 +17,13 @@ const mutations: MutationTree<ChallengesState> = {
       .findIndex((chall: Challenge) => chall.challenge_id === editedChallenge.challenge_id);
     state.challenges.splice(index, 1, editedChallenge);
   },
+  insertChallenge(state, insertedChallenge: Challenge) {
+    state.challenges.push(insertedChallenge);
+  },
+  deleteChallenge(state, challengId: string) {
+    const index = state.challenges
+      .findIndex((chall: Challenge) => chall.challenge_id === challengId);
+    state.challenges.splice(index, 1);
+  },
 };
 export default mutations;

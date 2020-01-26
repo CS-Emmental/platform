@@ -21,19 +21,29 @@
       <new-box
         v-if="hasPermission('admin')"
         collection="challenge"
+        @click.native="createMode=true"
       />
     </div>
+    <emmental-modal :is-active="createMode">
+      <challenge-edit-card
+        :challenge="newChallenge"
+        @quit="createMode=false"
+        @save="insert"
+      />
+    </emmental-modal>
   </div>
 </template>
 
 <script  lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
-import { Getter } from 'vuex-class';
-import { ChallengeCategory } from '../store/challenges/types';
+import { Getter, Action } from 'vuex-class';
+import { ChallengeCategory, Challenge } from '../store/challenges/types';
 
 import EmmentalBox from '@/components/EmmentalBox.vue';
+import EmmentalModal from '@/components/EmmentalModal.vue';
 import NewBox from '@/components/NewBox.vue';
 import ChallengeCard from '@/components/ChallengeCard.vue';
+import ChallengeEditCard from '@/components/ChallengeEditCard.vue';
 
 const namespace = 'challenges';
 
@@ -41,8 +51,10 @@ const namespace = 'challenges';
   name: 'ChallengesCategory',
   components: {
     EmmentalBox,
+    EmmentalModal,
     NewBox,
     ChallengeCard,
+    ChallengeEditCard,
   },
 })
 export default class ChallengesCategory extends Vue {
@@ -51,6 +63,10 @@ export default class ChallengesCategory extends Vue {
     required: true,
   })
   public categorySlug!: string;
+
+  public createMode = false;
+
+  public confirmDeleteMode = false;
 
   @Getter('getCategoryFromSlug', { namespace })
   public getCategoryFromSlug!: CallableFunction;
@@ -63,6 +79,28 @@ export default class ChallengesCategory extends Vue {
 
   @Getter('getChallengesByCategory', { namespace })
   public getChallengesByCategory!: CallableFunction;
+
+  @Action('insertChallenge', { namespace })
+  public insertChallenge!: CallableFunction;
+
+  public insert(insertChallenge: Challenge) {
+    const inserted = { ...insertChallenge };
+    delete inserted.challenge_id;
+    this.insertChallenge(inserted).then(() => {
+      this.createMode = false;
+    });
+  }
+
+  get newChallenge(): Challenge {
+    return this.category && {
+      challenge_id: '',
+      title: '',
+      summary: '',
+      description: '',
+      category_id: this.category.category_id,
+      total_points: 100,
+    };
+  }
 
   get categoryCount() {
     return this.category && this.getChallengesCountByCategory(this.category.category_id);
@@ -105,5 +143,8 @@ export default class ChallengesCategory extends Vue {
   align-content: center;
   flex-direction: column;
   text-align: center;
+}
+.modal-content {
+  width: 60vw;
 }
 </style>

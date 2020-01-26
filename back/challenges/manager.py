@@ -7,6 +7,18 @@ class ChallengesManager(MongoManager):
 
     def get_all(self):
         return [Challenge.from_dict(x) for x in super().get_all()]
+    
+    def get(self, challenge_id):
+        return Challenge.from_dict(super().get(challenge_id))
+
+    def update_one(self, challenge):
+        return super().update_one(challenge.challenge_id, challenge.to_insert_dict())
+    
+    def insert_one(self, challenge):
+        return super().insert_one(challenge.to_insert_dict())
+    
+    def remove_one(self, challenge):
+        return super().remove_one(challenge.challenge_id)
 
 class ChallengeCategoriesManager(MongoManager):
     def __init__(self):
@@ -16,10 +28,10 @@ class ChallengeCategoriesManager(MongoManager):
         return [ChallengeCategory.from_dict(x) for x in super().get_all()]
 
     def get_one(self,id):
-        return [Challenge.from_dict(x) for x in super().get_one(id)]
+        return [Challenge.from_dict(x) for x in super().get(id)]
     
     def update_one(self, data, id):
-        return super().update_one(data,id)
+        return super().update_one(id,data)
 
     def remove_one(self,id):
         return super().remove_one(id)

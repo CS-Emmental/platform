@@ -18,8 +18,20 @@ const actions: ActionTree<ChallengesState, RootState> = {
     });
   },
   postChallenge({ commit }, edited: Challenge): void {
-    api().post(`challenges/${edited.challenge_id}`, edited).then(() => {
-      commit('setChallenge', edited);
+    api().post(`challenges/${edited.challenge_id}`, edited).then((res) => {
+      const challengeEdited: Challenge = res && res.data;
+      commit('setChallenge', challengeEdited);
+    });
+  },
+  insertChallenge({ commit }, inputs: Challenge): void {
+    api().post('challenges', inputs).then((res) => {
+      const challengeInserted: Challenge = res && res.data;
+      commit('insertChallenge', challengeInserted);
+    });
+  },
+  deleteChallenge({ commit }, challengeId: string): void {
+    api().delete(`challenges/${challengeId}`).then(() => {
+      commit('deleteChallenge', challengeId);
     });
   },
 };

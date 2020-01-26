@@ -8,16 +8,15 @@ class MongoManager():
 
     def get_all(self):
         return self.collection.find()
-
-    def update_one(self,data,id):
-        return self.collection.update({"_id":id},{"$set":data})
-
-    def remove_one(self,id):
-        return self.collection.remove({"_id":id})
-    
-    def insert_one(self,data):
-        return self.collection.insert(data)
-
-    def get_one(self,id):
-        return self.collection.find({"_id":id})
         
+    def get(self, _id):
+        return self.collection.find_one({'_id': _id})
+
+    def update_one(self, _id, update_dict):
+        return self.collection.update({'_id': _id}, {'$set': update_dict})
+    
+    def insert_one(self, insert_dict):
+        return self.collection.insert(insert_dict)
+
+    def remove_one(self, delete_id):
+        return self.collection.remove({'_id': delete_id})

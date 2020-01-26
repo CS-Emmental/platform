@@ -1,5 +1,10 @@
 <template>
-  <div class="card">
+  <div
+    class="card"
+    tabindex="0"
+    @keyup.enter="$emit('save', challengeEdit)"
+    @keyup.esc="$emit('quit')"
+  >
     <header class="card-header">
       <p class="card-header-title">
         Edit Challenge
@@ -30,6 +35,17 @@
             class="input"
             type="text"
           >
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Category</label>
+        <div class="control">
+          <v-select
+            :options="challengeCategories"
+            :value="getCategoryById(challengeEdit.category_id)"
+            label="title"
+            @input="setCategory"
+          />
         </div>
       </div>
       <div class="field">
@@ -66,14 +82,20 @@
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
+import { State, Getter } from 'vuex-class';
+
+import vSelect from 'vue-select';
 import EmmentalRichTextEditor from '@/components/EmmentalRichTextEditor.vue';
 
-import { Challenge } from '../store/challenges/types';
+import { Challenge, ChallengeCategory } from '../store/challenges/types';
+
+const namespace = 'challenges';
 
 @Component({
   name: 'ChallengeEditCard',
   components: {
     EmmentalRichTextEditor,
+    vSelect,
   },
 })
 export default class ChallengeEditCard extends Vue {
@@ -83,13 +105,18 @@ export default class ChallengeEditCard extends Vue {
   })
   public challenge: Challenge|undefined;
 
+  @State('challengeCategories', { namespace })
+  public challengeCategories: ChallengeCategory[]|undefined;
+
+  @Getter('getCategoryById', { namespace })
+  public getCategoryById!: CallableFunction;
+
   public challengeEdit: Challenge = {
     challenge_id: '',
     title: '',
     summary: '',
     description: '',
     category_id: '',
-    icon: '',
     total_points: 0,
   };
 
@@ -97,6 +124,10 @@ export default class ChallengeEditCard extends Vue {
     if (this.challenge) {
       this.challengeEdit = { ...this.challenge };
     }
+  }
+
+  public setCategory(value) {
+    this.challengeEdit.category_id = value.category_id;
   }
 }
 </script>
@@ -112,5 +143,10 @@ export default class ChallengeEditCard extends Vue {
 }
 .buttons {
   margin-bottom: 0;
+}
+.card {
+  border-radius: 5px;
+  width: 60vw;
+  margin: auto;
 }
 </style>

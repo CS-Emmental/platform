@@ -14,7 +14,6 @@ export interface Challenge {
   challenge_id: string;
   title: string;
   category_id: string;
-  icon: string;
   summary: string;
   description: string;
   total_points: number;
