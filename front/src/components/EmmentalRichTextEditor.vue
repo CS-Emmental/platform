@@ -165,7 +165,7 @@ export default class EmmentalRichTextEditor extends Vue {
         new History(),
       ],
       content: this.content,
-      onUpdate: ({ getHTML }) => {
+      onUpdate: ({ getHTML }: { getHTML: CallableFunction }) => {
         this.$emit('update', getHTML());
       },
     });

@@ -37,5 +37,9 @@
   ],
   "exclude": [
     "node_modules"
+  ],
+  "files": [
+    "./typedefs/tiptap.d.ts",
+    "./typedefs/tiptap-extensions.d.ts"
   ]
 }
