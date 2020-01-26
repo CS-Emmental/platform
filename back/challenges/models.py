@@ -37,8 +37,7 @@ class ChallengeCategory(Document):
         self.title = title
         self.icon = icon
         self.description = description
-        self.created_at = created_at
-        self._id = str(uuid4()) if not created_at else created_at
+        self.created_at = time.time() if not created_at else created_at
 
 
     def update(self,inputs: dict = {}):
