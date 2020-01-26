@@ -1,6 +1,5 @@
 import time
 from uuid import uuid4
-from flask import current_app
 from core.models import Document, from_dict_class
 
 class ChallengeCategory(Document):
