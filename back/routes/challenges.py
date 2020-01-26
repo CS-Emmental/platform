@@ -1,7 +1,13 @@
 from flask import Blueprint, jsonify, current_app, request
 from flask_login import current_user, login_required
 
-from challenges.controller import get_challenge_categories,update_challenge_categories,delete_challenge_categories,create_challenge_categories,get_all_challenges
+from challenges.controller import (
+    get_challenge_categories,
+    get_all_challenges,
+    update_challenge_categories,
+    delete_challenge_categories,
+    create_challenge_categories
+)
 
 challenges = Blueprint('challenges', 'challenges')
 
