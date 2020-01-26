@@ -15,7 +15,7 @@ def update_categories():
     if current_user.has_permissions(['admin']):
         inputs = request.json
         current_app.logger.debug(inputs)
-        return update_challenge_categories(inputs)
+        return update_challenge_category(inputs)
     else :
         return jsonify('error') 
 
@@ -24,7 +24,7 @@ def delete_categories():
     if current_user.has_permissions(['admin']):
         inputs = request.json
         current_app.logger.debug(inputs)
-        return delete_challenge_categories(inputs)
+        return delete_challenge_category(inputs)
     else :
         return jsonify('error') 
 
@@ -33,7 +33,7 @@ def create_categories():
     if current_user.has_permissions(['admin']):
         inputs = request.json
         current_app.logger.debug(inputs)
-        return create_challenge_categories(inputs)
+        return create_challenge_category(inputs)
     else :
         return jsonify('error')  
     

@@ -6,7 +6,7 @@ def get_challenge_categories():
     categories = ChallengeCategoriesManager().get_all()
     return categories
 
-def update_challenge_categories(inputs):
+def update_challenge_category(inputs):
     current_id = inputs['category_id']
     existingCategory = ChallengeCategoriesManager().get_one(current_id)
     categorieToUpdate = ChallengeCategory(current_id,existingCategory)
@@ -16,13 +16,13 @@ def update_challenge_categories(inputs):
     else:
         return "error"
 
-def delete_challenge_categories(inputs):
+def delete_challenge_category(inputs):
     if ChallengeCategoriesManager().remove_one(inputs["category_id"]):
         return str(inputs['title']) +" successfully deleted"
     else:
         return "error"
 
-def create_challenge_categories(inputs):
+def create_challenge_category(inputs):
     challengeCategory = ChallengeCategory(**inputs)
     if ChallengeCategoriesManager().insert_one(challengeCategory.to_insert_dict()):
         return str(challengeCategory.title) +" successfully created"
