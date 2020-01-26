@@ -39,12 +39,6 @@ class ChallengeCategory(Document):
         self.description = description
         self.created_at = time.time() if not created_at else created_at
 
-
-    def update(self,inputs: dict = {}):
-        inputs = {k: inputs[k] for k in self.editable_fields}
-        for key in inputs:
-            setattr(self, key, inputs[key])
-
     @staticmethod
     def from_dict(dict_object: dict):
         return from_dict_class(dict_object, ChallengeCategory)

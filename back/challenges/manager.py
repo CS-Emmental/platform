@@ -27,14 +27,14 @@ class ChallengeCategoriesManager(MongoManager):
     def get_all(self):
         return [ChallengeCategory.from_dict(x) for x in super().get_all()]
 
-    def get_one(self,id):
-        return [Challenge.from_dict(x) for x in super().get(id)]
+    def get(self, category_id):
+        return ChallengeCategory.from_dict(super().get(category_id))
+
+    def update_one(self, category):
+        return super().update_one(category.category_id, category.to_insert_dict())
     
-    def update_one(self, data, id):
-        return super().update_one(id,data)
-
-    def remove_one(self,id):
-        return super().remove_one(id)
-
-    def insert_one(self,data):
-        return super().insert_one(data)
+    def insert_one(self, category):
+        return super().insert_one(category.to_insert_dict())
+    
+    def remove_one(self, category):
+        return super().remove_one(category.category_id)

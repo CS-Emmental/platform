@@ -7,9 +7,9 @@ from challenges.controller import (
     update_challenge,
     insert_challenge,
     remove_challenge,
-    update_challenge_categories,
-    delete_challenge_categories,
-    create_challenge_categories,
+    update_challenge_category,
+    remove_challenge_category,
+    insert_challenge_category,
 )
 
 challenges = Blueprint('challenges', 'challenges')
@@ -19,31 +19,30 @@ def get_categories():
     categories = get_challenge_categories()
     return jsonify([c.to_dict() for c in categories])
 
-@challenges.route('/challenge-categories/update', methods=['POST'])
-def update_categories():
+@challenges.route('/challenge-category/<challenge_category_id>', methods=['POST'])
+def update_categories(challenge_category_id: str):
+    update_dict = request.json
     if current_user.has_permissions(['admin']):
-        inputs = request.json
-        current_app.logger.debug(inputs)
-        return update_challenge_category(inputs)
-    else :
+        updated = update_challenge_category(challenge_category_id, update_dict)
+        return jsonify(updated.to_dict())
+    else:
         return jsonify('unauthorized')
 
-@challenges.route('/challenge-categories/delete', methods=['POST'])
-def delete_categories():
+@challenges.route('/challenge-category/<challenge_category_id>', methods=['DELETE'])
+def delete_categories(challenge_category_id: str):
     if current_user.has_permissions(['admin']):
-        inputs = request.json
-        current_app.logger.debug(inputs)
-        return delete_challenge_category(inputs)
-    else :
+        deleted_response = remove_challenge_category(challenge_category_id)
+        return jsonify(deleted_response)
+    else:
         return jsonify('unauthorized')
 
-@challenges.route('/challenge-categories/create', methods=['POST'])
+@challenges.route('/challenge-category/', methods=['POST'])
 def create_categories():
+    insert_dict = request.json
     if current_user.has_permissions(['admin']):
-        inputs = request.json
-        current_app.logger.debug(inputs)
-        return create_challenge_category(inputs)
-    else :
+        inserted = insert_challenge_category(insert_dict)
+        return jsonify(inserted.to_dict())
+    else:
         return jsonify('unauthorized')
     
 @challenges.route('/challenges')
