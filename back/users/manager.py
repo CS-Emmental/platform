@@ -9,7 +9,8 @@ class UserManager(MongoManager):
         return User.from_dict(self.collection.find_one({"_id": user_id}))
 
     def get_one_by_query(self, query):
-        return User.from_dict(self.collection.find_one(query))
+        result = self.collection.find_one(query)
+        return User.from_dict(result) if result else None
 
     def get_all(self):
         return [User.from_dict(x) for x in super().get_all()]
