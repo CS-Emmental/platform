@@ -1,7 +1,16 @@
 from flask import Blueprint, jsonify, current_app, request
 from flask_login import current_user, login_required
 
-from challenges.controller import get_challenge_categories, get_all_challenges, update_challenge, insert_challenge, remove_challenge
+from challenges.controller import (
+    get_challenge_categories,
+    get_all_challenges,
+    update_challenge,
+    insert_challenge,
+    remove_challenge,
+    update_challenge_category,
+    remove_challenge_category,
+    insert_challenge_category,
+)
 
 challenges = Blueprint('challenges', 'challenges')
 
@@ -10,6 +19,32 @@ def get_categories():
     categories = get_challenge_categories()
     return jsonify([c.to_dict() for c in categories])
 
+@challenges.route('/challenge-category/<challenge_category_id>', methods=['POST'])
+def update_categories(challenge_category_id: str):
+    update_dict = request.json
+    if current_user.has_permissions(['admin']):
+        updated = update_challenge_category(challenge_category_id, update_dict)
+        return jsonify(updated.to_dict())
+    else:
+        return jsonify('unauthorized')
+
+@challenges.route('/challenge-category/<challenge_category_id>', methods=['DELETE'])
+def delete_categories(challenge_category_id: str):
+    if current_user.has_permissions(['admin']):
+        deleted_response = remove_challenge_category(challenge_category_id)
+        return jsonify(deleted_response)
+    else:
+        return jsonify('unauthorized')
+
+@challenges.route('/challenge-category/', methods=['POST'])
+def create_categories():
+    insert_dict = request.json
+    if current_user.has_permissions(['admin']):
+        inserted = insert_challenge_category(insert_dict)
+        return jsonify(inserted.to_dict())
+    else:
+        return jsonify('unauthorized')
+    
 @challenges.route('/challenges')
 def get_challenges():
     challenges = get_all_challenges()

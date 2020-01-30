@@ -126,7 +126,7 @@ export default class ChallengeEditCard extends Vue {
     }
   }
 
-  public setCategory(value) {
+  public setCategory(value: ChallengeCategory) {
     this.challengeEdit.category_id = value.category_id;
   }
 }

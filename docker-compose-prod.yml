@@ -1,12 +1,7 @@
 version: "3"
 services:
   front:
-    build:
-      context: ./front
-      dockerfile: prod.Dockerfile
-    working_dir: /usr/src/app
-    volumes:
-      - ./front:/usr/src/app:cached
+    image: front:latest
     environment:
       - HOST=0.0.0.0
     ports:
@@ -15,19 +10,12 @@ services:
       - back
 
   back:
-    build:
-      context: ./back
-      dockerfile: Dockerfile
-    working_dir: /app/
-    volumes:
-      - ./back:/app/
+    image: back:latest
     environment:
       - FLASK_APP=app.py
       - HOST=0.0.0.0
-      - FLASK_DEBUG=0
     ports:
       - 5000:5000
-    command: flask run --host=0.0.0.0 --port 5000
 
   mongo:
     image: mongo
