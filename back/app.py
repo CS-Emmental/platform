@@ -2,6 +2,7 @@ import os
 import traceback
 
 from flask import Flask, jsonify
+from flask.logging import create_logger
 from flask_cors import CORS
 from flask_pymongo import PyMongo
 from flask_login import LoginManager, current_user
@@ -10,7 +11,6 @@ from routes.challenges import challenges
 from routes.users import users
 
 from users.manager import UserManager
-from users.models import User
 
 from core.exceptions import EmmentalException
 
@@ -26,6 +26,7 @@ def create_app():
     login_manager = LoginManager()
     login_manager.init_app(app)
     CORS(app, supports_credentials=True)
+    app.logger = create_logger(app)
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -38,18 +39,18 @@ def create_app():
         pass
 
     @app.errorhandler(EmmentalException)
-    def handle_exception(e):
+    def handle_emmental_exception(e):
         app.logger.error(traceback.format_exc())
-        response = jsonify ({
+        response = jsonify({
             'error_code': e.error_code,
             'error_message': e.error_message,
         })
         return response, e.status_code
 
     @app.errorhandler(Exception)
-    def handle_exception(e):
+    def handle_exception():
         app.logger.error(traceback.format_exc())
-        response = jsonify ({
+        response = jsonify({
             'error_code': -1,
             'error_message': 'Unknown Error',
         })
