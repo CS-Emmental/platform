@@ -10,12 +10,12 @@ prod: build-prod run-prod
 run: run-dev
 build: build-dev
 
-# Atom receipes
+# Atomic receipes
 build-dev:
 	docker-compose -f "docker-compose.yml" build 
 
 run-dev:
-	docker-compose -f "docker-compose.yml" up -d 
+	docker-compose -f "docker-compose.yml" up -d --build
 
 build-prod:
 	docker build ./back/ -f ./back/prod.Dockerfile -t back --no-cache
