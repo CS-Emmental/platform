@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 pylint-flask = "*"
+pytest = "==5.3.*"
 
 [packages]
 flask = "==1.1.*"
