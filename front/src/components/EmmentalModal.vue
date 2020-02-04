@@ -28,6 +28,5 @@ export default class EmmentalModal extends Vue {
 <style lang="scss" scoped>
 .modal-content {
   width: 100vw;
-  text-align: center;
 }
 </style>

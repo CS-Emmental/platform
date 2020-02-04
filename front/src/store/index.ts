@@ -11,7 +11,7 @@ Vue.use(Vuex);
 
 const actions: ActionTree<RootState, RootState> = {
   getConfig({ commit }): void {
-    api().get('config').then((res) => {
+    api.get('config').then((res) => {
       const version: string = res && res.data && res.data.version;
       commit('setVersion', version);
       const isAuthenticated = res && res.data && res.data.isAuthenticated;
@@ -23,7 +23,7 @@ const actions: ActionTree<RootState, RootState> = {
     });
   },
   login({ commit }, inputs): void {
-    api().post('login', inputs).then((res) => {
+    api.post('login', inputs).then((res) => {
       const user: User = res && res.data;
       commit('setCurrentUser', user);
       commit('setIsAuthenticated', true);
@@ -33,7 +33,7 @@ const actions: ActionTree<RootState, RootState> = {
     });
   },
   signup({ commit }, inputs): void {
-    api().post('signup', inputs).then((res) => {
+    api.post('signup', inputs).then((res) => {
       const user: User = res && res.data;
       commit('setCurrentUser', user);
       commit('setIsAuthenticated', true);
@@ -43,7 +43,7 @@ const actions: ActionTree<RootState, RootState> = {
     });
   },
   logout({ commit }): void {
-    api().get('logout').then(() => {
+    api.get('logout').then(() => {
       commit('setCurrentUser', undefined);
       commit('setIsAuthenticated', false);
 

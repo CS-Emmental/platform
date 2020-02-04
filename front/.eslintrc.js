@@ -17,6 +17,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     '@typescript-eslint/camelcase': ['error', { properties: 'never' }],
+    'import/no-named-as-default': 0,
   },
 
   parserOptions: {

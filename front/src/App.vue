@@ -62,4 +62,19 @@ export default class App extends Vue {
   border-radius: 10px;
   background-color: #2c3e50;
 }
+
+.toasted-primary.emmental-toast {
+  background-color: #2c3e50;
+  border-radius: 5px;
+  font-family: 'Orbitron', Helvetica, Arial, sans-serif;
+  line-height: 1.5rem;
+
+  .emmental-toast-action {
+    color: white;
+  }
+}
+
+.toasted-primary.emmental-toast.error {
+  background-color: #d14a38;
+}
 </style>

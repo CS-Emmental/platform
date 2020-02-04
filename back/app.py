@@ -1,4 +1,5 @@
 import os
+import traceback
 
 from flask import Flask, jsonify
 from flask_cors import CORS
@@ -10,6 +11,8 @@ from routes.users import users
 
 from users.manager import UserManager
 from users.models import User
+
+from core.exceptions import EmmentalException
 
 def create_app():
     # create and configure the app
@@ -33,6 +36,24 @@ def create_app():
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    @app.errorhandler(EmmentalException)
+    def handle_exception(e):
+        app.logger.error(traceback.format_exc())
+        response = jsonify ({
+            'error_code': e.error_code,
+            'error_message': e.error_message,
+        })
+        return response, e.status_code
+
+    @app.errorhandler(Exception)
+    def handle_exception(e):
+        app.logger.error(traceback.format_exc())
+        response = jsonify ({
+            'error_code': -1,
+            'error_message': 'Unknown Error',
+        })
+        return response, 500
 
     app.register_blueprint(users)
     app.register_blueprint(challenges)
