@@ -7,8 +7,8 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import { Action } from 'vuex-class';
+import { Vue, Component, Watch } from 'vue-property-decorator';
+import { Action, State } from 'vuex-class';
 import EmmentalNavbar from '@/components/EmmentalNavbar.vue';
 import EmmentalSidebar from '@/components/EmmentalSidebar.vue';
 
@@ -21,6 +21,19 @@ import EmmentalSidebar from '@/components/EmmentalSidebar.vue';
 export default class App extends Vue {
   @Action('getConfig')
   public getConfig!: CallableFunction;
+
+  @Action('challenges/getCurrentuserChallengeParticipations')
+  public getCurrentuserChallengeParticipations!: CallableFunction;
+
+  @State('isAuthenticated')
+  public isAuthenticated!: boolean;
+
+  @Watch('isAuthenticated')
+  onIsAuthenticated(value: boolean) {
+    if (value) {
+      this.getCurrentuserChallengeParticipations();
+    }
+  }
 
   public created() {
     this.getConfig();
@@ -39,10 +52,17 @@ export default class App extends Vue {
   color: #2c3e50;
   height: 100vh;
   background-color: #e0e0e0;
+
+  .button {
+    font-family: 'Orbitron', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 .main {
   margin-left: 18vw;
   padding: 1rem;
+  padding-top: 8vh;
 }
 *::-webkit-scrollbar-track
 {
