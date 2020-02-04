@@ -54,15 +54,20 @@
             >
               Log in
             </router-link>
-            <div v-else>
-              <a
+            <template v-else>
+              <button
                 class="button is-light"
                 @click="logout"
               >
                 Log out
-              </a>
-              <span>{{ currentUser.username }}</span>
-            </div>
+              </button>
+              <router-link
+                to="/profile"
+                class="button is-primary"
+              >
+                {{ currentUser.username }}
+              </router-link>
+            </template>
           </div>
         </div>
       </div>
@@ -90,6 +95,10 @@ export default class EmmentalNavbar extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.navbar {
+  position: fixed;
+  width: 100%;
+}
 .emmental-logo {
   width: 35px;
   height: 60px;
