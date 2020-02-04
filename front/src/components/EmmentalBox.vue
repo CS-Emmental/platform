@@ -2,13 +2,7 @@
   <div class="box emmental-box">
     <div class="box-header level">
       <div class="level-left">
-        <h1 class="title is- level-item">
-          <i
-            :class="icon"
-            class="title-icon"
-          />
-          {{ title }}
-        </h1>
+        <slot name="header" />
       </div>
       <div class="level-right">
         <div
@@ -44,12 +38,7 @@
         </div>
       </div>
     </div>
-    <p class="subtitle is-4">
-      {{ subtitle }}
-    </p>
-    <p>
-      {{ content }}
-    </p>
+    <slot name="content" />
   </div>
 </template>
 
@@ -68,30 +57,6 @@ interface Action {
 })
 export default class EmmentalBox extends Vue {
   @Prop({
-    type: String,
-    required: true,
-  })
-  public title!: string;
-
-  @Prop({
-    type: String,
-    required: false,
-  })
-  public subtitle: string|undefined;
-
-  @Prop({
-    type: String,
-    required: false,
-  })
-  public icon: string|undefined;
-
-  @Prop({
-    type: String,
-    required: false,
-  })
-  public content: string|undefined;
-
-  @Prop({
     type: Array as () => Action[],
     required: false,
   })
@@ -106,17 +71,8 @@ export default class EmmentalBox extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.card-header-title {
-  margin-bottom: 0;
-}
-.emmental-box:not(:last-child) {
-  margin-bottom: 0;
-}
 .emmental-box {
   border-radius: 5px;
-}
-.title-icon {
-  margin-right: .5rem;
 }
 .dropdown-trigger {
   cursor: pointer;

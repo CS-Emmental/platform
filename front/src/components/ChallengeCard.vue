@@ -1,17 +1,29 @@
 <template>
-  <emmental-card
-    :title="challenge.title"
-    :link="`/challenges/${categorySlug}/${challengeSlug}`"
-    :content="challenge.summary"
-    :subtitle="`todo/${challenge.total_points} points`"
-  />
+  <emmental-card>
+    <template v-slot:header>
+      <router-link
+        :to="`/challenges/${categorySlug}/${challengeSlug}`"
+        class="subtitle is-4 card-header-title"
+      >
+        {{ challenge.title }}
+      </router-link>
+    </template>
+    <template v-slot:content>
+      <p class="subtitle is-6">
+        {{ points }}/{{ challenge.total_points }} points
+      </p>
+      <p>
+        {{ challenge.summary }}
+      </p>
+    </template>
+  </emmental-card>
 </template>
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import EmmentalCard from '@/components/EmmentalCard.vue';
-import { Challenge } from '../store/challenges/types';
+import { Challenge, ChallengeParticipation } from '../store/challenges/types';
 import { slug } from '../store/utils';
 
 const namespace = 'challenges';
@@ -42,6 +54,22 @@ export default class ChallengeCard extends Vue {
 
   get challengeSlug() {
     return this.challenge && slug(this.challenge.title);
+  }
+
+  // Challenge Participation
+
+  @Getter('getParticipationByChallengeId', { namespace })
+  public getParticipationByChallengeId!: CallableFunction;
+
+  get participation(): ChallengeParticipation|undefined {
+    const challengeId = this.challenge && this.challenge.challenge_id;
+    return this.getParticipationByChallengeId(challengeId);
+  }
+
+  get points() {
+    const progress = this.participation ? this.participation.progress : 0;
+    const totalPoints = this.challenge ? this.challenge.total_points : 0;
+    return progress * totalPoints;
   }
 }
 </script>

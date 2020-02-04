@@ -1,16 +1,7 @@
 <template>
   <div class="card emmental-card">
     <header class="card-header">
-      <router-link
-        :to="link ? link : ''"
-        class="subtitle is-4 card-header-title"
-      >
-        <i
-          class="title-icon"
-          :class="icon"
-        />
-        {{ title }}
-      </router-link>
+      <slot name="header" />
       <div
         v-if="actions"
         class="card-header-icon"
@@ -48,14 +39,7 @@
       </div>
     </header>
     <div class="card-content">
-      <p class="subtitle is-6">
-        {{ subtitle }}
-      </p>
-      <slot name="content">
-        <p>
-          {{ content }}
-        </p>
-      </slot>
+      <slot name="content" />
     </div>
   </div>
 </template>
@@ -76,37 +60,6 @@ interface Action {
 })
 export default class EmmentalCard extends Vue {
   @Prop({
-    type: String,
-    required: true,
-  })
-  public title!: string;
-
-  @Prop({
-    type: String,
-    required: false,
-  })
-  public link: string|undefined;
-
-
-  @Prop({
-    type: String,
-    required: false,
-  })
-  public icon: string|undefined;
-
-  @Prop({
-    type: String,
-    required: false,
-  })
-  public subtitle: string|undefined;
-
-  @Prop({
-    type: String,
-    required: false,
-  })
-  public content: string|undefined;
-
-  @Prop({
     type: Array as () => Action[],
     required: false,
   })
@@ -121,17 +74,11 @@ export default class EmmentalCard extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.card-header-title {
-  margin-bottom: 0;
-}
 .emmental-card:not(:last-child) {
   margin-bottom: 0;
 }
 .emmental-card {
   border-radius: 5px;
-}
-.title-icon {
-  margin-right: .5rem;
 }
 .dropdown-trigger {
   cursor: pointer;

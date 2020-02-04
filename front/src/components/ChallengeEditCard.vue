@@ -66,6 +66,39 @@
           @update="(edited) => challengeEdit.description = edited"
         />
       </div>
+      <label class="label">Hints</label>
+      <div
+        v-for="(hint, index) in challengeEdit.hints"
+        :key="index"
+        class="field is-horizontal"
+      >
+        <div class="field-body">
+          <div class="field cost-field">
+            <p class="control has-icons-left">
+              <input
+                class="input"
+                type="number"
+                placeholder="Cost"
+                :value="hint.cost*challengeEdit.total_points"
+                @input="hint.cost = $event.target.value / challengeEdit.total_points"
+              >
+              <span class="icon is-small is-left">
+                <i class="fas fa-dollar-sign" />
+              </span>
+            </p>
+          </div>
+          <div class="field">
+            <p class="control is-expanded">
+              <input
+                v-model="hint.text"
+                class="input"
+                type="text"
+                placeholder="Hint"
+              >
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
     <footer class="card-footer">
       <a
@@ -118,6 +151,7 @@ export default class ChallengeEditCard extends Vue {
     description: '',
     category_id: '',
     total_points: 0,
+    hints: [],
   };
 
   public created() {
@@ -148,5 +182,13 @@ export default class ChallengeEditCard extends Vue {
   border-radius: 5px;
   width: 60vw;
   margin: auto;
+}
+.card-content {
+  height: 80vh;
+  overflow-x: auto;
+}
+.field-body .field.cost-field {
+  width: 10%;
+  flex-grow: 0;
 }
 </style>

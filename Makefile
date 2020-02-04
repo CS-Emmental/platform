@@ -1,8 +1,21 @@
-run:
-	docker-compose -f "docker-compose.yml" up --build -d 
+.PHONY: build-dev run-dev build-prod run-prod dev
 
-build:
+
+all: dev
+
+dev: build-dev run-dev
+prod: build-prod run-prod
+
+# Alias for dev
+run: run-dev
+build: build-dev
+
+# Atomic receipes
+build-dev:
 	docker-compose -f "docker-compose.yml" build 
+
+run-dev:
+	docker-compose -f "docker-compose.yml" up -d --build
 
 build-prod:
 	docker build ./back/ -f ./back/prod.Dockerfile -t back --no-cache

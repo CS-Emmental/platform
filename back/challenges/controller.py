@@ -1,5 +1,6 @@
-from challenges.manager import ChallengeCategoriesManager, ChallengesManager
-from challenges.models import ChallengeCategory, Challenge
+from challenges.manager import ChallengeCategoriesManager, ChallengesManager, ChallengeParticipationsManager
+from challenges.models import ChallengeCategory, Challenge, ChallengeParticipation
+from flask_login import current_user
 
 def get_challenge_categories():
     categories = ChallengeCategoriesManager().get_all()
@@ -56,3 +57,23 @@ def remove_challenge(challenge_id: str):
         return ChallengesManager().remove_one(challenge_deleted)
     except Exception:
         return 'error' 
+
+def start_participation(options: dict):
+    options['user_id'] = current_user.user_id
+    new_participation = ChallengeParticipation(**options)
+    ChallengeParticipationsManager().insert_one(new_participation)
+    return new_participation
+
+def get_currentuser_participations():
+    currentuser_id = current_user.user_id
+    participations = ChallengeParticipationsManager().get_query({'user_id': currentuser_id})
+    return participations
+
+def update_participation(participation_id: str, inputs: dict):
+    participation_updated = ChallengeParticipationsManager().get(participation_id)
+    participation_updated.update(inputs)
+    try:
+        ChallengeParticipationsManager().update_one(participation_updated)
+        return participation_updated
+    except Exception:
+        return 'error'

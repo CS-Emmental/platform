@@ -1,7 +1,7 @@
 import setuptools
 
 setuptools.setup(
-    name='Emmental-API-centralesupelec',  
+    name='Emmental-API-centralesupelec',
     version='0.1',
     author="Emmental CS student group",
     author_email="theo.bonnard@supelec.fr",
@@ -13,4 +13,4 @@ setuptools.setup(
         # "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
- )
+)

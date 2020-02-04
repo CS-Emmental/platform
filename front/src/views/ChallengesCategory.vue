@@ -2,13 +2,27 @@
   <div class="challenge-category">
     <emmental-box
       v-if="category"
-      :title="category.title"
-      :icon="category.icon"
-      :subtitle="`${categoryCount} Challenge${categoryCount == 1 ? '' : 's'}`"
-      :content="category.description"
       :actions="actions"
       class="header-box"
-    />
+    >
+      <template v-slot:header>
+        <h1 class="title level-item">
+          <i
+            :class="category.icon"
+            class="title-icon"
+          />
+          {{ category.title }}
+        </h1>
+      </template>
+      <template v-slot:content>
+        <p class="subtitle is-4">
+          {{ categoryCount }} Challenge{{ categoryCOunt === 1 ? '': 's' }}
+        </p>
+        <p>
+          {{ category.description }}
+        </p>
+      </template>
+    </emmental-box>
     <div
       v-if="category"
       class="challenges"
@@ -99,6 +113,7 @@ export default class ChallengesCategory extends Vue {
       description: '',
       category_id: this.category.category_id,
       total_points: 100,
+      hints: [],
     };
   }
 

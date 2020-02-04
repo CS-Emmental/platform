@@ -1,11 +1,26 @@
 <template>
-  <emmental-card
-    :title="category.title"
-    :link="`/challenges/${categorySlug}`"
-    :icon="category.icon"
-    :subtitle="`${categoryCount} Challenge${categoryCount == 1 ? '' : 's'}`"
-    :content="category.description"
-  />
+  <emmental-card>
+    <template v-slot:header>
+      <router-link
+        :to="`/challenges/${categorySlug}`"
+        class="subtitle is-4 card-header-title"
+      >
+        <i
+          class="title-icon"
+          :class="category.icon"
+        />
+        {{ category.title }}
+      </router-link>
+    </template>
+    <template v-slot:content>
+      <p class="subtitle is-6">
+        {{ categoryCount }} Challenge{{ categorCount === 1 ? '' : s }}
+      </p>
+      <p>
+        {{ category.description }}
+      </p>
+    </template>
+  </emmental-card>
 </template>
 
 <script lang="ts">
@@ -44,4 +59,7 @@ export default class ChallengesCategoryCard extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.title-icon {
+  margin-right: .5rem;
+}
 </style>

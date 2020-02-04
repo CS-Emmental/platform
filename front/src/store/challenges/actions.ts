@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import { ActionTree } from 'vuex';
-import { ChallengesState, ChallengeCategory, Challenge } from './types';
+import {
+  ChallengesState, ChallengeCategory, Challenge, ChallengeParticipation,
+} from './types';
 import { RootState } from '../types';
 import api from '../api';
 
@@ -34,6 +36,24 @@ const actions: ActionTree<ChallengesState, RootState> = {
   deleteChallenge({ commit }, challengeId: string): void {
     api.delete(`challenges/${challengeId}`).then(() => {
       commit('deleteChallenge', challengeId);
+    });
+  },
+  getCurrentuserChallengeParticipations({ commit }): void {
+    api.get('challenge-participations/current-user').then((res) => {
+      const participations: ChallengeParticipation[] = res && res.data;
+      commit('setCurrentuserChallengeParticipations', participations);
+    });
+  },
+  startChallengeParticipation({ commit }, challengeId: string): void {
+    api.post('challenge-participations', { challenge_id: challengeId }).then((res) => {
+      const participation: ChallengeParticipation = res && res.data;
+      commit('insertCurrentuserChallengeParticipation', participation);
+    });
+  },
+  postParticipation({ commit }, edited: ChallengeParticipation): void {
+    api.post(`challenge-participations/${edited.participation_id}`, edited).then((res) => {
+      const participationEdited: ChallengeParticipation = res && res.data;
+      commit('setParticipation', participationEdited);
     });
   },
 };

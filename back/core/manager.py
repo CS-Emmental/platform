@@ -12,6 +12,9 @@ class MongoManager():
     def get(self, _id):
         return self.collection.find_one({'_id': _id})
 
+    def get_query(self, query):
+        return self.collection.find(query)
+
     def update_one(self, _id, update_dict):
         return self.collection.update({'_id': _id}, {'$set': update_dict})
     
