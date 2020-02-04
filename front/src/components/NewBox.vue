@@ -34,12 +34,6 @@ export default class NewBox extends Vue {
 .card-header-title {
   margin-bottom: 0;
 }
-.emmental-box:not(:last-child) {
-  margin-bottom: 0;
-}
-.emmental-box {
-  border-radius: 5px;
-}
 .title-icon {
   margin-right: .5rem;
 }

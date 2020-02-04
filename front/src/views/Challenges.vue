@@ -1,13 +1,22 @@
 <template>
   <div class="challenges">
-    <emmental-box
-      title="Challenges"
-      icon="fas fa-shield-alt"
-      subtitle="Many challenges to train various skills, from server attack to cryptography."
-      content="Click on one of the following categories to
-        explore numerous challenges proposed by CS Emmental team or others."
-      class="header-box"
-    />
+    <emmental-box class="header-box">
+      <template v-slot:header>
+        <h1 class="title level-item">
+          <i class="title-icon fas fa-shield-alt" />
+          Challenges
+        </h1>
+      </template>
+      <template v-slot:content>
+        <p class="subtitle is-4">
+          Many challenges to train various skills, from server attack to cryptography.
+        </p>
+        <p>
+          Click on one of the following categories to
+          explore numerous challenges proposed by CS Emmental team or others.
+        </p>
+      </template>
+    </emmental-box>
     <div class="categories">
       <challenges-category-card
         v-for="category in categories"
@@ -63,5 +72,8 @@ export default class Challenges extends Vue {
 .header-box {
   padding-top: 3rem;
   padding-bottom: 3rem;
+  .title-icon {
+    margin-right: .5rem;
+  }
 }
 </style>
