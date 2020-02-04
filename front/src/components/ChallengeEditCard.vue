@@ -70,45 +70,57 @@
       <div
         v-for="(hint, index) in challengeEdit.hints"
         :key="index"
-        class="field is-horizontal"
+        class="field is-grouped"
       >
-        <div class="field-body">
-          <div class="field cost-field">
-            <p class="control has-icons-left">
-              <input
-                class="input"
-                type="number"
-                placeholder="Cost"
-                :value="hint.cost*challengeEdit.total_points"
-                @input="hint.cost = $event.target.value / challengeEdit.total_points"
-              >
-              <span class="icon is-small is-left">
-                <i class="fas fa-dollar-sign" />
-              </span>
-            </p>
-          </div>
-          <div class="field">
-            <p class="control is-expanded">
-              <input
-                v-model="hint.text"
-                class="input"
-                type="text"
-                placeholder="Hint"
-              >
-            </p>
-          </div>
-        </div>
+        <p class="control has-icons-left">
+          <input
+            class="input"
+            type="number"
+            placeholder="Cost"
+            :value="hint.cost*challengeEdit.total_points"
+            @input="hint.cost = $event.target.value / challengeEdit.total_points"
+          >
+          <span class="icon is-small is-left">
+            <i class="fas fa-dollar-sign" />
+          </span>
+        </p>
+        <p class="control is-expanded">
+          <input
+            v-model="hint.text"
+            class="input"
+            type="text"
+            placeholder="Hint"
+          >
+        </p>
+        <p class="control">
+          <a
+            class="button is-light is-rounded"
+            @click="challengeEdit.hints.splice(index, 1)"
+          >
+            <i class="fas fa-times" />
+          </a>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control">
+          <a
+            class="button is-light is-rounded"
+            @click="onNewHint"
+          >
+            <i class="fas fa-plus plus-icon" />Add hint
+          </a>
+        </p>
       </div>
     </div>
     <footer class="card-footer">
       <a
         class="card-footer-item"
-        @click="$emit('save', challengeEdit)"
-      >Save</a>
-      <a
-        class="card-footer-item"
         @click="$emit('quit')"
       >Cancel</a>
+      <a
+        class="card-footer-item"
+        @click="$emit('save', challengeEdit)"
+      >Save</a>
     </footer>
   </div>
 </template>
@@ -157,7 +169,17 @@ export default class ChallengeEditCard extends Vue {
   public created() {
     if (this.challenge) {
       this.challengeEdit = { ...this.challenge };
+      if (this.challengeEdit.hints) {
+        this.challengeEdit.hints = [...this.challenge.hints];
+      }
     }
+  }
+
+  public onNewHint() {
+    if (!this.challengeEdit.hints) {
+      this.challengeEdit.hints = [];
+    }
+    this.challengeEdit.hints.push({ cost: 0, text: '' });
   }
 
   public setCategory(value: ChallengeCategory) {
@@ -190,5 +212,8 @@ export default class ChallengeEditCard extends Vue {
 .field-body .field.cost-field {
   width: 10%;
   flex-grow: 0;
+}
+.plus-icon {
+  margin-right: .2rem;
 }
 </style>
