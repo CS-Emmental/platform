@@ -48,7 +48,7 @@ def create_app():
         return response, e.status_code
 
     @app.errorhandler(Exception)
-    def handle_exception():
+    def handle_exception(e):
         app.logger.error(traceback.format_exc())
         response = jsonify({
             'error_code': -1,
