@@ -16,7 +16,7 @@
       </template>
       <template v-slot:content>
         <p class="subtitle is-4">
-          {{ points }}/{{ challenge.total_points }} points
+          {{ points - malus }}/{{ challenge.total_points }} points
         </p>
         <p>
           {{ challenge.summary }}
@@ -27,7 +27,7 @@
       <div class="column is-two-thirds">
         <div class="box description-box">
           <div
-            class="content"
+            class="content description-content"
             v-html="challenge.description"
           />
           <hr>
@@ -38,7 +38,7 @@
             <div v-if="challenge.hints">
               <div
                 v-for="(hint, index) in challenge.hints"
-                :key="hint.text"
+                :key="index"
                 class="hint"
               >
                 <p v-if="activeHints.includes(index)">
@@ -47,7 +47,7 @@
                 <button
                   v-else
                   class="button button-hint"
-                  @click="activeHints.push(index)"
+                  @click="onUseHint(index)"
                 >
                   Show hint n°{{ index+1 }} for {{ hint.cost*challenge.total_points }} points
                 </button>
@@ -135,7 +135,12 @@
 </template>
 
 <script  lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import {
+  Prop,
+  Component,
+  Vue,
+  Watch,
+} from 'vue-property-decorator';
 import { Getter, Action } from 'vuex-class';
 import { Challenge, ChallengeParticipation } from '../store/challenges/types';
 import { slug } from '../store/utils';
@@ -247,6 +252,9 @@ export default class ChallengeDetails extends Vue {
   @Action('postParticipation', { namespace })
   public postParticipation!: CallableFunction;
 
+  @Action('useHints', { namespace })
+  public useHints!: CallableFunction;
+
   get participation(): ChallengeParticipation|undefined {
     const challengeId = this.challenge && this.challenge.challenge_id;
     return this.getParticipationByChallengeId(challengeId);
@@ -256,6 +264,18 @@ export default class ChallengeDetails extends Vue {
     const progress = this.participation ? this.participation.progress : 0;
     const totalPoints = this.challenge ? this.challenge.total_points : 0;
     return progress * totalPoints;
+  }
+
+  get malus() {
+    if (this.participation) {
+      const totalPoints = this.challenge ? this.challenge.total_points : 0;
+      let malusPercent = 0;
+      this.participation.used_hints.forEach((index) => {
+        malusPercent += this.challenge.hints[index].cost;
+      });
+      return malusPercent * totalPoints;
+    }
+    return 0;
   }
 
   get rating() {
@@ -269,6 +289,24 @@ export default class ChallengeDetails extends Vue {
         : 'Rate this challenge !';
     }
     return 'Start this challenge before rating.';
+  }
+
+  // Init with already used hints when participation is loaded
+  @Watch('participation', { immediate: true })
+  onParticipationChange(val: ChallengeParticipation, old: ChallengeParticipation) {
+    if (val && val.used_hints && val.used_hints.length > 0 && old === undefined) {
+      this.useHints(val);
+    }
+  }
+
+  onUseHint(index: number) {
+    if (this.participation) {
+      const updated = { ...this.participation };
+      updated.used_hints.push(index);
+      this.useHints(updated);
+    } else {
+      this.$toasted.show('Start this challenge before cheating');
+    }
   }
 
   get activeHints() {
@@ -327,5 +365,8 @@ export default class ChallengeDetails extends Vue {
 }
 .button-hint {
   min-width:30%;
+}
+.description-content {
+  min-height: 60%;
 }
 </style>
