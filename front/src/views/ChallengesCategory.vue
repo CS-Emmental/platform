@@ -16,7 +16,7 @@
       </template>
       <template v-slot:content>
         <p class="subtitle is-4">
-          {{ categoryCount }} Challenge{{ categoryCOunt === 1 ? '': 's' }}
+          {{ categoryCount }} Challenge{{ categoryCount === 1 ? '': 's' }}
         </p>
         <p>
           {{ category.description }}
@@ -40,6 +40,7 @@
     </div>
     <emmental-modal :is-active="createMode">
       <challenge-edit-card
+        v-if="createMode"
         :challenge="newChallenge"
         @quit="createMode=false"
         @save="insert"
@@ -161,5 +162,8 @@ export default class ChallengesCategory extends Vue {
 }
 .modal-content {
   width: 60vw;
+}
+.title-icon {
+  margin-right: .5rem;
 }
 </style>

@@ -14,7 +14,7 @@
     </template>
     <template v-slot:content>
       <p class="subtitle is-6">
-        {{ categoryCount }} Challenge{{ categorCount === 1 ? '' : s }}
+        {{ categoryCount }} Challenge{{ categoryCount === 1 ? '' : 's' }}
       </p>
       <p>
         {{ category.description }}
