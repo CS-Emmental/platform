@@ -10,6 +10,9 @@ from challenges.controller import (
     update_challenge_category,
     remove_challenge_category,
     insert_challenge_category,
+    start_participation,
+    get_currentuser_participations,
+    update_participation,
 )
 
 challenges = Blueprint('challenges', 'challenges')
@@ -79,3 +82,23 @@ def delete_challenge(challenge_id: str):
         return jsonify(deleted_response)
     else:
         return jsonify('unauthorized')
+
+@challenges.route('/challenge-participations', methods=['POST'])
+@login_required
+def start_challenge_participation():
+    options = request.json
+    participation = start_participation(options)
+    return jsonify(participation.to_dict())
+
+@challenges.route('/challenge-participations/current-user', methods=['GET'])
+@login_required
+def get_current_user_participations():
+    participations = get_currentuser_participations()
+    return jsonify([p.to_dict() for p in participations])
+
+@challenges.route('/challenge-participations/<participation_id>', methods=['POST'])
+@login_required
+def post_participation(participation_id: str):
+    update_dict = request.json
+    updated = update_participation(participation_id, update_dict)
+    return jsonify(updated.to_dict())
