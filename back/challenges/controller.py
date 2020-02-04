@@ -1,6 +1,10 @@
-from challenges.manager import ChallengeCategoriesManager, ChallengesManager, ChallengeParticipationsManager
-from challenges.models import ChallengeCategory, Challenge, ChallengeParticipation
 from flask_login import current_user
+from challenges.manager import (
+    ChallengeCategoriesManager, 
+    ChallengesManager, 
+    ChallengeParticipationsManager
+)
+from challenges.models import ChallengeCategory, Challenge, ChallengeParticipation
 
 def get_challenge_categories():
     categories = ChallengeCategoriesManager().get_all()
