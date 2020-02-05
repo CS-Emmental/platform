@@ -33,7 +33,7 @@ def insert_challenge_category(inputs: dict):
 
 def get_all_challenges():
     challenges = ChallengesManager().get_all()
-    if not current_user.has_permissions(['admin']):
+    if current_user.is_anonymous or current_user.has_permissions(['admin']):
         for challenge in challenges:
             if challenge.hints is not None:
                 for hint in challenge.hints:
