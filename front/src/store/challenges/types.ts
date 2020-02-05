@@ -38,5 +38,5 @@ export interface ChallengeParticipation {
 
 export interface SetHintsTextProps {
   challengeId: string;
-  hintList: { index: number, text: string }[];
+  hintList: { index: number; text: string }[];
 }
