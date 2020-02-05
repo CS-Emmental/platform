@@ -20,3 +20,11 @@ NB: Lors de la première installation, il est prudent de lancer `pipenv install`
 *  Pour insérer des données dans mongodb: 
     `docker exec -it <mongo_docker_name> mongo`
     `use cs-emmental`
+
+### Tests
+
+Pour l'instant, seuls des tests du back sont écris.
+Pour les lancer:
+*  Se placer dans /back
+*  Lancer l'environnement virtuel: `pipenv shell`
+*  Lancer les tests: `pytest`
