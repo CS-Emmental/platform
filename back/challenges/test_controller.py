@@ -3,7 +3,7 @@ Test of the controller of challenges module
 """
 import pytest
 from challenges.controller import (
-    get_challenge_category,
+    get_challenge_category
 )
 from challenges.manager import ChallengeCategoriesManager
 from app import create_app
@@ -35,8 +35,3 @@ class TestGetChallengeCategory():
 
         with self.app.app_context():
             assert get_challenge_category() == expected
-
-def test_answer():
-    assert func(3) == 5
-
-class 
