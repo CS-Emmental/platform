@@ -25,12 +25,12 @@
       <footer class="card-footer">
         <a
           class="card-footer-item"
-          @click="$emit('confirm')"
-        >Confirm</a>
-        <a
-          class="card-footer-item"
           @click="$emit('exit')"
         >Cancel</a>
+        <a
+          class="card-footer-item"
+          @click="$emit('confirm')"
+        >Confirm</a>
       </footer>
     </div>
   </emmental-modal>

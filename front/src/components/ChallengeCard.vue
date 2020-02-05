@@ -10,7 +10,7 @@
     </template>
     <template v-slot:content>
       <p class="subtitle is-6">
-        {{ points }}/{{ challenge.total_points }} points
+        {{ finalPoints }}/{{ challenge.total_points }} points
       </p>
       <p>
         {{ challenge.summary }}
@@ -66,10 +66,12 @@ export default class ChallengeCard extends Vue {
     return this.getParticipationByChallengeId(challengeId);
   }
 
-  get points() {
-    const progress = this.participation ? this.participation.progress : 0;
-    const totalPoints = this.challenge ? this.challenge.total_points : 0;
-    return progress * totalPoints;
+  @Getter('getParticipationFinalScore', { namespace })
+  public getParticipationFinalScore!: CallableFunction
+
+  get finalPoints() {
+    return this.participation
+      ? this.getParticipationFinalScore(this.participation.participation_id) : 0;
   }
 }
 </script>

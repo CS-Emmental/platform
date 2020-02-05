@@ -41,5 +41,26 @@ const getters: GetterTree<ChallengesState, RootState> = {
         (participation: ChallengeParticipation) => participation.challenge_id === challengeId,
       );
   },
+  getChallengeById(state) {
+    return (challengeId: string): Challenge|undefined => state.challenges.find(
+      (chall: Challenge) => chall.challenge_id === challengeId,
+    );
+  },
+  getParticipationFinalScore(state) {
+    return (participationId: string): number => {
+      const participation = state.currentuserPartipations
+        .find(part => part.participation_id === participationId);
+      const challenge = participation && state.challenges
+        .find(chall => chall.challenge_id === participation.challenge_id);
+      if (!challenge || !participation) {
+        return 0;
+      }
+      let malus = 0;
+      participation.used_hints.forEach((index) => {
+        malus += challenge.hints[index].cost;
+      });
+      return (participation.progress - malus) * challenge.total_points;
+    };
+  },
 };
 export default getters;

@@ -13,6 +13,7 @@ from challenges.controller import (
     start_participation,
     get_currentuser_participations,
     update_participation,
+    get_hints,
 )
 
 challenges = Blueprint('challenges', 'challenges')
@@ -102,3 +103,10 @@ def post_participation(participation_id: str):
     update_dict = request.json
     updated = update_participation(participation_id, update_dict)
     return jsonify(updated.to_dict())
+
+@challenges.route('/challenge-participations/<participation_id>/hints', methods=['POST'])
+@login_required
+def use_hints(participation_id: str):
+    hints_indexes = request.json
+    hints = get_hints(participation_id, hints_indexes)
+    return jsonify(hints)
