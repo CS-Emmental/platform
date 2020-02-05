@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, current_app, request
 from flask_login import current_user, login_required
 
 from challenges.controller import (
-    get_challenge_categories,
+    get_challenge_category,
     get_all_challenges,
     update_challenge,
     insert_challenge,
@@ -19,7 +19,7 @@ challenges = Blueprint('challenges', 'challenges')
 
 @challenges.route('/challenge-categories')
 def get_categories():
-    categories = get_challenge_categories()
+    categories = get_challenge_category()
     return jsonify([c.to_dict() for c in categories])
 
 @challenges.route('/challenge-category/<challenge_category_id>', methods=['POST'])

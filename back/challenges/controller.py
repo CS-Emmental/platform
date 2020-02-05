@@ -1,12 +1,12 @@
 from flask_login import current_user
 from challenges.manager import (
-    ChallengeCategoriesManager, 
-    ChallengesManager, 
+    ChallengeCategoriesManager,
+    ChallengesManager,
     ChallengeParticipationsManager
 )
 from challenges.models import ChallengeCategory, Challenge, ChallengeParticipation
 
-def get_challenge_categories():
+def get_challenge_category():
     categories = ChallengeCategoriesManager().get_all()
     return categories
 
@@ -60,7 +60,7 @@ def remove_challenge(challenge_id: str):
     try:
         return ChallengesManager().remove_one(challenge_deleted)
     except Exception:
-        return 'error' 
+        return 'error'
 
 def start_participation(options: dict):
     options['user_id'] = current_user.user_id
