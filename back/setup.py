@@ -1,8 +1,8 @@
 import setuptools
 
 setuptools.setup(
-    name='Emmental-API-centralesupelec',
-    version='0.1',
+    name="Emmental-API-centralesupelec",
+    version="0.1",
     author="Emmental CS student group",
     author_email="theo.bonnard@supelec.fr",
     description="API of a platform for self-learning cybersecurity stuff",

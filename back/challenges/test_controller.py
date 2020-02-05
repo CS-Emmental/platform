@@ -2,13 +2,12 @@
 Test of the controller of challenges module
 """
 import pytest
-from challenges.controller import (
-    get_challenge_category
-)
+from challenges.controller import get_challenge_category
 from challenges.manager import ChallengeCategoriesManager
 from app import create_app
 
-class TestGetChallengeCategory():
+
+class TestGetChallengeCategory:
     """
     Test of get_challenge_category
     """
@@ -17,12 +16,8 @@ class TestGetChallengeCategory():
     app = create_app()
 
     @pytest.mark.parametrize(
-        "test_input,expected",
-        [
-            ([], []),
-            ([1], [1]),
-            (["", "string_test"], ["", "string_test"])
-        ])
+        "test_input,expected", [([], []), ([1], [1]), (["", "string_test"], ["", "string_test"])]
+    )
     def test_get_challenge_category(self, monkeypatch, test_input, expected):
         """
         Test if the function well returns what the ChallengeCategoriesManager returns
