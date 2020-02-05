@@ -130,7 +130,7 @@ class ChallengeParticipation(Document):
         challenge_id: str = "",
         user_id: str = "",
         progress: float = 0,
-        status: str = "",  # TODO stauts in ChallengeParticipation
+        status: str = "", 
         rating: int = None,
         used_hints: list = None,
         created_at: int = None,

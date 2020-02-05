@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, current_app, request
+from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_required
 
 from challenges.controller import (
@@ -55,8 +55,8 @@ def create_categories():
 
 @challenges.route("/challenges")
 def get_challenges():
-    challenges = get_all_challenges()
-    return jsonify([c.to_dict() for c in challenges])
+    challenge_list = get_all_challenges()
+    return jsonify([c.to_dict() for c in challenge_list])
 
 
 @challenges.route("/challenges/<challenge_id>", methods=["POST"])

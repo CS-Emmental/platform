@@ -1,5 +1,3 @@
-import time
-from uuid import uuid4
 from flask_login import UserMixin
 
 from core.models import Document, from_dict_class
@@ -44,18 +42,20 @@ class User(Document, UserMixin):
         firstname: str = "",
         lastname: str = "",
         is_active: bool = True,
-        permissions: list = [],
+        permissions: list = None,
         created_at: float = None,
+        updated_at: float = None,
     ):
-        self._id = str(uuid4()) if not _id else _id
         self.user_id = self._id
         self.username = username
         self.password = password
         self.email = email
         self.firstname = firstname
         self.lastname = lastname
+        self.is_active = is_active
         self.permissions = permissions
-        self.created_at = time.time() if not created_at else created_at
+
+        super(Document, self).__init__(_id, created_at, updated_at)
 
     def get_id(self):
         return self.user_id

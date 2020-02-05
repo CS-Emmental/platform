@@ -1,6 +1,4 @@
-from flask import current_app, jsonify
-from uuid import uuid4
-import time
+from flask import current_app
 
 
 class MongoManager:
