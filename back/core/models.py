@@ -1,6 +1,8 @@
 import time
 from uuid import uuid4
 
+from core.exceptions import InconsistentDateException
+
 
 class Document:
     fields = [
@@ -19,9 +21,12 @@ class Document:
     def __init__(
         self, _id: str = None, created_at: int = None, updated_at: int = None,
     ):
-        self._id = str(uuid4()) if not _id else _id
-        self.created_at = int(time.time()) if not created_at else created_at
-        self.updated_at = int(time.time()) if not updated_at else updated_at
+        self._id = _id if (_id and isinstance(_id, str)) else str(uuid4())
+        self.created_at = created_at if isinstance(created_at, int) else int(time.time())
+        self.updated_at = updated_at if isinstance(updated_at, int) else int(time.time())
+
+        if self.updated_at < self.created_at:
+            raise InconsistentDateException
 
     def to_dict(self):
         return {key: getattr(self, key) for key in self.export_fields}
