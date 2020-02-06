@@ -87,12 +87,6 @@ export default class ChallengesCategoryEdit extends Vue {
   })
   public challengeCategory: ChallengeCategory|undefined;
 
-  @State('challengeCategories', { namespace })
-  public challengeCategories: ChallengeCategory[]|undefined;
-
-  @Getter('getCategoryById', { namespace })
-  public getCategoryById!: CallableFunction;
-
   public challengesCategoryEdit: ChallengeCategory = {
     category_id: '',
     title: '',
