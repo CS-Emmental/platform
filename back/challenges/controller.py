@@ -1,10 +1,11 @@
 from flask_login import current_user
+
 from challenges.manager import (
     ChallengeCategoriesManager,
-    ChallengesManager,
     ChallengeParticipationsManager,
+    ChallengesManager,
 )
-from challenges.models import ChallengeCategory, Challenge, ChallengeParticipation
+from challenges.models import Challenge, ChallengeCategory, ChallengeParticipation
 
 
 def get_challenge_category():
@@ -41,6 +42,11 @@ def insert_challenge_category(inputs: dict):
 
 def get_all_challenges():
     challenges = ChallengesManager().get_all()
+    if current_user.is_anonymous or current_user.has_permissions(["admin"]):
+        for challenge in challenges:
+            if challenge.hints is not None:
+                for hint in challenge.hints:
+                    hint["text"] = ""
     return challenges
 
 
@@ -92,3 +98,15 @@ def update_participation(participation_id: str, inputs: dict):
         return participation_updated
     except Exception:
         return "error"
+
+
+def get_hints(participation_id: str, hint_indexes: list):
+    participation = ChallengeParticipationsManager().get(participation_id)
+    challenge = ChallengesManager().get(participation.challenge_id)
+    if challenge.hints:
+        if max(hint_indexes) < len(challenge.hints) and min(hint_indexes) >= 0:
+            # You can't request less hints than you had before
+            if set(participation.used_hints) <= set(hint_indexes):
+                participation.used_hints = hint_indexes
+                ChallengeParticipationsManager().update_one(participation)
+                return [{"index": i, "text": challenge.hints[i]["text"]} for i in hint_indexes]

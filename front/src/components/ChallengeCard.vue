@@ -1,16 +1,25 @@
 <template>
   <emmental-card>
     <template v-slot:header>
-      <router-link
-        :to="`/challenges/${categorySlug}/${challengeSlug}`"
-        class="subtitle is-4 card-header-title"
-      >
-        {{ challenge.title }}
-      </router-link>
+      <div class="level">
+        <div class="level-left">
+          <router-link
+            :to="`/challenges/${categorySlug}/${challengeSlug}`"
+            class="subtitle is-4 level-item card-header-title"
+          >
+            {{ challenge.title }}
+          </router-link>
+          <emmental-status-tag
+            v-if="participation"
+            class="level-item"
+            :status="participation.status"
+          />
+        </div>
+      </div>
     </template>
     <template v-slot:content>
       <p class="subtitle is-6">
-        {{ points }}/{{ challenge.total_points }} points
+        {{ finalPoints }}/{{ challenge.total_points }} points
       </p>
       <p>
         {{ challenge.summary }}
@@ -22,15 +31,19 @@
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
-import EmmentalCard from '@/components/EmmentalCard.vue';
+
 import { Challenge, ChallengeParticipation } from '../store/challenges/types';
 import { slug } from '../store/utils';
+
+import EmmentalStatusTag from '@/components/EmmentalStatusTag.vue';
+import EmmentalCard from '@/components/EmmentalCard.vue';
 
 const namespace = 'challenges';
 
 @Component({
   name: 'ChallengeCard',
   components: {
+    EmmentalStatusTag,
     EmmentalCard,
   },
 })
@@ -66,13 +79,18 @@ export default class ChallengeCard extends Vue {
     return this.getParticipationByChallengeId(challengeId);
   }
 
-  get points() {
-    const progress = this.participation ? this.participation.progress : 0;
-    const totalPoints = this.challenge ? this.challenge.total_points : 0;
-    return progress * totalPoints;
+  @Getter('getParticipationFinalScore', { namespace })
+  public getParticipationFinalScore!: CallableFunction
+
+  get finalPoints() {
+    return this.participation
+      ? this.getParticipationFinalScore(this.participation.participation_id) : 0;
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.level-item.subtitle {
+  margin-bottom: 0;
+}
 </style>

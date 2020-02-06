@@ -56,5 +56,15 @@ const actions: ActionTree<ChallengesState, RootState> = {
       commit('setParticipation', participationEdited);
     });
   },
+  useHints({ commit }, updated: ChallengeParticipation): void {
+    api.post(
+      `/challenge-participations/${updated.participation_id}/hints`,
+      updated.used_hints,
+    ).then((res) => {
+      const hintList: { index: number; text: string }[] = res && res.data;
+      commit('setParticipation', updated);
+      commit('setHintsText', { challengeId: updated.challenge_id, hintList });
+    });
+  },
 };
 export default actions;

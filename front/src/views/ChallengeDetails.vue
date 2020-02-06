@@ -16,7 +16,7 @@
       </template>
       <template v-slot:content>
         <p class="subtitle is-4">
-          {{ points }}/{{ challenge.total_points }} points
+          {{ finalPoints }}/{{ challenge.total_points }} points
         </p>
         <p>
           {{ challenge.summary }}
@@ -27,86 +27,25 @@
       <div class="column is-two-thirds">
         <div class="box description-box">
           <div
-            class="content"
+            class="content description-content"
             v-html="challenge.description"
           />
           <hr>
-          <div>
-            <h2 class="title is-4">
-              Hints
-            </h2>
-            <div v-if="challenge.hints">
-              <div
-                v-for="(hint, index) in challenge.hints"
-                :key="hint.text"
-                class="hint"
-              >
-                <p v-if="activeHints.includes(index)">
-                  Hint n° {{ index+1 }}: {{ hint.text }}
-                </p>
-                <button
-                  v-else
-                  class="button button-hint"
-                  @click="activeHints.push(index)"
-                >
-                  Show hint n°{{ index+1 }} for {{ hint.cost*challenge.total_points }} points
-                </button>
-              </div>
-            </div>
-            <div v-else>
-              There is no hints for this challenge.
-            </div>
-          </div>
+          <challenge-details-hints
+            :challenge="challenge"
+            :participation="participation"
+          />
         </div>
       </div>
       <div class="column">
-        <div class="challenge-buttons">
-          <button
-            v-if="!participation"
-            class="button is-primary is-large is-fullwidth"
-            @click="onStartChallenge"
-          >
-            Start challenge
-          </button>
-          <template v-else>
-            <div class="box content">
-              <h2>Your participation</h2>
-              <button
-                class="button is-dark is-fullwidth"
-                @click="resetMode=true"
-              >
-                Reset challenge
-              </button>
-            </div>
-          </template>
-        </div>
-        <div class="box">
-          <h2 class="title is-4">
-            Challenge rating
-          </h2>
-          <p class="rating">
-            <span
-              v-for="n in 5"
-              :key="n"
-              class="icon is-large rating-icon"
-              @click="onRating(n)"
-            >
-              <i
-                v-if="rating>=n"
-                class="fas fa-star"
-              />
-              <i
-                v-else
-                class="far fa-star"
-              />
-            </span>
-          </p>
-          <p
-            class="has-text-centered"
-          >
-            {{ ratingMessage }}
-          </p>
-        </div>
+        <challenge-details-participation
+          :challenge="challenge"
+          :participation="participation"
+        />
+        <challenge-details-rating
+          :challenge="challenge"
+          :participation="participation"
+        />
       </div>
     </div>
     <emmental-modal :is-active="editMode">
@@ -116,14 +55,6 @@
         @save="save"
       />
     </emmental-modal>
-    <confirm-modal
-      title="Reset Challenge"
-      message="Are you sure you want to reset your challenge instance ?
-               (all current progress will be lost)"
-      :toggle="resetMode"
-      @confirm="onResetChallenge"
-      @exit="resetMode=false"
-    />
     <confirm-modal
       title="Delete Challenge"
       message="Are you sure you want to delete this challenge ?"
@@ -135,7 +66,11 @@
 </template>
 
 <script  lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import {
+  Prop,
+  Component,
+  Vue,
+} from 'vue-property-decorator';
 import { Getter, Action } from 'vuex-class';
 import { Challenge, ChallengeParticipation } from '../store/challenges/types';
 import { slug } from '../store/utils';
@@ -145,6 +80,9 @@ import EmmentalCard from '@/components/EmmentalCard.vue';
 import EmmentalModal from '@/components/EmmentalModal.vue';
 import ConfirmModal from '@/components/ConfirmModal.vue';
 import ChallengeEditCard from '@/components/ChallengeEditCard.vue';
+import ChallengeDetailsHints from '@/components/ChallengeDetailsHints.vue';
+import ChallengeDetailsRating from '@/components/ChallengeDetailsRating.vue';
+import ChallengeDetailsParticipation from '@/components/ChallengeDetailsParticipation.vue';
 
 const namespace = 'challenges';
 
@@ -156,6 +94,9 @@ const namespace = 'challenges';
     EmmentalModal,
     ConfirmModal,
     ChallengeEditCard,
+    ChallengeDetailsHints,
+    ChallengeDetailsRating,
+    ChallengeDetailsParticipation,
   },
 })
 export default class ChallengeDetails extends Vue {
@@ -180,18 +121,10 @@ export default class ChallengeDetails extends Vue {
     return this.getChallengeFromSlug(this.challengeSlug);
   }
 
-  // Challenge Edit
-
-  public editMode = false;
+  // Admin actions
 
   @Getter('hasPermission')
   public hasPermission!: CallableFunction;
-
-  @Getter('getCategoryById', { namespace })
-  public getCategoryById!: CallableFunction;
-
-  @Action('postChallenge', { namespace })
-  public postChallenge!: CallableFunction;
 
   get actions() {
     let actions;
@@ -210,6 +143,16 @@ export default class ChallengeDetails extends Vue {
     return actions;
   }
 
+  // Challenge Edit
+
+  public editMode = false;
+
+  @Getter('getCategoryById', { namespace })
+  public getCategoryById!: CallableFunction;
+
+  @Action('postChallenge', { namespace })
+  public postChallenge!: CallableFunction;
+
   public save(edited: Challenge) {
     this.postChallenge(edited).then(() => {
       this.editMode = false;
@@ -224,6 +167,8 @@ export default class ChallengeDetails extends Vue {
 
   // Challenge Delete
 
+  public confirmDeleteMode = false;
+
   @Action('deleteChallenge', { namespace })
   public deleteChallenge!: CallableFunction;
 
@@ -234,65 +179,22 @@ export default class ChallengeDetails extends Vue {
     });
   }
 
-  public confirmDeleteMode = false;
-
   // Challenge Participation
 
   @Getter('getParticipationByChallengeId', { namespace })
   public getParticipationByChallengeId!: CallableFunction;
-
-  @Action('startChallengeParticipation', { namespace })
-  public startChallengeParticipation!: CallableFunction;
-
-  @Action('postParticipation', { namespace })
-  public postParticipation!: CallableFunction;
 
   get participation(): ChallengeParticipation|undefined {
     const challengeId = this.challenge && this.challenge.challenge_id;
     return this.getParticipationByChallengeId(challengeId);
   }
 
-  get points() {
-    const progress = this.participation ? this.participation.progress : 0;
-    const totalPoints = this.challenge ? this.challenge.total_points : 0;
-    return progress * totalPoints;
-  }
+  @Getter('getParticipationFinalScore', { namespace })
+  public getParticipationFinalScore!: CallableFunction
 
-  get rating() {
-    return this.participation ? this.participation.rating : null;
-  }
-
-  get ratingMessage() {
-    if (this.participation) {
-      return this.participation.rating
-        ? `You rated this challenge ${this.participation.rating}.0`
-        : 'Rate this challenge !';
-    }
-    return 'Start this challenge before rating.';
-  }
-
-  get activeHints() {
-    return this.participation ? this.participation.used_hints : [];
-  }
-
-  public onStartChallenge() {
-    this.startChallengeParticipation(this.challenge.challenge_id);
-  }
-
-  public onRating(n: number) {
-    if (this.participation) {
-      this.postParticipation({ ...this.participation, rating: n }).then(() => {
-        this.$toasted.show(`You rated this challenge ${n}.0`);
-      });
-    } else {
-      this.$toasted.show('Start this challenge before rating it');
-    }
-  }
-
-  public resetMode = false;
-
-  public onResetChallenge() {
-    this.resetMode = false;
+  get finalPoints() {
+    return this.participation
+      ? this.getParticipationFinalScore(this.participation.participation_id) : 0;
   }
 }
 </script>
@@ -304,28 +206,14 @@ export default class ChallengeDetails extends Vue {
 .is-4 {
   font-size: 1.75rem;
 }
-.rating {
-  text-align: center;
-}
-.rating-icon {
-  color: rgb(211, 166, 82);
-  cursor: pointer;
-}
-.rating-icon:hover {
-  color: #2c3e50;
-  cursor: pointer;
-}
-.hint {
-  padding-bottom: .5rem;
-}
-.challenge-buttons {
-  margin-bottom: 1rem;
-}
 .description-box {
   height: 63vh;
   overflow-y: auto;
 }
 .button-hint {
   min-width:30%;
+}
+.description-content {
+  min-height: 60%;
 }
 </style>
