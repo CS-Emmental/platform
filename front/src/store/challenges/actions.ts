@@ -56,5 +56,23 @@ const actions: ActionTree<ChallengesState, RootState> = {
       commit('setParticipation', participationEdited);
     });
   },
+  insertChallengeCategory({ commit }, inputs: ChallengeCategory): void {
+    api.post('challenge-category', inputs).then((res) => {
+      const challengeInserted: Challenge = res && res.data;
+      commit('insertChallengeCategory', challengeInserted);
+    });
+  },
+  postChallengeCategory({ commit }, edited: ChallengeCategory): void {
+    api.post(`challenge-category/${edited.category_id}`, edited).then((res) => {
+      const challengeCategoryEdited: ChallengeCategory = res && res.data;
+      commit('setChallengeCategory', challengeCategoryEdited);
+      Vue.toasted.show(`'${edited.title}' Challenge category edited`);
+    });
+  },
+  deleteChallengeCategory({ commit }, categoryId: string): void {
+    api.delete(`challenge-category/${categoryId}`).then(() => {
+      commit('deleteChallengeCategory', categoryId);
+    });
+  },
 };
 export default actions;

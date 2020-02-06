@@ -4,6 +4,8 @@
       v-if="category"
       :actions="actions"
       class="header-box"
+      @edit="editMode=true"
+      @delete="confirmDeleteMode=true"
     >
       <template v-slot:header>
         <h1 class="title level-item">
@@ -16,7 +18,7 @@
       </template>
       <template v-slot:content>
         <p class="subtitle is-4">
-          {{ categoryCount }} Challenge{{ categoryCOunt === 1 ? '': 's' }}
+          {{ categoryCount }} Challenge{{ categoryCount === 1 ? '': 's' }}
         </p>
         <p>
           {{ category.description }}
@@ -45,6 +47,21 @@
         @save="insert"
       />
     </emmental-modal>
+    <emmental-modal :is-active="editMode">
+      <challenges-category-edit-card
+        v-if="editMode"
+        :challengeCategory="category"
+        @quit="editMode=false"
+        @save="save"
+      />
+    </emmental-modal>
+    <confirm-modal
+      title="Delete Challenge Category"
+      :message="deleteCategory"
+      :toggle="confirmDeleteMode"
+      @confirm="onDelete"
+      @exit="confirmDeleteMode=false"
+    />
   </div>
 </template>
 
@@ -52,10 +69,13 @@
 import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Getter, Action } from 'vuex-class';
 import { ChallengeCategory, Challenge } from '../store/challenges/types';
+import { slug } from '../store/utils';
 
+import ChallengesCategoryEditCard from '@/components/ChallengesCategoryEditCard.vue';
 import EmmentalBox from '@/components/EmmentalBox.vue';
 import EmmentalModal from '@/components/EmmentalModal.vue';
 import NewBox from '@/components/NewBox.vue';
+import ConfirmModal from '@/components/ConfirmModal.vue';
 import ChallengeCard from '@/components/ChallengeCard.vue';
 import ChallengeEditCard from '@/components/ChallengeEditCard.vue';
 
@@ -67,8 +87,10 @@ const namespace = 'challenges';
     EmmentalBox,
     EmmentalModal,
     NewBox,
+    ConfirmModal,
     ChallengeCard,
     ChallengeEditCard,
+    ChallengesCategoryEditCard,
   },
 })
 export default class ChallengesCategory extends Vue {
@@ -78,9 +100,14 @@ export default class ChallengesCategory extends Vue {
   })
   public categorySlug!: string;
 
+  public editMode = false;
+
   public createMode = false;
 
   public confirmDeleteMode = false;
+
+  public deleteCategory = `Are you sure you want to delete this challenge category ?
+  If you do so the remaining challenges won't be accessible anymore`
 
   @Getter('getCategoryFromSlug', { namespace })
   public getCategoryFromSlug!: CallableFunction;
@@ -97,11 +124,23 @@ export default class ChallengesCategory extends Vue {
   @Action('insertChallenge', { namespace })
   public insertChallenge!: CallableFunction;
 
+  @Action('postChallengeCategory', { namespace })
+  public postChallengeCategory!: CallableFunction;
+
+
   public insert(insertChallenge: Challenge) {
     const inserted = { ...insertChallenge };
     delete inserted.challenge_id;
     this.insertChallenge(inserted).then(() => {
       this.createMode = false;
+    });
+  }
+
+  public save(edited: ChallengeCategory) {
+    this.postChallengeCategory(edited).then(() => {
+      this.editMode = false;
+      const catSlug = slug(edited.title);
+      this.$router.push(`/challenges/${catSlug}`);
     });
   }
 
@@ -140,6 +179,15 @@ export default class ChallengesCategory extends Vue {
       ];
     }
     return actions;
+  }
+
+  @Action('deleteChallengeCategory', { namespace })
+  public deleteChallengeCategory!: CallableFunction;
+
+  public onDelete() {
+    this.deleteChallengeCategory(this.category.category_id).then(() => {
+      this.$router.push('/challenges/');
+    });
   }
 }
 </script>

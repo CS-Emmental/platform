@@ -23,17 +23,33 @@
         :key="category.category_id"
         :category="category"
       />
+      <new-box
+        v-if="hasPermission('admin')"
+        collection="challenge-category"
+        @click.native="createMode=true"
+      />
     </div>
+    <emmental-modal :is-active="createMode">
+      <challenges-category-edit-card
+        v-if="createMode"
+        :challengeCategory="newChallengeCategory"
+        @quit="createMode=false"
+        @save="insert"
+      />
+    </emmental-modal>
   </div>
 </template>
 
 <script  lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { State, Action } from 'vuex-class';
-import { ChallengesState } from '../store/challenges/types';
+import { State, Getter, Action } from 'vuex-class';
+import { ChallengesState, ChallengeCategory } from '../store/challenges/types';
+import ChallengesCategoryEditCard from '@/components/ChallengesCategoryEditCard.vue';
 
+import EmmentalModal from '@/components/EmmentalModal.vue';
 import ChallengesCategoryCard from '@/components/ChallengesCategoryCard.vue';
 import EmmentalBox from '@/components/EmmentalBox.vue';
+import NewBox from '@/components/NewBox.vue';
 
 const namespace = 'challenges';
 
@@ -42,6 +58,9 @@ const namespace = 'challenges';
   components: {
     ChallengesCategoryCard,
     EmmentalBox,
+    NewBox,
+    EmmentalModal,
+    ChallengesCategoryEditCard,
   },
 })
 export default class Challenges extends Vue {
@@ -50,13 +69,38 @@ export default class Challenges extends Vue {
   @Action('getChallengeCategories', { namespace })
   public getChallengeCategories!: CallableFunction;
 
+  public createMode = false;
+
   get categories() {
     const categories = this.challenges && this.challenges.challengeCategories;
     return categories || [];
   }
 
+  get newChallengeCategory(): ChallengeCategory {
+    return this.challenges.challengeCategories && {
+      category_id: '',
+      title: '',
+      description: '',
+      icon: '',
+    };
+  }
+
+  @Getter('hasPermission')
+  public hasPermission!: CallableFunction;
+
+  @Action('insertChallengeCategory', { namespace })
+  public insertChallengeCategory!: CallableFunction;
+
   public created() {
     this.getChallengeCategories();
+  }
+
+  public insert(insertChallengeCategory: ChallengeCategory) {
+    const inserted = { ...insertChallengeCategory };
+    delete inserted.category_id;
+    this.insertChallengeCategory(inserted).then(() => {
+      this.createMode = false;
+    });
   }
 }
 </script>

@@ -34,5 +34,13 @@ const mutations: MutationTree<ChallengesState> = {
       .findIndex((p: ChallengeParticipation) => p.participation_id === edited.participation_id);
     state.currentuserPartipations.splice(index, 1, edited);
   },
+  insertChallengeCategory(state, insertedChallengeCategory: ChallengeCategory) {
+    state.challengeCategories.push(insertedChallengeCategory);
+  },
+  setChallengeCategory(state, editedChallengeCategory: ChallengeCategory) {
+    const index = state.challengeCategories
+      .findIndex((ct: ChallengeCategory) => ct.category_id === editedChallengeCategory.category_id);
+    state.challengeCategories.splice(index, 1, editedChallengeCategory);
+  },
 };
 export default mutations;
