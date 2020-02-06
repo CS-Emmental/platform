@@ -26,23 +26,23 @@ export default class EmmentalStatusTag extends Vue {
   })
   public status!: string;
 
-  public text_dict: object = {
+  public text_dict: {[id: string]: string} = {
     ongoing: 'Ongoing',
     stopped: 'Stopped',
     finished: 'Finished',
   };
 
-  public style_dict: object = {
+  public style_dict: {[id: string]: string} = {
     ongoing: 'is-primary',
     stopped: 'is-danger',
     finished: 'is-success',
   };
 
-  get text() {
+  get text(): string {
     return this.text_dict[this.status] || '';
   }
 
-  get style() {
+  get style(): string {
     return this.style_dict[this.status] || '';
   }
 }
