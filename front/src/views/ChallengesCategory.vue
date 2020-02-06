@@ -42,6 +42,7 @@
     </div>
     <emmental-modal :is-active="createMode">
       <challenge-edit-card
+        v-if="createMode"
         :challenge="newChallenge"
         @quit="createMode=false"
         @save="insert"
@@ -209,5 +210,8 @@ export default class ChallengesCategory extends Vue {
 }
 .modal-content {
   width: 60vw;
+}
+.title-icon {
+  margin-right: .5rem;
 }
 </style>
