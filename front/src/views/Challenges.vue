@@ -76,13 +76,11 @@ export default class Challenges extends Vue {
     return categories || [];
   }
 
-  get newChallengeCategory(): ChallengeCategory {
-    return this.challenges.challengeCategories && {
-      category_id: '',
-      title: '',
-      description: '',
-      icon: '',
-    };
+  public newChallengeCategory = {
+    category_id: '',
+    title: '',
+    description: '',
+    icon: '',
   }
 
   @Getter('hasPermission')
