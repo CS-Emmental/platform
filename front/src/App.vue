@@ -50,7 +50,7 @@ export default class App extends Vue {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #e0e0e0;
 
   .button {
