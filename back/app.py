@@ -39,7 +39,8 @@ def create_app():
     @app.errorhandler(EmmentalException)
     def handle_emmental_exception(e):
         app.logger.error(traceback.format_exc())
-        response = jsonify({"error_code": e.error_code, "error_message": e.error_message,})
+        app.logger.error(e.internal_message)
+        response = jsonify({"error_code": e.error_code, "error_message": e.external_message,})
         return response, e.status_code
 
     @app.errorhandler(Exception)
