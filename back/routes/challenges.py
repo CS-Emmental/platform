@@ -39,7 +39,7 @@ def delete_categories(challenge_category_id: str):
     else:
         return jsonify('unauthorized')
 
-@challenges.route('/challenge-category/', methods=['POST'])
+@challenges.route('/challenge-category', methods=['POST'])
 def create_categories():
     insert_dict = request.json
     if current_user.has_permissions(['admin']):
