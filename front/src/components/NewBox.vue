@@ -40,4 +40,7 @@ export default class NewBox extends Vue {
 .dropdown-trigger {
   cursor: pointer;
 }
+.box {
+  min-height: 10.625rem;
+}
 </style>
