@@ -37,10 +37,10 @@ const mutations: MutationTree<ChallengesState> = {
   insertChallengeCategory(state, insertedChallengeCategory: ChallengeCategory) {
     state.challengeCategories.push(insertedChallengeCategory);
   },
-  setChallengeCategory(state, editedChallengeCategory: ChallengeCategory) {
+  setChallengeCategory(state, editChallengeCategory: ChallengeCategory) {
     const index = state.challengeCategories
-      .findIndex((ct: ChallengeCategory) => ct.category_id === editedChallengeCategory.category_id);
-    state.challengeCategories.splice(index, 1, editedChallengeCategory);
+      .findIndex((cat: ChallengeCategory) => cat.category_id === editChallengeCategory.category_id);
+    state.challengeCategories.splice(index, 1, editChallengeCategory);
   },
 };
 export default mutations;

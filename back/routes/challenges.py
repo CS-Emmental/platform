@@ -22,7 +22,7 @@ def get_categories():
     categories = get_challenge_categories()
     return jsonify([c.to_dict() for c in categories])
 
-@challenges.route('/challenge-category/<challenge_category_id>', methods=['POST'])
+@challenges.route('/challenge-categories/<challenge_category_id>', methods=['POST'])
 def update_categories(challenge_category_id: str):
     update_dict = request.json
     if current_user.has_permissions(['admin']):
@@ -31,7 +31,7 @@ def update_categories(challenge_category_id: str):
     else:
         return jsonify('unauthorized')
 
-@challenges.route('/challenge-category/<challenge_category_id>', methods=['DELETE'])
+@challenges.route('/challenge-categories/<challenge_category_id>', methods=['DELETE'])
 def delete_categories(challenge_category_id: str):
     if current_user.has_permissions(['admin']):
         deleted_response = remove_challenge_category(challenge_category_id)
@@ -39,7 +39,7 @@ def delete_categories(challenge_category_id: str):
     else:
         return jsonify('unauthorized')
 
-@challenges.route('/challenge-category', methods=['POST'])
+@challenges.route('/challenge-categories', methods=['POST'])
 def create_categories():
     insert_dict = request.json
     if current_user.has_permissions(['admin']):
