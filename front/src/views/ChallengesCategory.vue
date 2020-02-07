@@ -201,13 +201,6 @@ export default class ChallengesCategory extends Vue {
   height: auto;
   margin-top: 3rem;
 }
-.new-box {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  flex-direction: column;
-  text-align: center;
-}
 .modal-content {
   width: 60vw;
 }

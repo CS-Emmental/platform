@@ -31,16 +31,12 @@ export default class NewBox extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.card-header-title {
-  margin-bottom: 0;
-}
-.title-icon {
-  margin-right: .5rem;
-}
-.dropdown-trigger {
-  cursor: pointer;
-}
-.box {
+.new-box {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  text-align: center;
   min-height: 10.625rem;
 }
 </style>
