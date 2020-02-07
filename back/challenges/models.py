@@ -50,6 +50,7 @@ class Challenge(Document):
         "category_id",
         "total_points",
         "summary",
+        "flags",
         "hints",
     ]
 
@@ -60,6 +61,7 @@ class Challenge(Document):
         "category_id",
         "total_points",
         "summary",
+        "flags",
         "hints",
     ]
 
@@ -69,6 +71,7 @@ class Challenge(Document):
         "category_id",
         "total_points",
         "summary",
+        "flags",
         "hints",
     ]
 
@@ -80,6 +83,7 @@ class Challenge(Document):
         summary: str = "",
         category_id: str = "",
         total_points: int = 0,
+        flags: list = None,
         hints: list = None,
         created_at: int = None,
         updated_at: int = None,
@@ -93,6 +97,7 @@ class Challenge(Document):
         self.summary = summary
         self.total_points = total_points
         self.category_id = category_id
+        self.flags = flags
         self.hints = hints
 
     @staticmethod
@@ -104,9 +109,9 @@ class ChallengeParticipation(Document):
     fields = Document.fields + [
         "challenge_id",
         "user_id",
-        "progress",
         "status",
         "rating",
+        "found_flags",
         "used_hints",
     ]
 
@@ -114,9 +119,9 @@ class ChallengeParticipation(Document):
         "participation_id",
         "challenge_id",
         "user_id",
-        "progress",
         "status",
         "rating",
+        "found_flags",
         "used_hints",
     ]
 
@@ -129,9 +134,9 @@ class ChallengeParticipation(Document):
         _id: str = None,
         challenge_id: str = "",
         user_id: str = "",
-        progress: float = 0,
-        status: str = "", 
+        status: str = "ongoing", 
         rating: int = None,
+        found_flags: list = None,
         used_hints: list = None,
         created_at: int = None,
         updated_at: int = None,
@@ -141,10 +146,10 @@ class ChallengeParticipation(Document):
         self.participation_id = self._id
         self.challenge_id = challenge_id
         self.user_id = user_id
-        self.progress = progress
         self.status = status
         self.rating = rating
-        self.used_hints = used_hints
+        self.found_flags = found_flags if found_flags else []
+        self.used_hints = used_hints if used_hints else []
 
     @staticmethod
     def from_dict(dict_object: dict):

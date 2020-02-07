@@ -55,11 +55,16 @@ const getters: GetterTree<ChallengesState, RootState> = {
       if (!challenge || !participation) {
         return 0;
       }
+      let progress = 0;
+      participation.found_flags.forEach((index) => {
+        progress += challenge.flags[index].reward;
+      });
       let malus = 0;
       participation.used_hints.forEach((index) => {
         malus += challenge.hints[index].cost;
       });
-      return (participation.progress - malus) * challenge.total_points;
+
+      return (progress - malus) * challenge.total_points;
     };
   },
 };
