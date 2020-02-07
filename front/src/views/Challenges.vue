@@ -32,7 +32,7 @@
     <emmental-modal :is-active="createMode">
       <challenges-category-edit-card
         v-if="createMode"
-        :challengeCategory="newChallengeCategory"
+        :challenge-category="newChallengeCategory"
         @quit="createMode=false"
         @save="insert"
       />

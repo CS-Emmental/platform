@@ -64,14 +64,12 @@
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
-import { State, Getter } from 'vuex-class';
 
 import vSelect from 'vue-select';
 import EmmentalRichTextEditor from '@/components/EmmentalRichTextEditor.vue';
 
 import { ChallengeCategory } from '../store/challenges/types';
 
-const namespace = 'challenges';
 
 @Component({
   name: 'challengesCategoryEdit',

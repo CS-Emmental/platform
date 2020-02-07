@@ -51,7 +51,7 @@
     <emmental-modal :is-active="editMode">
       <challenges-category-edit-card
         v-if="editMode"
-        :challengeCategory="category"
+        :challenge-category="category"
         @quit="editMode=false"
         @save="save"
       />
