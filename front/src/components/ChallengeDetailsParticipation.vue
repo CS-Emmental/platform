@@ -9,7 +9,17 @@
     </button>
     <template v-else>
       <div class="box content">
-        <h2>Your participation</h2>
+        <div class="level">
+          <div class="level-left">
+            <h2 class="level-item">
+              Your participation
+            </h2>
+            <emmental-status-tag
+              class="level-item"
+              :status="participation.status"
+            />
+          </div>
+        </div>
         <button
           class="button is-dark is-fullwidth"
           @click="resetMode=true"
@@ -38,6 +48,7 @@ import {
 import { Action } from 'vuex-class';
 import { Challenge, ChallengeParticipation } from '../store/challenges/types';
 
+import EmmentalStatusTag from '@/components/EmmentalStatusTag.vue';
 import ConfirmModal from '@/components/ConfirmModal.vue';
 
 const namespace = 'challenges';
@@ -45,6 +56,7 @@ const namespace = 'challenges';
 @Component({
   name: 'ChallengeDetailsParticipation',
   components: {
+    EmmentalStatusTag,
     ConfirmModal,
   },
 })
@@ -81,5 +93,11 @@ export default class ChallengeDetailsParticipation extends Vue {
 <style lang="scss" scoped>
 .challenge-buttons {
   margin-bottom: 1rem;
+}
+.level {
+  margin-bottom: .5rem;
+  .tag {
+    margin-bottom: 1rem;
+  }
 }
 </style>

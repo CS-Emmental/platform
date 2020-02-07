@@ -1,0 +1,3 @@
+error_code;meaning (internal_message)
+
+1;Inconsistent dates in core/models.py
