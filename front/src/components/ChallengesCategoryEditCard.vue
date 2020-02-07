@@ -2,7 +2,7 @@
   <div
     class="card"
     tabindex="0"
-    @keyup.enter="$emit('save', challengeEdit)"
+    @keyup.enter="$emit('save', challengesCategoryEdit)"
     @keyup.esc="$emit('quit')"
   >
     <header class="card-header">
