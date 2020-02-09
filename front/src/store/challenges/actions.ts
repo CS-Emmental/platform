@@ -84,5 +84,19 @@ const actions: ActionTree<ChallengesState, RootState> = {
       commit('setHintsText', { challengeId: updated.challenge_id, hintList });
     });
   },
+  submitFlag({ commit }, { participationId, index, value }: {
+    participationId: string; index: number; value: string;
+  }): void {
+    api.post(
+      `challenge-participations/${participationId}/flags`,
+      {
+        index,
+        value,
+      },
+    ).then((res) => {
+      const participationEdited: ChallengeParticipation = res && res.data;
+      commit('setParticipation', participationEdited);
+    });
+  },
 };
 export default actions;

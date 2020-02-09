@@ -14,6 +14,7 @@ from challenges.controller import (
     get_currentuser_participations,
     update_participation,
     get_hints,
+    validate_flag,
 )
 
 challenges = Blueprint("challenges", "challenges")
@@ -119,3 +120,10 @@ def use_hints(participation_id: str):
     hints_indexes = request.json
     hints = get_hints(participation_id, hints_indexes)
     return jsonify(hints)
+
+@challenges.route("/challenge-participations/<participation_id>/flags", methods=["POST"])
+@login_required
+def post_flag(participation_id: str):
+    flag = request.json
+    participation = validate_flag(participation_id, flag["index"], flag["value"])
+    return jsonify(participation.to_dict())

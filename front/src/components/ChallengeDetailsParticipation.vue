@@ -20,8 +20,44 @@
             />
           </div>
         </div>
+        <div
+          v-for="(flag, index) in challenge.flags"
+          :key="index"
+          class="flag-input"
+        >
+          <label class="label">
+            {{ flag.text }}
+            <i
+              v-if="participation.found_flags.includes(index)"
+              class="fas fa-check has-text-success"
+            />
+          </label>
+          <div
+            v-if="!participation.found_flags.includes(index)"
+            class="field is-grouped"
+          >
+            <p class="control is-expanded">
+              <input
+                v-model="flagInputs[index]"
+                class="input"
+                type="text"
+                placeholder="Flag Secret"
+              >
+            </p>
+            <p class="control">
+              <a
+                class="button is-primary"
+                @click="onSubmitFlag(index, flagInputs[index])"
+              >
+                Submit
+              </a>
+            </p>
+          </div>
+        </div>
+        <hr>
         <button
-          class="button is-dark is-fullwidth"
+          v-if="participation.status==='ongoing'"
+          class="button is-dark is-fullwidth reset-button"
           @click="resetMode=true"
         >
           Reset challenge
@@ -87,6 +123,19 @@ export default class ChallengeDetailsParticipation extends Vue {
   public onResetChallenge() {
     this.resetMode = false;
   }
+
+  public flagInputs: {[index: number]: string[]} = {};
+
+  @Action('submitFlag', { namespace })
+  public submitFlag!: CallableFunction;
+
+  public onSubmitFlag(index: number, value: string) {
+    this.submitFlag({
+      participationId: this.participation.participation_id,
+      index,
+      value,
+    });
+  }
 }
 </script>
 
@@ -99,5 +148,8 @@ export default class ChallengeDetailsParticipation extends Vue {
   .tag {
     margin-bottom: 1rem;
   }
+}
+.flag-input {
+  margin-bottom: .5rem;
 }
 </style>

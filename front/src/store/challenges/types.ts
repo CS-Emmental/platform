@@ -41,8 +41,3 @@ export interface ChallengeParticipation {
     found_flags: number[];
     used_hints: number[];
 }
-
-export interface SetHintsTextProps {
-  challengeId: string;
-  hintList: { index: number; text: string }[];
-}

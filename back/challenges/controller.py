@@ -1,5 +1,7 @@
 from flask_login import current_user
 
+from core.exceptions import EmmentalException
+
 from challenges.manager import (
     ChallengeCategoriesManager,
     ChallengeParticipationsManager,
@@ -44,6 +46,8 @@ def get_all_challenges():
     challenges = ChallengesManager().get_all()
     if current_user.is_anonymous or current_user.has_permissions(["admin"]):
         for challenge in challenges:
+            for flag in challenge.flags:
+                flag["value"] = ""
             if challenge.hints is not None:
                 for hint in challenge.hints:
                     hint["text"] = ""
@@ -110,3 +114,15 @@ def get_hints(participation_id: str, hint_indexes: list):
                 participation.used_hints = hint_indexes
                 ChallengeParticipationsManager().update_one(participation)
                 return [{"index": i, "text": challenge.hints[i]["text"]} for i in hint_indexes]
+
+def validate_flag(participation_id: str, flag_index: int, flag_value: str):
+    participation = ChallengeParticipationsManager().get(participation_id)
+    challenge = ChallengesManager().get(participation.challenge_id)
+    if flag_index < len(challenge.flags):
+        if flag_index not in participation.found_flags:
+            if flag_value == challenge.flags[flag_index]["value"]:
+                participation.found_flags.append(flag_index)
+                ChallengeParticipationsManager().update_one(participation)
+                return participation
+            else:
+                raise EmmentalException # todo

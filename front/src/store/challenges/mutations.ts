@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 import {
-  ChallengesState, ChallengeCategory, Challenge, ChallengeParticipation, SetHintsTextProps,
+  ChallengesState, ChallengeCategory, Challenge, ChallengeParticipation, Hint,
 } from './types';
 
 const mutations: MutationTree<ChallengesState> = {
@@ -42,11 +42,13 @@ const mutations: MutationTree<ChallengesState> = {
       .findIndex((cat: ChallengeCategory) => cat.category_id === editChallengeCategory.category_id);
     state.challengeCategories.splice(index, 1, editChallengeCategory);
   },
-  setHintsText(state, { challengeId, hintList }: SetHintsTextProps) {
+  setHintsText(state, { challengeId, hintList }: {
+    challengeId: string; hintList: {index: number; text: string}[];
+  }) {
     const index = state.challenges
       .findIndex((chall: Challenge) => chall.challenge_id === challengeId);
     const editedChallenge = { ...state.challenges[index] };
-    hintList.forEach((hint) => {
+    hintList.forEach((hint: {index: number; text: string}) => {
       editedChallenge.hints[hint.index].text = hint.text;
     });
     state.challenges.splice(index, 1, editedChallenge);
