@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 import {
-  ChallengesState, ChallengeCategory, Challenge, ChallengeParticipation, Hint,
+  ChallengesState, ChallengeCategory, Challenge, ChallengeParticipation,
 } from './types';
 
 const mutations: MutationTree<ChallengesState> = {

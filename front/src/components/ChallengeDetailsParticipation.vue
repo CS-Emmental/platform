@@ -130,11 +130,13 @@ export default class ChallengeDetailsParticipation extends Vue {
   public submitFlag!: CallableFunction;
 
   public onSubmitFlag(index: number, value: string) {
-    this.submitFlag({
-      participationId: this.participation.participation_id,
-      index,
-      value,
-    });
+    if (this.participation) {
+      this.submitFlag({
+        participationId: this.participation.participation_id,
+        index,
+        value,
+      });
+    }
   }
 }
 </script>
