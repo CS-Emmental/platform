@@ -44,7 +44,7 @@ def insert_challenge_category(inputs: dict):
 
 def get_all_challenges():
     challenges = ChallengesManager().get_all()
-    if current_user.is_anonymous or not current_user.has_permissions(["admin"]):
+    if current_user.is_anonymous or current_user.has_permissions(["admin"]):
         for challenge in challenges:
             for flag in challenge.flags:
                 flag["value"] = ""

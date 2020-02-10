@@ -58,59 +58,6 @@
           >
         </div>
       </div>
-      <label class="label">Flags</label>
-      <div
-        v-for="(flag, index) in challengeEdit.flags"
-        :key="`flag-${index}`"
-        class="field is-grouped"
-      >
-        <p class="control has-icons-left">
-          <input
-            class="input"
-            type="number"
-            placeholder="Cost"
-            :value="flag.reward*challengeEdit.total_points"
-            @input="flag.reward = $event.target.value / challengeEdit.total_points"
-          >
-          <span class="icon is-small is-left">
-            <i class="fas fa-dollar-sign" />
-          </span>
-        </p>
-        <p class="control is-expanded">
-          <input
-            v-model="flag.value"
-            class="input"
-            type="text"
-            placeholder="Secret"
-          >
-        </p>
-        <p class="control is-expanded">
-          <input
-            v-model="flag.text"
-            class="input"
-            type="text"
-            placeholder="Text"
-          >
-        </p>
-        <p class="control">
-          <a
-            class="button is-light is-rounded"
-            @click="challengeEdit.flags.splice(index, 1)"
-          >
-            <i class="fas fa-times" />
-          </a>
-        </p>
-      </div>
-      <div class="field">
-        <p class="control">
-          <a
-            class="button is-light is-rounded"
-            @click="onNewFlag"
-          >
-            <i class="fas fa-plus plus-icon" />Add flag
-          </a>
-        </p>
-      </div>
       <div class="field">
         <label class="label">Description</label>
         <emmental-rich-text-editor
@@ -122,7 +69,7 @@
       <label class="label">Hints</label>
       <div
         v-for="(hint, index) in challengeEdit.hints"
-        :key="`hint-${index}`"
+        :key="index"
         class="field is-grouped"
       >
         <p class="control has-icons-left">
@@ -236,18 +183,6 @@ export default class ChallengeEditCard extends Vue {
     this.challengeEdit.hints.push({ cost: 0, text: '' });
   }
 
-  public onNewFlag() {
-    if (!this.challengeEdit.flags) {
-      this.challengeEdit.flags = [];
-    }
-    this.challengeEdit.flags.push({ reward: 0, value: '', text: '' });
-  }
-
-  get flagRewardSum() {
-    return this.challengeEdit.flags.map(flag => flag.reward)
-      .reduce((pv, vc) => pv + vc, 0);
-  }
-
   public setCategory(value: ChallengeCategory) {
     this.challengeEdit.category_id = value.category_id;
   }
@@ -276,6 +211,7 @@ export default class ChallengeEditCard extends Vue {
   overflow-x: auto;
 }
 .field-body .field.cost-field {
+  width: 10%;
   flex-grow: 0;
 }
 .plus-icon {
