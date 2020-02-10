@@ -30,6 +30,7 @@ export interface Hint {
 export interface Flag {
   value: string;
   reward: number;
+  text: string;
 }
 
 export interface ChallengeParticipation {

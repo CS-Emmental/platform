@@ -153,7 +153,13 @@ export default class ChallengesCategory extends Vue {
       description: '',
       category_id: this.category.category_id,
       total_points: 100,
-      flags: [],
+      flags: [
+        {
+          reward: 1,
+          value: '',
+          text: '',
+        },
+      ],
       hints: [],
     };
   }
