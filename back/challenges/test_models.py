@@ -7,9 +7,10 @@ from challenges.test_data import (
     data_challenge_category_error_title,
     data_challenge_category_error_time,
     data_challenge_category_legit_args,
+    data_challenge_category_error_type,
 )
 from core.exceptions import InconsistentDateException
-from challenges.exceptions import InconsistentTitleException
+from challenges.exceptions import InconsistentTitleException,InconsistentTypeException
 
 
 class TestInit:
@@ -65,6 +66,18 @@ class TestInit:
     @pytest.mark.parametrize("test_input", data_challenge_category_error_title)
     def test_error_title(self, test_input):
         with pytest.raises(InconsistentTitleException):
+            challengeCategory = ChallengeCategory(
+                _id=test_input["_id"],
+                created_at=test_input["created_at"],
+                updated_at=test_input["updated_at"],
+                title=test_input["title"],
+                description=test_input["description"],
+                icon=test_input["icon"],
+            )
+
+    @pytest.mark.parametrize("test_input", data_challenge_category_error_type)
+    def test_error_title(self, test_input):
+        with pytest.raises(InconsistentTypeException):
             challengeCategory = ChallengeCategory(
                 _id=test_input["_id"],
                 created_at=test_input["created_at"],

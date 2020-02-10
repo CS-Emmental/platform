@@ -1,6 +1,6 @@
 from core.models import Document, from_dict_class
 import time
-from challenges.exceptions import InconsistentTitleException
+from challenges.exceptions import InconsistentTitleException,InconsistentTypeException
 
 class ChallengeCategory(Document):
     fields = Document.fields + [
@@ -32,10 +32,14 @@ class ChallengeCategory(Document):
         updated_at: int = None,
     ):
         super().__init__(_id, created_at, updated_at)
+        if not isinstance(title, str) or not isinstance(icon, str) or not isinstance(description, str):
+            raise InconsistentTypeException
+
         self.category_id = self._id
         self.title = title
         self.icon = icon
         self.description = description
+
         if self.title == "" or self.title == None:
             raise InconsistentTitleException
 

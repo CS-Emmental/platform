@@ -47,6 +47,11 @@ data_challenge_category_error_time = [
 ]
 
 data_challenge_category_error_title = [
-    ({"_id": None, "title": None, "icon": "icon" ,"description": "description","created_at": 0,"updated_at": 0}),
-    ({"_id": None, "title": "", "icon": "icon" ,"description": "description","created_at": 0,"updated_at": 0})
+    ({"_id": None, "title": "", "icon": "icon" ,"description": "description","created_at": 0,"updated_at": 0}),
+]
+data_challenge_category_error_type= [
+    ({"_id": None, "title": None, "icon": "icon" ,"description": "description","created_at": 0,"updated_at": "z"}),
+    ({"_id": None, "title": "title", "icon": None ,"description": "description","created_at": 0,"updated_at": "z"}),
+    ({"_id": None, "title": "title", "icon": "icon" ,"description": None,"created_at": 0,"updated_at": "z"}),
+    ({"_id": None, "title": 1, "icon": 1 ,"description": 1,"created_at": 0,"updated_at": "z"})
 ]
