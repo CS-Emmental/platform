@@ -1,5 +1,6 @@
 from core.models import Document, from_dict_class
-
+import time
+from challenges.exceptions import InconsistentTitleException
 
 class ChallengeCategory(Document):
     fields = Document.fields + [
@@ -30,13 +31,14 @@ class ChallengeCategory(Document):
         created_at: int = None,
         updated_at: int = None,
     ):
-
         super().__init__(_id, created_at, updated_at)
-
         self.category_id = self._id
         self.title = title
         self.icon = icon
         self.description = description
+        if self.title == "" or self.title == None:
+            raise InconsistentTitleException
+
 
     @staticmethod
     def from_dict(dict_object: dict):
