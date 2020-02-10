@@ -134,6 +134,7 @@ export default class ChallengesCategory extends Vue {
     delete inserted.challenge_id;
     this.insertChallenge(inserted).then(() => {
       this.createMode = false;
+      this.$toasted.show(`New challenge '${inserted.title}' created`);
     });
   }
 
@@ -153,7 +154,13 @@ export default class ChallengesCategory extends Vue {
       description: '',
       category_id: this.category.category_id,
       total_points: 100,
-      flags: [],
+      flags: [
+        {
+          reward: 1,
+          value: '',
+          text: '',
+        },
+      ],
       hints: [],
     };
   }
