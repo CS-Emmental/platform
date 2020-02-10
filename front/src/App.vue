@@ -47,7 +47,7 @@ export default class App extends Vue {
 @import "vue-select/src/scss/vue-select.scss";
 @import '@/bulma-theme.scss';
 #app {
-  font-family: 'Orbitron', Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
@@ -55,9 +55,12 @@ export default class App extends Vue {
   background-color: #e0e0e0;
 
   .button {
-    font-family: 'Orbitron', Helvetica, Arial, sans-serif;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  .title, .subtitle, .menu-label, h1, h2, h3, h4 {
+    font-family: 'Orbitron', Helvetica, Arial, sans-serif;
   }
 }
 .main {
