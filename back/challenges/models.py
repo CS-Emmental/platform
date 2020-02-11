@@ -52,6 +52,9 @@ class Challenge(Document):
         "summary",
         "flags",
         "hints",
+        "ports",
+        "image",
+        "challenge_type",
     ]
 
     export_fields = Document.export_fields + [
@@ -63,6 +66,9 @@ class Challenge(Document):
         "summary",
         "flags",
         "hints",
+        "ports",
+        "image",
+        "challenge_type",
     ]
 
     editable_fields = Document.editable_fields + [
@@ -73,6 +79,9 @@ class Challenge(Document):
         "summary",
         "flags",
         "hints",
+        "ports",
+        "image",
+        "challenge_type",
     ]
 
     def __init__(
@@ -87,6 +96,9 @@ class Challenge(Document):
         hints: list = None,
         created_at: int = None,
         updated_at: int = None,
+        ports: list = None,
+        image: str = "",
+        challenge_type: str = "",
     ):
 
         super().__init__(_id, created_at, updated_at)
@@ -99,6 +111,9 @@ class Challenge(Document):
         self.category_id = category_id
         self.flags = flags
         self.hints = hints
+        self.ports = ports
+        self.image = image
+        self.challenge_type = challenge_type
 
     @staticmethod
     def from_dict(dict_object: dict):
@@ -113,6 +128,7 @@ class ChallengeParticipation(Document):
         "rating",
         "found_flags",
         "used_hints",
+        "port",
     ]
 
     export_fields = Document.export_fields + [
@@ -123,6 +139,7 @@ class ChallengeParticipation(Document):
         "rating",
         "found_flags",
         "used_hints",
+        "port",
     ]
 
     editable_fields = Document.editable_fields + [
@@ -140,6 +157,7 @@ class ChallengeParticipation(Document):
         used_hints: list = None,
         created_at: int = None,
         updated_at: int = None,
+        port: int = None,
     ):
         super().__init__(_id, created_at, updated_at)
 
@@ -150,6 +168,7 @@ class ChallengeParticipation(Document):
         self.rating = rating
         self.found_flags = found_flags if found_flags else []
         self.used_hints = used_hints if used_hints else []
+        self.port = port
 
     @staticmethod
     def from_dict(dict_object: dict):

@@ -9,6 +9,8 @@ from challenges.manager import (
 )
 from challenges.models import Challenge, ChallengeCategory, ChallengeParticipation
 
+from kubernetes_controller.controller import deploy_challenge_instance
+
 
 def get_challenge_category():
     categories = ChallengeCategoriesManager().get_all()
@@ -84,6 +86,8 @@ def remove_challenge(challenge_id: str):
 def start_participation(options: dict):
     options["user_id"] = current_user.user_id
     new_participation = ChallengeParticipation(**options)
+    challenge = ChallengesManager().get(new_participation.challenge_id)
+    new_participation = deploy_challenge_instance(challenge, new_participation)
     ChallengeParticipationsManager().insert_one(new_participation)
     return new_participation
 
