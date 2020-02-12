@@ -18,6 +18,7 @@ export interface Challenge {
   summary: string;
   description: string;
   total_points: number;
+  flags: Flag[];
   hints: Hint[];
 }
 
@@ -26,17 +27,18 @@ export interface Hint {
   cost: number;
 }
 
+export interface Flag {
+  value: string;
+  reward: number;
+  text: string;
+}
+
 export interface ChallengeParticipation {
     participation_id: string;
     challenge_id: string;
     user_id: string;
-    progress: number;
     status: string;
     rating: number;
+    found_flags: number[];
     used_hints: number[];
-}
-
-export interface SetHintsTextProps {
-  challengeId: string;
-  hintList: { index: number; text: string }[];
 }

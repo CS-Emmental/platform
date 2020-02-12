@@ -51,7 +51,7 @@
     <emmental-modal :is-active="editMode">
       <challenges-category-edit-card
         v-if="editMode"
-        :challengeCategory="category"
+        :challenge-category="category"
         @quit="editMode=false"
         @save="save"
       />
@@ -134,6 +134,7 @@ export default class ChallengesCategory extends Vue {
     delete inserted.challenge_id;
     this.insertChallenge(inserted).then(() => {
       this.createMode = false;
+      this.$toasted.show(`New challenge '${inserted.title}' created`);
     });
   }
 
@@ -153,6 +154,13 @@ export default class ChallengesCategory extends Vue {
       description: '',
       category_id: this.category.category_id,
       total_points: 100,
+      flags: [
+        {
+          reward: 1,
+          value: '',
+          text: '',
+        },
+      ],
       hints: [],
     };
   }
@@ -200,13 +208,6 @@ export default class ChallengesCategory extends Vue {
   grid-gap: 2rem;
   height: auto;
   margin-top: 3rem;
-}
-.new-box {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  flex-direction: column;
-  text-align: center;
 }
 .modal-content {
   width: 60vw;

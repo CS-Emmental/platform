@@ -2,7 +2,7 @@
   <div
     class="card"
     tabindex="0"
-    @keyup.enter="$emit('save', challengeEdit)"
+    @keyup.enter="onSave"
     @keyup.esc="$emit('quit')"
   >
     <header class="card-header">
@@ -22,10 +22,17 @@
         <div class="control">
           <input
             v-model="challengeEdit.title"
+            :class="{'is-danger': !challengeEdit.title}"
             class="input"
             type="text"
           >
         </div>
+        <p
+          v-if="!challengeEdit.title"
+          class="help is-danger"
+        >
+          Empty title
+        </p>
       </div>
       <div class="field">
         <label class="label">Summary</label>
@@ -57,6 +64,66 @@
             type="number"
           >
         </div>
+      </div>
+      <label class="label">Flags</label>
+      <div
+        v-for="(flag, index) in challengeEdit.flags"
+        :key="`flag-${index}`"
+        class="field is-grouped"
+      >
+        <p class="control has-icons-left">
+          <input
+            class="input"
+            type="number"
+            placeholder="Cost"
+            :class="{'is-danger': flagRewardSum !== 1}"
+            :value="flag.reward*challengeEdit.total_points"
+            @input="flag.reward = $event.target.value / challengeEdit.total_points"
+          >
+          <span class="icon is-small is-left">
+            <i class="fas fa-dollar-sign" />
+          </span>
+        </p>
+        <p class="control is-expanded">
+          <input
+            v-model="flag.value"
+            class="input"
+            type="text"
+            placeholder="Secret"
+          >
+        </p>
+        <p class="control is-expanded">
+          <input
+            v-model="flag.text"
+            class="input"
+            type="text"
+            placeholder="Text"
+          >
+        </p>
+        <p class="control">
+          <a
+            class="button is-light is-rounded"
+            @click="challengeEdit.flags.splice(index, 1)"
+          >
+            <i class="fas fa-times" />
+          </a>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control">
+          <a
+            class="button is-light is-rounded"
+            @click="onNewFlag"
+          >
+            <i class="fas fa-plus plus-icon" />Add flag
+          </a>
+        </p>
+        <p
+          v-if="flagRewardSum !== 1"
+          class="help is-danger"
+        >
+          Total flag points don't match challenge points
+        </p>
       </div>
       <div class="field">
         <label class="label">Description</label>
@@ -119,7 +186,7 @@
       >Cancel</a>
       <a
         class="card-footer-item"
-        @click="$emit('save', challengeEdit)"
+        @click="onSave"
       >Save</a>
     </footer>
   </div>
@@ -163,6 +230,7 @@ export default class ChallengeEditCard extends Vue {
     description: '',
     category_id: '',
     total_points: 0,
+    flags: [],
     hints: [],
   };
 
@@ -171,6 +239,9 @@ export default class ChallengeEditCard extends Vue {
       this.challengeEdit = { ...this.challenge };
       if (this.challengeEdit.hints) {
         this.challengeEdit.hints = [...this.challenge.hints];
+      }
+      if (this.challengeEdit.flags) {
+        this.challengeEdit.flags = [...this.challenge.flags];
       }
     }
   }
@@ -182,8 +253,32 @@ export default class ChallengeEditCard extends Vue {
     this.challengeEdit.hints.push({ cost: 0, text: '' });
   }
 
+  public onNewFlag() {
+    if (!this.challengeEdit.flags) {
+      this.challengeEdit.flags = [];
+    }
+    this.challengeEdit.flags.push({ reward: 0, value: '', text: '' });
+  }
+
+  get flagRewardSum() {
+    return this.challengeEdit.flags.map(flag => flag.reward)
+      .reduce((pv, vc) => pv + vc, 0);
+  }
+
+  get formIsValid() {
+    return this.challengeEdit.title && this.flagRewardSum === 1;
+  }
+
   public setCategory(value: ChallengeCategory) {
     this.challengeEdit.category_id = value.category_id;
+  }
+
+  public onSave() {
+    if (this.formIsValid) {
+      this.$emit('save', this.challengeEdit);
+    } else {
+      this.$toasted.show('Challenge form is invalid');
+    }
   }
 }
 </script>

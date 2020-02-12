@@ -39,6 +39,7 @@
       </div>
       <div class="column">
         <challenge-details-participation
+          v-if="isAuthenticated"
           :challenge="challenge"
           :participation="participation"
         />
@@ -71,7 +72,7 @@ import {
   Component,
   Vue,
 } from 'vue-property-decorator';
-import { Getter, Action } from 'vuex-class';
+import { State, Getter, Action } from 'vuex-class';
 import { Challenge, ChallengeParticipation } from '../store/challenges/types';
 import { slug } from '../store/utils';
 
@@ -196,6 +197,9 @@ export default class ChallengeDetails extends Vue {
     return this.participation
       ? this.getParticipationFinalScore(this.participation.participation_id) : 0;
   }
+
+  @State('isAuthenticated')
+  public isAuthenticated!: boolean;
 }
 </script>
 

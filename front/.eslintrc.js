@@ -18,6 +18,8 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     '@typescript-eslint/camelcase': ['error', { properties: 'never' }],
     'import/no-named-as-default': 0,
+    'import/no-unresolved': 0,
+    'import/extensions': 0,
   },
 
   parserOptions: {

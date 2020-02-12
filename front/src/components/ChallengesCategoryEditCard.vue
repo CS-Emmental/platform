@@ -2,7 +2,7 @@
   <div
     class="card"
     tabindex="0"
-    @keyup.enter="$emit('save', challengeEdit)"
+    @keyup.enter="$emit('save', challengesCategoryEdit)"
     @keyup.esc="$emit('quit')"
   >
     <header class="card-header">
@@ -64,14 +64,12 @@
 
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
-import { State, Getter } from 'vuex-class';
 
 import vSelect from 'vue-select';
 import EmmentalRichTextEditor from '@/components/EmmentalRichTextEditor.vue';
 
 import { ChallengeCategory } from '../store/challenges/types';
 
-const namespace = 'challenges';
 
 @Component({
   name: 'challengesCategoryEdit',
