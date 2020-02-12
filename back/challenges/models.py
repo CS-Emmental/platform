@@ -92,6 +92,10 @@ class Challenge(Document):
     ):
 
         super().__init__(_id, created_at, updated_at)
+        if not isinstance(title, str) or not isinstance(description, str) 
+        or not isinstance(summary, str) or not isinstance(total_points,int)
+        or not isinstance(category_id,str) or not isinstance(hints,list):
+            raise InconsistentTypeException
 
         self.challenge_id = self._id
         self.title = title
@@ -100,6 +104,8 @@ class Challenge(Document):
         self.total_points = total_points
         self.category_id = category_id
         self.hints = hints
+        if self.title == "" or self.title == None:
+            raise InconsistentTitleException
 
     @staticmethod
     def from_dict(dict_object: dict):

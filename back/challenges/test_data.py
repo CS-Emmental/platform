@@ -55,3 +55,58 @@ data_challenge_category_error_type= [
     ({"_id": None, "title": "title", "icon": "icon" ,"description": None,"created_at": 0,"updated_at": "z"}),
     ({"_id": None, "title": 1, "icon": 1 ,"description": 1,"created_at": 0,"updated_at": "z"})
 ]
+
+data_challenge_legit_args = [
+    (
+        {"_id": "a", "title": "a","description":"a","summary":"a","category_id":"a","total_points":0,"hints":[],"created_at": 0,"updated_at": 0},
+        {"_id": "a", "title": "a","description":"a","summary":"a","category_id":"a","total_points":0,"hints":[],"created_at": 0,"updated_at": 0},
+    ),
+    (
+        {
+            "_id": "c853fd69-e222-4e07-a261-efe1791aa542",
+            "title": "title",
+            "description":"description",
+            "summary":"summary",
+            "category_id":"category",
+            "total_points":0,
+            "hints":[],
+            "created_at": 1581002681,
+            "updated_at": 1581002681,
+        },
+        {
+            "_id": "c853fd69-e222-4e07-a261-efe1791aa542",
+            "title": "title",
+            "description":"description",
+            "summary":"summary",
+            "category_id":"category",
+            "total_points":0,
+            "hints":[],
+            "created_at": 1581002681,
+            "updated_at": 1581002681,
+        },
+    ),
+    (
+        {
+            "_id": "c853fd69-e222-4e07-a261-efe1791aa542",
+            "title": "title",
+            "description":"description",
+            "summary":"summary",
+            "category_id":"category",
+            "total_points":0,
+            "hints":[],
+            "created_at": 1581002681,
+            "updated_at": 1681002681,
+        },
+        {
+            "_id": "c853fd69-e222-4e07-a261-efe1791aa542",
+            "title": "title",
+            "description":"description",
+            "summary":"summary",
+            "category_id":"category",
+            "total_points":0,
+            "hints":[],
+            "created_at": 1581002681,
+            "updated_at": 1681002681,
+        }
+    ),
+]
