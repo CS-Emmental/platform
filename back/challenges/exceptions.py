@@ -4,14 +4,20 @@ class EmmentalException(Exception):
     internal_message = "Something went wrong here"
     status_code = 500
 
-class InconsistentTitleException(EmmentalException):
+class EmptyFieldException(EmmentalException):
     error_code = 1
     external_message = "Unknown Error"
-    internal_message = "Inconsistent title: title cannot be left blank"
+    internal_message = "Empty field: one field cannot be left blank"
     status_code = 500
 
 class InconsistentTypeException(EmmentalException):
     error_code = 1
     external_message = "Unknown Error"
     internal_message = "Inconsistent type: an input did not respect the right type"
+    status_code = 500
+
+class InconsistentHintsException(EmmentalException):
+    error_code = 1
+    external_message = "Unknown Error"
+    internal_message = "Inconsistent hints: hints must be positive with a sum inferior to 1"
     status_code = 500
