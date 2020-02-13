@@ -1,7 +1,7 @@
 from core.models import Document, from_dict_class
 import time
-from challenges.exceptions import EmptyFieldException,InconsistentTypeException,InconsistentHintsException
-
+from challenges.exceptions import EmptyFieldException,InconsistentTypeException,InconsistentHintsException,InconsistentFlagsException
+import operator
 class ChallengeCategory(Document):
     fields = Document.fields + [
         "title",
@@ -114,11 +114,14 @@ class Challenge(Document):
         self.flags = flags
         self.hints = hints
         if self.hints and (
-            sum(self.hints)>1 or (
-                (filter(lambda x: x < 0, self.hints)) and len(list((filter(lambda x: x < 0, self.hints))))
-                )
+            sum([hint['index'] for hint in self.hints])>1 or len([i for i in [hint['index'] for hint in self.hints] if i<0])>0
             ):
             raise InconsistentHintsException
+        
+        if self.flags and (
+            sum([flag['reward'] for flag in self.flags])!=1 or len([i for i in [flag['reward'] for flag in self.flags] if i<0])>0
+            ):
+            raise InconsistentFlagsException
 
         if self.title == "" or self.title == None:
             raise EmptyFieldException

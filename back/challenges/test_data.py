@@ -134,6 +134,12 @@ data_challenge_error_type= [
 ]
 
 data_challenge_error_hints=[
-    ({"_id": None, "title": "None","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[0.2,0.9],"created_at": None,"updated_at": None}),
-    ({"_id": None, "title": "None","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[0.1,-0.1,0.8],"created_at": None,"updated_at": None}),
+    ({"_id": None, "title": "None","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[{"index":0.2,"text":""},{"index":0.9,"text":""}],"created_at": None,"updated_at": None}),
+    ({"_id": None, "title": "None","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[{"index":-0.2,"text":""},{"index":0.2,"text":""}],"created_at": None,"updated_at": None}),
+]
+
+data_challenge_error_hints=[
+    ({"_id": None, "title": "None","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[{"reward":0.2,"value":"","text":""},{"reward":-0.2,"value":"","text":""}],"hints":[],"created_at": None,"updated_at": None}),
+    ({"_id": None, "title": "None","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[{"reward":0.9,"value":"","text":""},{"reward":0.2,"value":"","text":""}],"hints":[],"created_at": None,"updated_at": None}),
+    ({"_id": None, "title": "None","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[{"reward":0.9,"value":"","text":""}],"hints":[],"created_at": None,"updated_at": None}),
 ]

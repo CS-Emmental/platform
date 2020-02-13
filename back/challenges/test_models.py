@@ -14,7 +14,7 @@ from challenges.test_data import (
     data_challenge_error_type,
     data_challenge_error_hints,)
 from core.exceptions import InconsistentDateException
-from challenges.exceptions import EmptyFieldException,InconsistentTypeException,InconsistentHintsException
+from challenges.exceptions import EmptyFieldException,InconsistentTypeException,InconsistentHintsException,InconsistentFlagsException
 
 
 class TestInit:
@@ -178,7 +178,7 @@ class TestInit:
 
     @pytest.mark.parametrize("test_input", data_challenge_error_hints)
     def test_error_type(self, test_input):
-        with pytest.raises(InconsistentHintsException):
+        with pytest.raises(InconsistentFlagsException):
             challenge = Challenge(
                 _id=test_input["_id"],
                 created_at=test_input["created_at"],
