@@ -55,21 +55,29 @@
           </div>
         </div>
         <hr>
-        <button
-          v-if="participation.status==='ongoing'"
-          class="button is-dark is-fullwidth reset-button"
-          @click="resetMode=true"
-        >
-          Reset challenge
-        </button>
-        <confirm-modal
-          title="Reset Challenge"
-          message="Are you sure you want to reset your challenge instance ?
-                  (all current progress will be lost)"
-          :toggle="resetMode"
-          @confirm="onResetChallenge"
-          @exit="resetMode=false"
-        />
+        <template v-if="participation.status==='ongoing'">
+          <a
+            :href="`http://192.168.99.100:${participation.port}`"
+            target="_blank"
+            class="button is-dark is-fullwidth reset-button"
+          >
+            Go to challenge
+          </a>
+          <button
+            class="button is-light is-fullwidth reset-button"
+            @click="resetMode=true"
+          >
+            Reset challenge
+          </button>
+          <confirm-modal
+            title="Reset Challenge"
+            message="Are you sure you want to reset your challenge instance ?
+                    (all current progress will be lost)"
+            :toggle="resetMode"
+            @confirm="onResetChallenge"
+            @exit="resetMode=false"
+          />
+        </template>
       </div>
     </template>
   </div>
@@ -153,5 +161,8 @@ export default class ChallengeDetailsParticipation extends Vue {
 }
 .flag-input {
   margin-bottom: .5rem;
+}
+.button {
+  margin-top: .5rem;
 }
 </style>

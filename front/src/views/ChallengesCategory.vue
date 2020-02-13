@@ -162,6 +162,9 @@ export default class ChallengesCategory extends Vue {
         },
       ],
       hints: [],
+      image: '',
+      ports: [],
+      challenge_type: '',
     };
   }
 
