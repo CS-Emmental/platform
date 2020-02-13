@@ -12,7 +12,8 @@ from challenges.test_data import (
     data_challenge_error_time,
     data_challenge_legit_args,
     data_challenge_error_type,
-    data_challenge_error_hints,)
+    data_challenge_error_hints,
+    data_challenge_error_flags,)
 from core.exceptions import InconsistentDateException
 from challenges.exceptions import EmptyFieldException,InconsistentTypeException,InconsistentHintsException,InconsistentFlagsException
 
@@ -50,7 +51,7 @@ class TestInit:
         assert challenge.updated_at <= t_after
 
     @pytest.mark.parametrize("test_input,expected", data_challenge_category_legit_args)
-    def test_some_legit_args(self, test_input, expected):
+    def test_category_legit_args(self, test_input, expected):
         challengeCategory = ChallengeCategory(
             _id=test_input["_id"],
             created_at=test_input["created_at"],
@@ -104,7 +105,7 @@ class TestInit:
             )
 
     @pytest.mark.parametrize("test_input,expected", data_challenge_legit_args)
-    def test_other_legit_args(self, test_input, expected):
+    def test_challenge_legit_args(self, test_input, expected):
         challenge = Challenge(
             _id=test_input["_id"],
             created_at=test_input["created_at"],
@@ -177,7 +178,23 @@ class TestInit:
             )
 
     @pytest.mark.parametrize("test_input", data_challenge_error_hints)
-    def test_error_type(self, test_input):
+    def test_error_hints(self, test_input):
+        with pytest.raises(InconsistentHintsException):
+            challenge = Challenge(
+                _id=test_input["_id"],
+                created_at=test_input["created_at"],
+                updated_at=test_input["updated_at"],
+                description=test_input["description"],
+                title=test_input["title"],
+                summary=test_input["summary"],
+                hints=test_input["hints"],
+                flags=test_input["flags"],
+                total_points=test_input["total_points"],
+                category_id=test_input["category_id"],
+            )
+
+    @pytest.mark.parametrize("test_input", data_challenge_error_flags)
+    def test_error_flags(self, test_input):
         with pytest.raises(InconsistentFlagsException):
             challenge = Challenge(
                 _id=test_input["_id"],
