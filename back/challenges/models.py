@@ -1,6 +1,6 @@
 from core.models import Document, from_dict_class
 import time
-from challenges.exceptions import InconsistentTitleException,InconsistentTypeException
+from challenges.exceptions import EmptyFieldException,InconsistentTypeException,InconsistentHintsException
 
 class ChallengeCategory(Document):
     fields = Document.fields + [
@@ -41,7 +41,7 @@ class ChallengeCategory(Document):
         self.description = description
 
         if self.title == "" or self.title == None:
-            raise InconsistentTitleException
+            raise EmptyFieldException
 
 
     @staticmethod
@@ -96,9 +96,13 @@ class Challenge(Document):
     ):
 
         super().__init__(_id, created_at, updated_at)
-        if not isinstance(title, str) or not isinstance(description, str) 
-        or not isinstance(summary, str) or not isinstance(total_points,int)
-        or not isinstance(category_id,str) or not isinstance(hints,list):
+        if (
+            not isinstance(title, str) or not isinstance(description, str)
+            or not isinstance(summary, str) or not isinstance(total_points,int)
+            or not isinstance(category_id,str) or 
+            (hints and not isinstance(hints,list))
+            or(flags and not isinstance(flags,list))
+        ):
             raise InconsistentTypeException
 
         self.challenge_id = self._id
@@ -109,8 +113,15 @@ class Challenge(Document):
         self.category_id = category_id
         self.flags = flags
         self.hints = hints
+        if self.hints and (
+            sum(self.hints)>1 or (
+                (filter(lambda x: x < 0, self.hints)) and len(list((filter(lambda x: x < 0, self.hints))))
+                )
+            ):
+            raise InconsistentHintsException
+
         if self.title == "" or self.title == None:
-            raise InconsistentTitleException
+            raise EmptyFieldException
 
     @staticmethod
     def from_dict(dict_object: dict):

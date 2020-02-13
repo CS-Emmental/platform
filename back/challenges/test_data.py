@@ -58,8 +58,8 @@ data_challenge_category_error_type= [
 
 data_challenge_legit_args = [
     (
-        {"_id": "a", "title": "a","description":"a","summary":"a","category_id":"a","total_points":0,"hints":[],"created_at": 0,"updated_at": 0},
-        {"_id": "a", "title": "a","description":"a","summary":"a","category_id":"a","total_points":0,"hints":[],"created_at": 0,"updated_at": 0},
+        {"_id": "a", "title": "a","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[],"created_at": 0,"updated_at": 0},
+        {"_id": "a", "title": "a","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[],"created_at": 0,"updated_at": 0},
     ),
     (
         {
@@ -69,6 +69,7 @@ data_challenge_legit_args = [
             "summary":"summary",
             "category_id":"category",
             "total_points":0,
+            "flags":[],
             "hints":[],
             "created_at": 1581002681,
             "updated_at": 1581002681,
@@ -80,6 +81,7 @@ data_challenge_legit_args = [
             "summary":"summary",
             "category_id":"category",
             "total_points":0,
+            "flags":[],
             "hints":[],
             "created_at": 1581002681,
             "updated_at": 1581002681,
@@ -93,6 +95,7 @@ data_challenge_legit_args = [
             "summary":"summary",
             "category_id":"category",
             "total_points":0,
+            "flags":[],
             "hints":[],
             "created_at": 1581002681,
             "updated_at": 1681002681,
@@ -104,9 +107,33 @@ data_challenge_legit_args = [
             "summary":"summary",
             "category_id":"category",
             "total_points":0,
+            "flags":[],
             "hints":[],
             "created_at": 1581002681,
             "updated_at": 1681002681,
         }
     ),
+]
+
+data_challenge_error_time = [
+        ({"_id": None, "title": "a","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[],"created_at": 10,"updated_at": 5}),
+        ({"_id": None, "title": "a","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[],"created_at": None,"updated_at": 5}),
+]
+
+data_challenge_error_title = [
+        {"_id": None, "title": "","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[],"created_at": None,"updated_at": None},
+]
+data_challenge_error_type= [
+    ({"_id": None, "title": None,"description":"a","summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[],"created_at": None,"updated_at": None}),
+    ({"_id": None, "title": "a","description":None,"summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[],"created_at": None,"updated_at": None}),
+    ({"_id": None, "title": "a","description":"a","summary":1,"category_id":"a","total_points":0,"flags":[],"hints":[],"created_at": None,"updated_at": None}),
+    ({"_id": None, "title": "a","description":"a","summary":"a","category_id":[],"total_points":0,"flags":[],"hints":[],"created_at": None,"updated_at": None}),
+    ({"_id": None, "title": "a","description":"a","summary":"a","category_id":"","total_points":"points","flags":[],"hints":[],"created_at": None,"updated_at": None}),
+    ({"_id": None, "title": "a","description":"a","summary":"a","category_id":"","total_points":0,"flags":"[]","hints":[],"created_at": None,"updated_at": None}),
+    ({"_id": None, "title": "a","description":"a","summary":"a","category_id":"","total_points":0,"flags":[],"hints":"[]","created_at": None,"updated_at": None}),
+]
+
+data_challenge_error_hints=[
+    ({"_id": None, "title": "None","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[0.2,0.9],"created_at": None,"updated_at": None}),
+    ({"_id": None, "title": "None","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[0.1,-0.1,0.8],"created_at": None,"updated_at": None}),
 ]
