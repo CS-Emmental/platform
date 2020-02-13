@@ -125,14 +125,6 @@
           Total flag points don't match challenge points
         </p>
       </div>
-      <div class="field">
-        <label class="label">Description</label>
-        <emmental-rich-text-editor
-          v-if="challengeEdit"
-          :content="challengeEdit.description"
-          @update="(edited) => challengeEdit.description = edited"
-        />
-      </div>
       <label class="label">Hints</label>
       <div
         v-for="(hint, index) in challengeEdit.hints"
@@ -177,6 +169,14 @@
             <i class="fas fa-plus plus-icon" />Add hint
           </a>
         </p>
+      </div>
+      <div class="field">
+        <label class="label">Description</label>
+        <emmental-rich-text-editor
+          v-if="challengeEdit"
+          :content="challengeEdit.description"
+          @update="(edited) => challengeEdit.description = edited"
+        />
       </div>
     </div>
     <footer class="card-footer">
