@@ -10,7 +10,7 @@ def deploy_challenge_instance(challenge: Challenge, participation: ChallengePart
     participation_id = participation.participation_id
     port = int(challenge.ports[0]['port'])
     port_name = challenge.ports[0]['name']
-    image = "sqli1" # TODO lol on peut lancer que ça
+    image = challenge.image
     identifier = challenge_name_slug + '-' + participation_id
 
     with open('./kubernetes_controller/manifest.yaml') as f:
@@ -39,7 +39,7 @@ def deploy_challenge_instance(challenge: Challenge, participation: ChallengePart
     configuration.verify_ssl = False # TODO pour théo le plus beau
     configuration.debug = False
     configuration.host = "https://192.168.99.100:8443"
-    configuration.api_key['authorization'] = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImFwaS1kZXBsb3ktc2VydmljZS10b2tlbi05ejVubiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJhcGktZGVwbG95LXNlcnZpY2UiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI1ZjBmMTEzZC00ZDE3LTExZWEtYTkxZi0wODAwMjcxYWVlZTMiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6ZGVmYXVsdDphcGktZGVwbG95LXNlcnZpY2UifQ.k9_gwEKMYDjLv9RXgUUemRTVu9X0WHyZ05rz8mi--_WvebSl1LVaCqWLKeHOqpM_tLWli-H7nlKcLthkfwJMpWnJrplBOeKqxrWEGGVFvcx3-DvcAALakb3v6_a6-zjXeLvBu-MPcrisFs5aUKh-5g0Y4tgpzmtfeJkawtDGrn8xvbPHycQhLzuLJHhiEjm_Z_P-lDuLo4UkNxXRuaLuW3xCICA8ALzxwcRA93OP2MrSQmWAauMmClAfKSwVSbK8S6fsVTvXvNGUfixV5e1hcMK1akcLowc0rdHVOS8q7I4eHJRzwRVem7WuI5yZ6vDB6CV-7dNDlJlf8kh6fVsW3w'
+    configuration.api_key['authorization'] = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImFwaS1kZXBsb3ktc2VydmljZS10b2tlbi03Y2xxZyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJhcGktZGVwbG95LXNlcnZpY2UiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI1YzEyMmZiOC00ZGYwLTExZWEtYjQ3MC0wODAwMjc5OWJlZjUiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6ZGVmYXVsdDphcGktZGVwbG95LXNlcnZpY2UifQ.SIRWWXmD8K6pbF8jCXIh4UtpZrOg_aZUNbuslYILrWBRNkvkNK8E-DoW9jaV_cn7u1cKl6__qjr4DWAh2gZbvS4PT4YuXaBgxzVnbBUd30-9bRfDR_AemwsUEq9wC5nGDz7g_JVrW5ADoxY2Tyk3UpfxKMi2QL3Zzpcaxo5PeDXR6X01Jty5j2IpUuN2XpGWt3ovA3iEY-hUeAgaOXKURQQnimiTr9djJlI8vVb1Ew0Jvf6pUpTd5K6Vahde9HBMxpKhTxSOnjJAh1ryUVEWhj373BM4AJln4dWZZmEVCbtK2kvwxK4k7de0l5Wn-keM7sn-O9oDHmDSl3sYiES1QA'
     configuration.api_key_prefix['authorization'] = 'Bearer'
     apiClient = kubernetes.client.ApiClient(configuration)
 
