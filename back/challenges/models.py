@@ -114,7 +114,7 @@ class Challenge(Document):
         self.flags = flags
         self.hints = hints
         if self.hints and (
-            sum([hint['index'] for hint in self.hints])>1 or len([i for i in [hint['index'] for hint in self.hints] if i<0])>0
+            sum([hint['cost'] for hint in self.hints])>1 or len([i for i in [hint['cost'] for hint in self.hints] if i<0])>0
             ):
             raise InconsistentHintsException
         

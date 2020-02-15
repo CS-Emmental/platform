@@ -134,8 +134,8 @@ data_challenge_error_type= [
 ]
 
 data_challenge_error_hints=[
-    ({"_id": None, "title": "None","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[{"index":0.2,"text":""},{"index":0.9,"text":""}],"created_at": None,"updated_at": None}),
-    ({"_id": None, "title": "None","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[{"index":-0.2,"text":""},{"index":0.2,"text":""}],"created_at": None,"updated_at": None}),
+    ({"_id": None, "title": "None","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[{"cost":0.2,"text":""},{"cost":0.9,"text":""}],"created_at": None,"updated_at": None}),
+    ({"_id": None, "title": "None","description":"a","summary":"a","category_id":"a","total_points":0,"flags":[],"hints":[{"cost":-0.2,"text":""},{"cost":0.2,"text":""}],"created_at": None,"updated_at": None}),
 ]
 
 data_challenge_error_flags=[
