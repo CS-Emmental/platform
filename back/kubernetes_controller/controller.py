@@ -35,19 +35,14 @@ def deploy_challenge_instance(challenge: Challenge, participation: ChallengePart
     service['spec']['ports'][0]['name'] = port_name
     service['spec']['ports'][0]['port'] = port
 
-    configuration = kubernetes.client.Configuration()
-    configuration.verify_ssl = False # TODO pour théo le plus beau
-    configuration.debug = False
-    configuration.host = "https://192.168.99.100:8443"
-    configuration.api_key['authorization'] = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImFwaS1kZXBsb3ktc2VydmljZS10b2tlbi03Y2xxZyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJhcGktZGVwbG95LXNlcnZpY2UiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI1YzEyMmZiOC00ZGYwLTExZWEtYjQ3MC0wODAwMjc5OWJlZjUiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6ZGVmYXVsdDphcGktZGVwbG95LXNlcnZpY2UifQ.SIRWWXmD8K6pbF8jCXIh4UtpZrOg_aZUNbuslYILrWBRNkvkNK8E-DoW9jaV_cn7u1cKl6__qjr4DWAh2gZbvS4PT4YuXaBgxzVnbBUd30-9bRfDR_AemwsUEq9wC5nGDz7g_JVrW5ADoxY2Tyk3UpfxKMi2QL3Zzpcaxo5PeDXR6X01Jty5j2IpUuN2XpGWt3ovA3iEY-hUeAgaOXKURQQnimiTr9djJlI8vVb1Ew0Jvf6pUpTd5K6Vahde9HBMxpKhTxSOnjJAh1ryUVEWhj373BM4AJln4dWZZmEVCbtK2kvwxK4k7de0l5Wn-keM7sn-O9oDHmDSl3sYiES1QA'
-    configuration.api_key_prefix['authorization'] = 'Bearer'
-    apiClient = kubernetes.client.ApiClient(configuration)
 
-    k8s_apps_v1 = kubernetes.client.AppsV1Api(apiClient)
-    resp = k8s_apps_v1.create_namespaced_deployment(body=deployment, namespace="default")
+    kubernetes.config.load_incluster_config()
+    
+    k8s_apps_v1 = kubernetes.client.AppsV1Api()
+    k8s_apps_v1.create_namespaced_deployment(body=deployment, namespace="default")
 
-    k8s_v1 = kubernetes.client.CoreV1Api(apiClient)
-    resp2 = k8s_v1.create_namespaced_service(body=service, namespace="default", pretty='true')
-    participation.port = resp2.spec.ports[0].node_port
+    k8s_core_v1 = kubernetes.client.CoreV1Api()
+    resp = k8s_core_v1.create_namespaced_service(body=service, namespace="default", pretty='true')
+    participation.port = resp.spec.ports[0].node_port
 
     return participation
