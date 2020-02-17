@@ -28,7 +28,7 @@ export interface Hint {
 }
 
 export interface Flag {
-  value: string;
+  secret: string;
   reward: number;
   text: string;
 }

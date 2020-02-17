@@ -47,7 +47,7 @@ def get_all_challenges():
     if current_user.is_anonymous or not current_user.has_permissions(["admin"]):
         for challenge in challenges:
             for flag in challenge.flags:
-                flag["value"] = ""
+                flag["secret"] = ""
             if challenge.hints is not None:
                 for hint in challenge.hints:
                     hint["text"] = ""
@@ -120,7 +120,7 @@ def validate_flag(participation_id: str, flag_index: int, flag_value: str):
     challenge = ChallengesManager().get(participation.challenge_id)
     if flag_index < len(challenge.flags):
         if flag_index not in participation.found_flags:
-            if flag_value == challenge.flags[flag_index]["value"]:
+            if flag_value == challenge.flags[flag_index]["secret"]:
                 participation.found_flags.append(flag_index)
                 ChallengeParticipationsManager().update_one(participation)
                 return participation

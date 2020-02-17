@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, current_app
 from flask_login import current_user, login_required
 
 from challenges.controller import (
@@ -125,5 +125,7 @@ def use_hints(participation_id: str):
 @login_required
 def post_flag(participation_id: str):
     flag = request.json
-    participation = validate_flag(participation_id, flag["index"], flag["value"])
+    current_app.logger.debug(flag)
+
+    participation = validate_flag(participation_id, flag["index"], flag["secret"])
     return jsonify(participation.to_dict())
