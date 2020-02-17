@@ -57,7 +57,7 @@
         <hr>
         <template v-if="participation.status==='ongoing'">
           <a
-            :href="`http://192.168.99.100:${participation.port}`"
+            :href="`http://172.17.7.77:${participation.port}`"
             target="_blank"
             class="button is-dark is-fullwidth reset-button"
           >
