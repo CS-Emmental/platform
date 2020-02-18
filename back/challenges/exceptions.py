@@ -10,7 +10,7 @@ class EmptyFieldException(EmmentalException):
     internal_message = "Empty field: one field cannot be left blank"
     status_code = 500
 
-class InconsistentTypeException(EmmentalException):
+class EmmentalTypeException(EmmentalException):
     error_code = 1
     external_message = "Unknown Error"
     internal_message = "Inconsistent type: an input did not respect the right type"

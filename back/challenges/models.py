@@ -1,6 +1,6 @@
 from core.models import Document, from_dict_class
 import time
-from challenges.exceptions import EmptyFieldException,InconsistentTypeException,InconsistentHintsException,InconsistentFlagsException
+from challenges.exceptions import EmptyFieldException,EmmentalTypeException,InconsistentHintsException,InconsistentFlagsException
 import operator
 class ChallengeCategory(Document):
     fields = Document.fields + [
@@ -33,7 +33,7 @@ class ChallengeCategory(Document):
     ):
         super().__init__(_id, created_at, updated_at)
         if not isinstance(title, str) or not isinstance(icon, str) or not isinstance(description, str):
-            raise InconsistentTypeException
+            raise EmmentalTypeException
 
         self.category_id = self._id
         self.title = title
@@ -103,7 +103,7 @@ class Challenge(Document):
             (hints and not isinstance(hints,list))
             or(flags and not isinstance(flags,list))
         ):
-            raise InconsistentTypeException
+            raise EmmentalTypeException
 
         self.challenge_id = self._id
         self.title = title
