@@ -18,7 +18,11 @@ from core.exceptions import EmmentalException
 def create_app():
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(SECRET_KEY="dev", MONGO_URI="mongodb://mongo:27017/cs-emmental")
+
+    if app.env == "development":
+        app.config.from_mapping(SECRET_KEY="dev", MONGO_URI="mongodb://mongo:27017/cs-emmental")
+    else:
+        app.config.from_pyfile("/etc/config/back.conf.py", silent=False)
 
     app.mongo = PyMongo(app)
     login_manager = LoginManager()
@@ -29,12 +33,6 @@ def create_app():
     @login_manager.user_loader
     def load_user(user_id):
         return UserManager().get(user_id)
-
-    # ensure the instance folder exists
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
 
     @app.errorhandler(EmmentalException)
     def handle_emmental_exception(e):
@@ -54,7 +52,7 @@ def create_app():
 
     @app.route("/config")
     def config():
-        res = {"version": "0.0.1", "isAuthenticated": current_user.is_authenticated}
+        res = {"version": "0.0.1", "isAuthenticated": current_user.is_authenticated, "env": app.env}
         if current_user.is_authenticated:
             res.update({"currentUser": current_user.to_dict()})
         return jsonify(res)
