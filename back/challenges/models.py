@@ -114,12 +114,14 @@ class Challenge(Document):
         self.flags = flags
         self.hints = hints
         if self.hints and (
-            sum([hint['cost'] for hint in self.hints])>1 or len([i for i in [hint['cost'] for hint in self.hints] if i<0])>0
+            sum([hint['cost'] for hint in self.hints])>1 or 
+            min([hint['cost'] for hint in self.hints])<0
             ):
             raise InconsistentHintsException
         
         if self.flags and (
-            sum([flag['reward'] for flag in self.flags])!=1 or len([i for i in [flag['reward'] for flag in self.flags] if i<0])>0
+            sum([flag['reward'] for flag in self.flags])!=1 or 
+            min([flag['reward'] for flag in self.flags])<0
             ):
             raise InconsistentFlagsException
 
