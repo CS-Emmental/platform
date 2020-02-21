@@ -1,6 +1,13 @@
 from core.models import Document, from_dict_class
 import time
-from challenges.exceptions import EmptyFieldException,EmmentalTypeException,InconsistentHintsException,InconsistentFlagsException
+from challenges.exceptions import (
+    EmptyFieldException,
+    EmmentalTypeException,
+    InconsistentHintsException,
+    InconsistentFlagsException,
+)
+
+
 class ChallengeCategory(Document):
     fields = Document.fields + [
         "title",
@@ -31,7 +38,11 @@ class ChallengeCategory(Document):
         updated_at: int = None,
     ):
         super().__init__(_id, created_at, updated_at)
-        if not isinstance(title, str) or not isinstance(icon, str) or not isinstance(description, str):
+        if (
+            not isinstance(title, str)
+            or not isinstance(icon, str)
+            or not isinstance(description, str)
+        ):
             raise EmmentalTypeException
 
         self.category_id = self._id
@@ -41,7 +52,6 @@ class ChallengeCategory(Document):
 
         if self.title == "" or self.title == None:
             raise EmptyFieldException
-
 
     @staticmethod
     def from_dict(dict_object: dict):
@@ -96,11 +106,13 @@ class Challenge(Document):
 
         super().__init__(_id, created_at, updated_at)
         if (
-            not isinstance(title, str) or not isinstance(description, str)
-            or not isinstance(summary, str) or not isinstance(total_points,int)
-            or not isinstance(category_id,str) or 
-            (hints and not isinstance(hints,list))
-            or(flags and not isinstance(flags,list))
+            not isinstance(title, str)
+            or not isinstance(description, str)
+            or not isinstance(summary, str)
+            or not isinstance(total_points, int)
+            or not isinstance(category_id, str)
+            or (hints and not isinstance(hints, list))
+            or (flags and not isinstance(flags, list))
         ):
             raise EmmentalTypeException
 
@@ -113,15 +125,15 @@ class Challenge(Document):
         self.flags = flags
         self.hints = hints
         if self.hints and (
-            sum([hint['cost'] for hint in self.hints])>1 or 
-            min([hint['cost'] for hint in self.hints])<0
-            ):
+            sum([hint["cost"] for hint in self.hints]) > 1
+            or min([hint["cost"] for hint in self.hints]) < 0
+        ):
             raise InconsistentHintsException
-        
+
         if self.flags and (
-            sum([flag['reward'] for flag in self.flags])!=1 or 
-            min([flag['reward'] for flag in self.flags])<0
-            ):
+            sum([flag["reward"] for flag in self.flags]) != 1
+            or min([flag["reward"] for flag in self.flags]) < 0
+        ):
             raise InconsistentFlagsException
 
         if self.title == "" or self.title is None:
@@ -161,7 +173,7 @@ class ChallengeParticipation(Document):
         _id: str = None,
         challenge_id: str = "",
         user_id: str = "",
-        status: str = "ongoing", 
+        status: str = "ongoing",
         rating: int = None,
         found_flags: list = None,
         used_hints: list = None,

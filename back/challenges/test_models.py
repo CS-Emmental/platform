@@ -13,9 +13,15 @@ from challenges.test_data import (
     data_challenge_legit_args,
     data_challenge_error_type,
     data_challenge_error_hints,
-    data_challenge_error_flags,)
+    data_challenge_error_flags,
+)
 from core.exceptions import InconsistentDateException
-from challenges.exceptions import EmptyFieldException,EmmentalTypeException,InconsistentHintsException,InconsistentFlagsException
+from challenges.exceptions import (
+    EmptyFieldException,
+    EmmentalTypeException,
+    InconsistentHintsException,
+    InconsistentFlagsException,
+)
 
 
 class TestInit:
