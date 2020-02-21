@@ -23,13 +23,14 @@ class TestInit:
     Test of the magic function __init__
     """
 
-    def test_only_title(self):
+    def test_only_challenge_title(self):
         t_before = int(time.time())
         challengeCategory = ChallengeCategory(title="a")
-        challenge = Challenge(title="a")
         t_after = int(time.time())
         # assert _id is not undefined
         assert challengeCategory._id
+
+        assert challengeCategory.title == "a"
 
         assert challengeCategory.created_at
         assert challengeCategory.created_at >= t_before
@@ -39,8 +40,14 @@ class TestInit:
         assert challengeCategory.updated_at >= t_before
         assert challengeCategory.updated_at <= t_after
 
-        #same tests for challenge
+    def test_only_category_title(self):
+        t_before = int(time.time())
+        challenge = Challenge(title="a")
+        t_after = int(time.time())
+        # assert _id is not undefined
         assert challenge._id
+
+        assert challenge.title == "a"
 
         assert challenge.created_at
         assert challenge.created_at >= t_before
