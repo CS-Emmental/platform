@@ -130,7 +130,7 @@ data_challenge_legit_args = [
             "summary": "a",
             "category_id": "a",
             "total_points": 0,
-            "flags": [{"reward": 1, "value": "", "text": ""}],
+            "flags": [{"reward": 1, "secret": "", "text": ""}],
             "hints":[{"cost": 0.5, "text": ""}],
             "created_at": 0,
             "updated_at": 0
@@ -142,7 +142,7 @@ data_challenge_legit_args = [
             "summary": "a",
             "category_id": "a",
             "total_points": 0,
-            "flags": [{"reward": 1, "value": "", "text": ""}],
+            "flags": [{"reward": 1, "secret": "", "text": ""}],
             "hints":[{"cost": 0.5, "text": ""}],
             "created_at": 0,
             "updated_at": 0
@@ -387,8 +387,8 @@ data_challenge_error_flags = [
             "category_id": "a",
             "total_points": 0,
             "flags": [
-                {"reward": 0.2, "value": "", "text": ""},
-                {"reward": -0.2, "value": "", "text": ""},
+                {"reward": 0.2, "secret": "", "text": ""},
+                {"reward": -0.2, "secret": "", "text": ""},
             ],
             "hints": [],
             "created_at": None,
@@ -404,8 +404,8 @@ data_challenge_error_flags = [
             "category_id": "a",
             "total_points": 0,
             "flags": [
-                {"reward": 0.9, "value": "", "text": ""},
-                {"reward": 0.2, "value": "", "text": ""},
+                {"reward": 0.9, "secret": "", "text": ""},
+                {"reward": 0.2, "secret": "", "text": ""},
             ],
             "hints": [],
             "created_at": None,
@@ -420,7 +420,7 @@ data_challenge_error_flags = [
             "summary": "a",
             "category_id": "a",
             "total_points": 0,
-            "flags": [{"reward": 0.9, "value": "", "text": ""}],
+            "flags": [{"reward": 0.9, "secret": "", "text": ""}],
             "hints": [],
             "created_at": None,
             "updated_at": None
