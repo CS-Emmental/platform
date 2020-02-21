@@ -1,6 +1,7 @@
 from flask_login import current_user
 
 from core.exceptions import EmmentalException
+from challenges.exceptions import InconsistentFlagSecretException
 
 from challenges.manager import (
     ChallengeCategoriesManager,
@@ -90,7 +91,8 @@ def start_participation(options: dict):
 
 def get_currentuser_participations():
     currentuser_id = current_user.user_id
-    participations = ChallengeParticipationsManager().get_query({"user_id": currentuser_id})
+    participations = ChallengeParticipationsManager(
+    ).get_query({"user_id": currentuser_id})
     return participations
 
 
@@ -115,6 +117,7 @@ def get_hints(participation_id: str, hint_indexes: list):
                 ChallengeParticipationsManager().update_one(participation)
                 return [{"index": i, "text": challenge.hints[i]["text"]} for i in hint_indexes]
 
+
 def validate_flag(participation_id: str, flag_index: int, flag_value: str):
     participation = ChallengeParticipationsManager().get(participation_id)
     challenge = ChallengesManager().get(participation.challenge_id)
@@ -125,4 +128,4 @@ def validate_flag(participation_id: str, flag_index: int, flag_value: str):
                 ChallengeParticipationsManager().update_one(participation)
                 return participation
             else:
-                raise EmmentalException # todo
+                raise InconsistentFlagSecretException
