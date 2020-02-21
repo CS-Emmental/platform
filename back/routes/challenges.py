@@ -125,5 +125,5 @@ def use_hints(participation_id: str):
 @login_required
 def post_flag(participation_id: str):
     flag = request.json
-    participation = validate_flag(participation_id, flag["index"], flag["value"])
+    participation = validate_flag(participation_id, flag["index"], flag["secret"])
     return jsonify(participation.to_dict())
