@@ -91,8 +91,9 @@ def start_participation(options: dict):
 
 def get_currentuser_participations():
     currentuser_id = current_user.user_id
-    participations = ChallengeParticipationsManager(
-    ).get_query({"user_id": currentuser_id})
+    participations = ChallengeParticipationsManager().get_query(
+        {"user_id": currentuser_id}
+    )
     return participations
 
 
@@ -115,7 +116,10 @@ def get_hints(participation_id: str, hint_indexes: list):
             if set(participation.used_hints) <= set(hint_indexes):
                 participation.used_hints = hint_indexes
                 ChallengeParticipationsManager().update_one(participation)
-                return [{"index": i, "text": challenge.hints[i]["text"]} for i in hint_indexes]
+                return [
+                    {"index": i, "text": challenge.hints[i]["text"]}
+                    for i in hint_indexes
+                ]
 
 
 def validate_flag(participation_id: str, flag_index: int, flag_value: str):

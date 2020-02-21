@@ -16,7 +16,8 @@ class TestGetChallengeCategory:
     app = create_app()
 
     @pytest.mark.parametrize(
-        "test_input,expected", [([], []), ([1], [1]), (["", "string_test"], ["", "string_test"])]
+        "test_input,expected",
+        [([], []), ([1], [1]), (["", "string_test"], ["", "string_test"])],
     )
     def test_get_challenge_category(self, monkeypatch, test_input, expected):
         """

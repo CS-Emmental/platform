@@ -13,9 +13,15 @@ from challenges.test_data import (
     data_challenge_legit_args,
     data_challenge_error_type,
     data_challenge_error_hints,
-    data_challenge_error_flags,)
+    data_challenge_error_flags,
+)
 from core.exceptions import InconsistentDateException
-from challenges.exceptions import EmptyFieldException,InconsistentTypeException,InconsistentHintsException,InconsistentFlagsException
+from challenges.exceptions import (
+    EmptyFieldException,
+    EmmentalTypeException,
+    InconsistentHintsException,
+    InconsistentFlagsException,
+)
 
 
 class TestInit:
@@ -23,13 +29,14 @@ class TestInit:
     Test of the magic function __init__
     """
 
-    def test_only_title(self):
+    def test_only_challenge_title(self):
         t_before = int(time.time())
         challengeCategory = ChallengeCategory(title="a")
-        challenge = Challenge(title="a")
         t_after = int(time.time())
         # assert _id is not undefined
         assert challengeCategory._id
+
+        assert challengeCategory.title == "a"
 
         assert challengeCategory.created_at
         assert challengeCategory.created_at >= t_before
@@ -39,8 +46,14 @@ class TestInit:
         assert challengeCategory.updated_at >= t_before
         assert challengeCategory.updated_at <= t_after
 
-        #same tests for challenge
+    def test_only_category_title(self):
+        t_before = int(time.time())
+        challenge = Challenge(title="a")
+        t_after = int(time.time())
+        # assert _id is not undefined
         assert challenge._id
+
+        assert challenge.title == "a"
 
         assert challenge.created_at
         assert challenge.created_at >= t_before
@@ -94,7 +107,7 @@ class TestInit:
 
     @pytest.mark.parametrize("test_input", data_challenge_category_error_type)
     def test_error_type(self, test_input):
-        with pytest.raises(InconsistentTypeException):
+        with pytest.raises(EmmentalTypeException):
             challengeCategory = ChallengeCategory(
                 _id=test_input["_id"],
                 created_at=test_input["created_at"],
@@ -163,7 +176,7 @@ class TestInit:
 
     @pytest.mark.parametrize("test_input", data_challenge_error_type)
     def test_error_type(self, test_input):
-        with pytest.raises(InconsistentTypeException):
+        with pytest.raises(EmmentalTypeException):
             challenge = Challenge(
                 _id=test_input["_id"],
                 created_at=test_input["created_at"],

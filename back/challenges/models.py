@@ -1,13 +1,15 @@
 from core.models import Document, from_dict_class
 import time
-from challenges.exceptions import EmptyFieldException,InconsistentTypeException,InconsistentHintsException,InconsistentFlagsException
-import operator
+from challenges.exceptions import (
+    EmptyFieldException,
+    EmmentalTypeException,
+    InconsistentHintsException,
+    InconsistentFlagsException,
+)
+
+
 class ChallengeCategory(Document):
-    fields = Document.fields + [
-        "title",
-        "icon",
-        "description",
-    ]
+    fields = Document.fields + ["title", "icon", "description"]
 
     export_fields = Document.export_fields + [
         "category_id",
@@ -16,11 +18,7 @@ class ChallengeCategory(Document):
         "description",
     ]
 
-    editable_fields = Document.editable_fields + [
-        "title",
-        "icon",
-        "description",
-    ]
+    editable_fields = Document.editable_fields + ["title", "icon", "description"]
 
     def __init__(
         self,
@@ -32,8 +30,12 @@ class ChallengeCategory(Document):
         updated_at: int = None,
     ):
         super().__init__(_id, created_at, updated_at)
-        if not isinstance(title, str) or not isinstance(icon, str) or not isinstance(description, str):
-            raise InconsistentTypeException
+        if (
+            not isinstance(title, str)
+            or not isinstance(icon, str)
+            or not isinstance(description, str)
+        ):
+            raise EmmentalTypeException
 
         self.category_id = self._id
         self.title = title
@@ -42,7 +44,6 @@ class ChallengeCategory(Document):
 
         if self.title == "" or self.title == None:
             raise EmptyFieldException
-
 
     @staticmethod
     def from_dict(dict_object: dict):
@@ -97,13 +98,15 @@ class Challenge(Document):
 
         super().__init__(_id, created_at, updated_at)
         if (
-            not isinstance(title, str) or not isinstance(description, str)
-            or not isinstance(summary, str) or not isinstance(total_points,int)
-            or not isinstance(category_id,str) or 
-            (hints and not isinstance(hints,list))
-            or(flags and not isinstance(flags,list))
+            not isinstance(title, str)
+            or not isinstance(description, str)
+            or not isinstance(summary, str)
+            or not isinstance(total_points, int)
+            or not isinstance(category_id, str)
+            or (hints and not isinstance(hints, list))
+            or (flags and not isinstance(flags, list))
         ):
-            raise InconsistentTypeException
+            raise EmmentalTypeException
 
         self.challenge_id = self._id
         self.title = title
@@ -114,16 +117,18 @@ class Challenge(Document):
         self.flags = flags
         self.hints = hints
         if self.hints and (
-            sum([hint['cost'] for hint in self.hints])>1 or len([i for i in [hint['cost'] for hint in self.hints] if i<0])>0
-            ):
+            sum([hint["cost"] for hint in self.hints]) > 1
+            or min([hint["cost"] for hint in self.hints]) < 0
+        ):
             raise InconsistentHintsException
-        
+
         if self.flags and (
-            sum([flag['reward'] for flag in self.flags])!=1 or len([i for i in [flag['reward'] for flag in self.flags] if i<0])>0
-            ):
+            sum([flag["reward"] for flag in self.flags]) != 1
+            or min([flag["reward"] for flag in self.flags]) < 0
+        ):
             raise InconsistentFlagsException
 
-        if self.title == "" or self.title == None:
+        if self.title == "" or self.title is None:
             raise EmptyFieldException
 
     @staticmethod
@@ -151,16 +156,14 @@ class ChallengeParticipation(Document):
         "used_hints",
     ]
 
-    editable_fields = Document.editable_fields + [
-        "rating",
-    ]
+    editable_fields = Document.editable_fields + ["rating"]
 
     def __init__(
         self,
         _id: str = None,
         challenge_id: str = "",
         user_id: str = "",
-        status: str = "ongoing", 
+        status: str = "ongoing",
         rating: int = None,
         found_flags: list = None,
         used_hints: list = None,
