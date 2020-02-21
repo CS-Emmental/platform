@@ -86,7 +86,7 @@ data_challenge_category_error_type = [
             "icon": "icon",
             "description": "description",
             "created_at": 0,
-            "updated_at": "z"
+            "updated_at": 0
         }
     ),
     (
@@ -96,7 +96,7 @@ data_challenge_category_error_type = [
             "icon": None,
             "description": "description",
             "created_at": 0,
-            "updated_at": "z"
+            "updated_at": 0
         }
     ),
     (
@@ -106,7 +106,7 @@ data_challenge_category_error_type = [
             "icon": "icon",
             "description": None,
             "created_at": 0,
-            "updated_at": "z"
+            "updated_at": 0
         }
     ),
     (
@@ -116,7 +116,7 @@ data_challenge_category_error_type = [
             "icon": 1,
             "description": 1,
             "created_at": 0,
-            "updated_at": "z"
+            "updated_at": 0
         }
     )
 ]
@@ -130,8 +130,8 @@ data_challenge_legit_args = [
             "summary": "a",
             "category_id": "a",
             "total_points": 0,
-            "flags": [],
-            "hints":[],
+            "flags": [{"reward": 1, "value": "", "text": ""}],
+            "hints":[{"cost": 0.5, "text": ""}],
             "created_at": 0,
             "updated_at": 0
         },
@@ -142,8 +142,8 @@ data_challenge_legit_args = [
             "summary": "a",
             "category_id": "a",
             "total_points": 0,
-            "flags": [],
-            "hints":[],
+            "flags": [{"reward": 1, "value": "", "text": ""}],
+            "hints":[{"cost": 0.5, "text": ""}],
             "created_at": 0,
             "updated_at": 0
         },
