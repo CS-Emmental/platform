@@ -1,7 +1,6 @@
 from core.models import Document, from_dict_class
 import time
 from challenges.exceptions import EmptyFieldException,EmmentalTypeException,InconsistentHintsException,InconsistentFlagsException
-import operator
 class ChallengeCategory(Document):
     fields = Document.fields + [
         "title",
@@ -125,7 +124,7 @@ class Challenge(Document):
             ):
             raise InconsistentFlagsException
 
-        if self.title == "" or self.title == None:
+        if self.title == "" or self.title is None:
             raise EmptyFieldException
 
     @staticmethod
