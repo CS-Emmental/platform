@@ -157,7 +157,7 @@ export default class ChallengesCategory extends Vue {
       flags: [
         {
           reward: 1,
-          value: '',
+          secret: '',
           text: '',
         },
       ],
