@@ -57,7 +57,7 @@
         <hr>
         <template v-if="participation.status==='ongoing'">
           <a
-            :href="`http://172.17.7.77:${participation.port}`"
+            :href="`http://${kubernetesHost}:${participation.port}`"
             target="_blank"
             class="button is-dark is-fullwidth reset-button"
           >
@@ -118,6 +118,8 @@ export default class ChallengeDetailsParticipation extends Vue {
     required: false,
   })
   public participation: ChallengeParticipation|undefined;
+
+  public kubernetesHost: string = process.env.VUE_APP_KUBERNETES_HOST;
 
   @Action('startChallengeParticipation', { namespace })
   public startChallengeParticipation!: CallableFunction;
