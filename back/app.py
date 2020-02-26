@@ -20,7 +20,7 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
 
     if app.env == "development":
-        app.config.from_mapping(SECRET_KEY="dev", MONGO_URI="mongodb://mongo:27017/cs-emmental")
+        app.config.from_pyfile("back.conf.py", silent=False)
     else:
         app.config.from_pyfile("/etc/config/back.conf.py", silent=False)
 
