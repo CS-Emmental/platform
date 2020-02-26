@@ -1,5 +1,6 @@
 import kubernetes
 import yaml
+from flask import current_app
 
 from challenges.models import Challenge, ChallengeParticipation
 from challenges.manager import ChallengesManager
@@ -36,12 +37,10 @@ def deploy_challenge_instance(challenge: Challenge, participation: ChallengePart
     service["spec"]["ports"][0]["name"] = port_name
     service["spec"]["ports"][0]["port"] = port
 
-    kubernetes.config.load_incluster_config()
-
-    k8s_apps_v1 = kubernetes.client.AppsV1Api()
+    k8s_apps_v1 = kubernetes.client.AppsV1Api(current_app.k8s)
     k8s_apps_v1.create_namespaced_deployment(body=deployment, namespace="emmental-challenges")
 
-    k8s_core_v1 = kubernetes.client.CoreV1Api()
+    k8s_core_v1 = kubernetes.client.CoreV1Api(current_app.k8s)
     resp = k8s_core_v1.create_namespaced_service(
         body=service, namespace="emmental-challenges", pretty="true"
     )
