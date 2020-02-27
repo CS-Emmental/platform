@@ -1,3 +1,20 @@
 error_code;meaning (internal_message)
 
 1;Inconsistent dates in core/models.py
+2;Type Error raised by ChallengeCategory.title in challenges/models.py
+3;Type Error raised by ChallengeCategory.icon in challenges/models.py
+4;Type Error raised by ChallengeCategory.description in challenges/models.py
+5;Empty field raised by ChallengeCategory.title in challenges/models.py
+6;Type Error raised by Challenge.title in challenges/models.py
+7;Type Error raised by Challenge.description in challenges/models.py
+8;Type Error raised by Challenge.summary in challenges/models.py
+9;Type Error raised by Challenge.total_points in challenges/models.py
+10;Type Error raised by Challenge.category_id in challenges/models.py
+11;Type Error raised by Challenge.flags in challenges/models.py
+12;Type Error raised by Challenge.hints in challenges/models.py
+13;Type Error raised by Challenge.challenge_type in challenges/models.py
+14;Type Error raised by Challenge.image in challenges/models.py
+15;Type Error raised by Challenge.ports in challenges/models.py
+16;Inconsistent hints in challenges/models.py -> this means there's an error in the cost of the hints
+17;Inconsistent flags in challenges/models.py -> this means there's an error in the reward of the flags
+18;Empty field raised by Challenge.title in challenges/models.py
