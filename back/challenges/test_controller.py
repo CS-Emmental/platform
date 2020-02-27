@@ -14,6 +14,7 @@ from challenges.controller import (
 )
 from challenges.manager import ChallengeCategoriesManager,ChallengesManager
 from app import create_app
+
 class TestGetChallengeCategory:
     """
     Test of get_challenge_category
@@ -38,6 +39,11 @@ class TestGetChallengeCategory:
         with self.app.app_context():
             assert get_challenge_category() == expected
 
+class TestUpdateChallengeCategory:
+    """
+    Test of update_challenge_category
+    """
+    app = create_app()
     @pytest.mark.parametrize(
         "database_input,test_input,expected",
         [
@@ -75,6 +81,11 @@ class TestGetChallengeCategory:
         with self.app.app_context():
             assert update_challenge_category("id", test_input) == expected
 
+class TestRemoveChallengeCategory:
+    """
+    Test of remove_challenge_category
+    """
+    app = create_app()
     @pytest.mark.parametrize(
         "database_input,expected", [({"key": "value"}, {"n": 1, "ok": 1.0})]
     )
@@ -91,6 +102,11 @@ class TestGetChallengeCategory:
         with self.app.app_context():
             assert remove_challenge_category("id") == expected
 
+class TestInsertChallengeCategory:
+    """
+    Test of insert_challenge_category
+    """
+    app = create_app()
     @pytest.mark.parametrize(
         "test_input,expected", [({"title": "value"}, {"title": "value"})]
     )
@@ -103,6 +119,12 @@ class TestGetChallengeCategory:
         with self.app.app_context():
             assert insert_challenge_category(test_input).title == expected["title"]
 
+
+class TestUpdateChallenge:
+    """
+    Test of update_challenge
+    """
+    app = create_app()
     @pytest.mark.parametrize(
         "database_input,test_input,expected",
         [
@@ -140,6 +162,11 @@ class TestGetChallengeCategory:
         with self.app.app_context():
             assert update_challenge("id", test_input) == expected
 
+class TestRemoveChallenge:
+    """
+    Test of remove_challenge
+    """
+    app = create_app()
     @pytest.mark.parametrize(
         "database_input,expected", [({"key": "value"}, {"n": 1, "ok": 1.0})]
     )
@@ -156,6 +183,11 @@ class TestGetChallengeCategory:
         with self.app.app_context():
             assert remove_challenge("id") == expected
 
+class TestInsertChallenge:
+    """
+    Test of insert_challenge
+    """
+    app = create_app()
     @pytest.mark.parametrize(
         "test_input,expected", [({"title": "value"}, {"title": "value"})]
     )
