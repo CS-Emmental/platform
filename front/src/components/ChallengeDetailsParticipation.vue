@@ -48,9 +48,7 @@
               <a
                 class="button is-primary"
                 @click="onSubmitFlag(index, flagInputs[index])"
-              >
-                Submit
-              </a>
+              >Submit</a>
             </p>
           </div>
         </div>
@@ -59,23 +57,22 @@
           <a
             :href="`http://${kubernetesHost}:${participation.port}`"
             target="_blank"
-            class="button is-dark is-fullwidth reset-button"
-          >
-            Go to challenge
-          </a>
+            class="button is-dark is-fullwidth stop-button"
+          >Go to challenge</a>
           <button
-            class="button is-light is-fullwidth reset-button"
-            @click="resetMode=true"
+            class="button is-light is-fullwidth stop-button"
+            @click="stopMode=true"
           >
-            Reset challenge
+            Stop challenge
           </button>
           <confirm-modal
-            title="Reset Challenge"
-            message="Are you sure you want to reset your challenge instance ?
-                    (all current progress will be lost)"
-            :toggle="resetMode"
-            @confirm="onResetChallenge"
-            @exit="resetMode=false"
+            title="Stop Challenge"
+            message="Are you sure you want to shut down your challenge instance ?
+                    (The state of your instance will be lost
+                    but you will keep your points, flags and hints)"
+            :toggle="stopMode"
+            @confirm="onstopChallenge"
+            @exit="stopMode=false"
           />
         </template>
       </div>
@@ -84,11 +81,7 @@
 </template>
 
 <script  lang="ts">
-import {
-  Prop,
-  Component,
-  Vue,
-} from 'vue-property-decorator';
+import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Action } from 'vuex-class';
 import { Challenge, ChallengeParticipation } from '../store/challenges/types';
 
@@ -117,7 +110,7 @@ export default class ChallengeDetailsParticipation extends Vue {
     type: Object as () => ChallengeParticipation,
     required: false,
   })
-  public participation: ChallengeParticipation|undefined;
+  public participation: ChallengeParticipation | undefined;
 
   public kubernetesHost: string = process.env.VUE_APP_KUBERNETES_HOST;
 
@@ -128,13 +121,13 @@ export default class ChallengeDetailsParticipation extends Vue {
     this.startChallengeParticipation(this.challenge.challenge_id);
   }
 
-  public resetMode = false;
+  public stopMode = false;
 
-  public onResetChallenge() {
-    this.resetMode = false;
+  public onStopChallenge() {
+    this.stopMode = false;
   }
 
-  public flagInputs: {[index: number]: string[]} = {};
+  public flagInputs: { [index: number]: string[] } = {};
 
   @Action('submitFlag', { namespace })
   public submitFlag!: CallableFunction;
@@ -156,15 +149,15 @@ export default class ChallengeDetailsParticipation extends Vue {
   margin-bottom: 1rem;
 }
 .level {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   .tag {
     margin-bottom: 1rem;
   }
 }
 .flag-input {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 .button {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 </style>
