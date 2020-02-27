@@ -110,7 +110,7 @@ def update_participation(participation_id: str, inputs: dict):
 
 def stop_participation(participation_id: str):
     participation = ChallengeParticipationsManager().get(participation_id)
-    challenge = ChallengesManager.get(participation.challenge_id)
+    challenge = ChallengesManager().get(participation.challenge_id)
 
     participation.status = "stopped"
     participation.port = None

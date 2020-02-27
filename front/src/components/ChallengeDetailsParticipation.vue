@@ -71,9 +71,17 @@
                     (The state of your instance will be lost
                     but you will keep your points, flags and hints)"
             :toggle="stopMode"
-            @confirm="onstopChallenge"
+            @confirm="onStopChallenge"
             @exit="stopMode=false"
           />
+        </template>
+        <template v-else-if="participation.status==='stopped'">
+          <button
+            class="button is-light is-fullwidth restart-button"
+            @click="stopMode=true"
+          >
+            Restart challenge
+          </button>
         </template>
       </div>
     </template>
@@ -127,7 +135,7 @@ export default class ChallengeDetailsParticipation extends Vue {
   public stopChallengeParticipation!: CallableFunction;
 
   public onStopChallenge() {
-    this.stopChallengeParticipation(this.challenge.challenge_id);
+    this.stopChallengeParticipation(this.participation.participation_id);
     this.stopMode = false;
   }
 
