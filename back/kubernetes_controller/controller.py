@@ -16,7 +16,7 @@ def deploy_challenge_instance(challenge: Challenge, participation: ChallengePart
     identifier = challenge_name_slug + "-" + participation_id
 
     with open("./kubernetes_controller/manifest.yaml") as f:
-        deployment, service = yaml.load_all(f, Loader=yaml.FullLoader)
+        deployment, service, config_map = yaml.load_all(f, Loader=yaml.FullLoader)
 
     deployment["metadata"]["name"] = identifier
     deployment["metadata"]["labels"]["challenge_id"] = challenge_id
@@ -28,6 +28,7 @@ def deploy_challenge_instance(challenge: Challenge, participation: ChallengePart
     deployment["spec"]["template"]["spec"]["containers"][0]["name"] = challenge_name_slug
     deployment["spec"]["template"]["spec"]["containers"][0]["image"] = image
     deployment["spec"]["template"]["spec"]["containers"][0]["ports"][0]["containerPort"] = port
+    deployment["spec"]["template"]["spec"]["volumes"][0]["configMap"]["name"] = "configmap-" + participation_id
 
     service["metadata"]["name"] = identifier
     service["metadata"]["labels"]["challenge_id"] = challenge_id
@@ -37,10 +38,16 @@ def deploy_challenge_instance(challenge: Challenge, participation: ChallengePart
     service["spec"]["ports"][0]["name"] = port_name
     service["spec"]["ports"][0]["port"] = port
 
+    config_map["metadata"]["name"] = "configmap-" + participation_id
+    config_map["metadata"]["labels"]["challenge_id"] = challenge_id
+    config_map["metadata"]["labels"]["participation_id"] = participation_id
+    config_map["data"]["secret"] = "root:" + participation_id
+
     k8s_apps_v1 = kubernetes.client.AppsV1Api(current_app.k8s)
     k8s_apps_v1.create_namespaced_deployment(body=deployment, namespace="emmental-challenges")
 
     k8s_core_v1 = kubernetes.client.CoreV1Api(current_app.k8s)
+    k8s_core_v1.create_namespaced_config_map(body=config_map, namespace="emmental-challenges")
     resp = k8s_core_v1.create_namespaced_service(
         body=service, namespace="emmental-challenges", pretty="true"
     )

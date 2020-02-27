@@ -163,8 +163,13 @@ export default class ChallengesCategory extends Vue {
       ],
       hints: [],
       image: '',
-      ports: [],
-      challenge_type: '',
+      ports: [
+        {
+          port: 80,
+          name: 'http',
+        },
+      ],
+      challenge_type: 'web',
     };
   }
 

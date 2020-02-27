@@ -57,12 +57,27 @@
         <hr>
         <template v-if="participation.status==='ongoing'">
           <a
+            v-if="challenge.challenge_type === 'web'"
             :href="`http://${kubernetesHost}:${participation.port}`"
             target="_blank"
             class="button is-dark is-fullwidth reset-button"
           >
             Go to challenge
           </a>
+          <template v-else>
+            <label class="label">
+              SSH Command
+            </label>
+            <p>
+              ssh root@{{ kubernetesHost }} -p {{ participation.port }}
+            </p>
+            <label class="label">
+              SSH Password
+            </label>
+            <p>
+              {{ participation.participation_id }}
+            </p>
+          </template>
           <button
             class="button is-light is-fullwidth reset-button"
             @click="resetMode=true"
@@ -164,7 +179,7 @@ export default class ChallengeDetailsParticipation extends Vue {
 .flag-input {
   margin-bottom: .5rem;
 }
-.button {
+.button.is-fullwidth {
   margin-top: .5rem;
 }
 </style>
