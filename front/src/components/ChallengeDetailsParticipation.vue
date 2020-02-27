@@ -123,7 +123,11 @@ export default class ChallengeDetailsParticipation extends Vue {
 
   public stopMode = false;
 
+  @Action('stopChallengeParticipation', { namespace })
+  public stopChallengeParticipation!: CallableFunction;
+
   public onStopChallenge() {
+    this.stopChallengeParticipation(this.challenge.challenge_id);
     this.stopMode = false;
   }
 
