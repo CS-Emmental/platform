@@ -12,8 +12,9 @@ from challenges.controller import (
     remove_challenge,
     insert_challenge,
 )
-from challenges.manager import ChallengeCategoriesManager,ChallengesManager
+from challenges.manager import ChallengeCategoriesManager, ChallengesManager
 from app import create_app
+
 
 class TestGetChallengeCategory:
     """
@@ -22,6 +23,7 @@ class TestGetChallengeCategory:
 
     # Most managers inherit from MongoManager which uses the app_context.
     app = create_app()
+
     @pytest.mark.parametrize(
         "test_input,expected",
         [([], []), ([1], [1]), (["", "string_test"], ["", "string_test"])],
@@ -39,11 +41,14 @@ class TestGetChallengeCategory:
         with self.app.app_context():
             assert get_challenge_category() == expected
 
+
 class TestUpdateChallengeCategory:
     """
     Test of update_challenge_category
     """
+
     app = create_app()
+
     @pytest.mark.parametrize(
         "database_input,test_input,expected",
         [
@@ -81,11 +86,14 @@ class TestUpdateChallengeCategory:
         with self.app.app_context():
             assert update_challenge_category("id", test_input) == expected
 
+
 class TestRemoveChallengeCategory:
     """
     Test of remove_challenge_category
     """
+
     app = create_app()
+
     @pytest.mark.parametrize(
         "database_input,expected", [({"key": "value"}, {"n": 1, "ok": 1.0})]
     )
@@ -102,11 +110,14 @@ class TestRemoveChallengeCategory:
         with self.app.app_context():
             assert remove_challenge_category("id") == expected
 
+
 class TestInsertChallengeCategory:
     """
     Test of insert_challenge_category
     """
+
     app = create_app()
+
     @pytest.mark.parametrize(
         "test_input,expected", [({"title": "value"}, {"title": "value"})]
     )
@@ -124,7 +135,9 @@ class TestUpdateChallenge:
     """
     Test of update_challenge
     """
+
     app = create_app()
+
     @pytest.mark.parametrize(
         "database_input,test_input,expected",
         [
@@ -147,9 +160,7 @@ class TestUpdateChallenge:
             ),
         ],
     )
-    def test_update_challenge(
-        self, monkeypatch, database_input, test_input, expected
-    ):
+    def test_update_challenge(self, monkeypatch, database_input, test_input, expected):
         def mock_get(*args, **kwargs):
             return database_input
 
@@ -162,11 +173,14 @@ class TestUpdateChallenge:
         with self.app.app_context():
             assert update_challenge("id", test_input) == expected
 
+
 class TestRemoveChallenge:
     """
     Test of remove_challenge
     """
+
     app = create_app()
+
     @pytest.mark.parametrize(
         "database_input,expected", [({"key": "value"}, {"n": 1, "ok": 1.0})]
     )
@@ -183,11 +197,14 @@ class TestRemoveChallenge:
         with self.app.app_context():
             assert remove_challenge("id") == expected
 
+
 class TestInsertChallenge:
     """
     Test of insert_challenge
     """
+
     app = create_app()
+
     @pytest.mark.parametrize(
         "test_input,expected", [({"title": "value"}, {"title": "value"})]
     )
@@ -199,4 +216,3 @@ class TestInsertChallenge:
 
         with self.app.app_context():
             assert insert_challenge(test_input).title == expected["title"]
-
