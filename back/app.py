@@ -1,26 +1,46 @@
 import os
 import traceback
 
+import kubernetes
 from flask import Flask, jsonify
 from flask.logging import create_logger
 from flask_cors import CORS
-from flask_pymongo import PyMongo
 from flask_login import LoginManager, current_user
-
-from routes.challenges import challenges
-from routes.users import users
-
-from users.manager import UserManager
+from flask_pymongo import PyMongo
 
 from core.exceptions import EmmentalException
+from routes.challenges import challenges
+from routes.users import users
+from users.manager import UserManager
 
 
 def create_app():
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(SECRET_KEY="dev", MONGO_URI="mongodb://mongo:27017/cs-emmental")
+
+    # Load conf depending on the mode
+    if app.env == "development":
+        app.config.from_pyfile("back.conf.py", silent=False)
+    else:
+        app.config.from_pyfile("/etc/config/back.conf.py", silent=False)
+
+    # K8sManager configuration changes with app mode
+    app.k8s = None
+    if app.env == "development":
+        k8s_configuration = kubernetes.client.Configuration()
+        k8s_configuration.verify_ssl = False
+        k8s_configuration.debug = False
+        k8s_configuration.host = app.config["K8S_HOST"]
+        k8s_configuration.api_key["authorization"] = app.config["K8S_API_KEY"]
+        k8s_configuration.api_key_prefix["authorization"] = "Bearer"
+
+        app.k8s = kubernetes.client.ApiClient(k8s_configuration)
+    else:
+        kubernetes.config.load_incluster_config()
+        app.k8s = kubernetes.client.ApiClient()
 
     app.mongo = PyMongo(app)
+
     login_manager = LoginManager()
     login_manager.init_app(app)
     CORS(app, supports_credentials=True)
@@ -29,12 +49,6 @@ def create_app():
     @login_manager.user_loader
     def load_user(user_id):
         return UserManager().get(user_id)
-
-    # ensure the instance folder exists
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
 
     @app.errorhandler(EmmentalException)
     def handle_emmental_exception(e):
@@ -54,7 +68,7 @@ def create_app():
 
     @app.route("/config")
     def config():
-        res = {"version": "0.0.1", "isAuthenticated": current_user.is_authenticated}
+        res = {"version": "0.0.1", "isAuthenticated": current_user.is_authenticated, "env": app.env}
         if current_user.is_authenticated:
             res.update({"currentUser": current_user.to_dict()})
         return jsonify(res)

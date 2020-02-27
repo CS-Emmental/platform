@@ -10,6 +10,8 @@ from challenges.manager import (
 )
 from challenges.models import Challenge, ChallengeCategory, ChallengeParticipation
 
+from kubernetes_controller.controller import deploy_challenge_instance
+
 
 def get_challenge_category():
     categories = ChallengeCategoriesManager().get_all()
@@ -48,7 +50,7 @@ def get_all_challenges():
     if current_user.is_anonymous or not current_user.has_permissions(["admin"]):
         for challenge in challenges:
             for flag in challenge.flags:
-                flag["value"] = ""
+                flag["secret"] = ""
             if challenge.hints is not None:
                 for hint in challenge.hints:
                     hint["text"] = ""
@@ -85,6 +87,8 @@ def remove_challenge(challenge_id: str):
 def start_participation(options: dict):
     options["user_id"] = current_user.user_id
     new_participation = ChallengeParticipation(**options)
+    challenge = ChallengesManager().get(new_participation.challenge_id)
+    new_participation = deploy_challenge_instance(challenge, new_participation)
     ChallengeParticipationsManager().insert_one(new_participation)
     return new_participation
 
@@ -127,7 +131,7 @@ def validate_flag(participation_id: str, flag_index: int, flag_value: str):
     challenge = ChallengesManager().get(participation.challenge_id)
     if flag_index < len(challenge.flags):
         if flag_index not in participation.found_flags:
-            if flag_value == challenge.flags[flag_index]["value"]:
+            if flag_value == challenge.flags[flag_index]["secret"]:
                 participation.found_flags.append(flag_index)
                 ChallengeParticipationsManager().update_one(participation)
                 return participation

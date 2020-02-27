@@ -86,7 +86,7 @@
         </p>
         <p class="control is-expanded">
           <input
-            v-model="flag.value"
+            v-model="flag.secret"
             class="input"
             type="text"
             placeholder="Secret"
@@ -232,6 +232,9 @@ export default class ChallengeEditCard extends Vue {
     total_points: 0,
     flags: [],
     hints: [],
+    image: '',
+    ports: [],
+    challenge_type: '',
   };
 
   public created() {
@@ -257,7 +260,7 @@ export default class ChallengeEditCard extends Vue {
     if (!this.challengeEdit.flags) {
       this.challengeEdit.flags = [];
     }
-    this.challengeEdit.flags.push({ reward: 0, value: '', text: '' });
+    this.challengeEdit.flags.push({ reward: 0, secret: '', text: '' });
   }
 
   get flagRewardSum() {
