@@ -20,6 +20,9 @@ export interface Challenge {
   total_points: number;
   flags: Flag[];
   hints: Hint[];
+  image: string;
+  ports: Port[];
+  challenge_type: string;
 }
 
 export interface Hint {
@@ -33,6 +36,11 @@ export interface Flag {
   text: string;
 }
 
+export interface Port {
+  name: string;
+  port: number;
+}
+
 export interface ChallengeParticipation {
     participation_id: string;
     challenge_id: string;
@@ -41,4 +49,5 @@ export interface ChallengeParticipation {
     rating: number;
     found_flags: number[];
     used_hints: number[];
+    port: number;
 }

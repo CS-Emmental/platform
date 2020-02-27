@@ -67,6 +67,9 @@ class Challenge(Document):
         "summary",
         "flags",
         "hints",
+        "ports",
+        "image",
+        "challenge_type",
     ]
 
     export_fields = Document.export_fields + [
@@ -78,6 +81,9 @@ class Challenge(Document):
         "summary",
         "flags",
         "hints",
+        "ports",
+        "image",
+        "challenge_type",
     ]
 
     editable_fields = Document.editable_fields + [
@@ -88,6 +94,9 @@ class Challenge(Document):
         "summary",
         "flags",
         "hints",
+        "ports",
+        "image",
+        "challenge_type",
     ]
 
     def __init__(
@@ -102,19 +111,12 @@ class Challenge(Document):
         hints: list = None,
         created_at: int = None,
         updated_at: int = None,
+        ports: list = None,
+        image: str = "",
+        challenge_type: str = "",
     ):
 
         super().__init__(_id, created_at, updated_at)
-        if (
-            not isinstance(title, str)
-            or not isinstance(description, str)
-            or not isinstance(summary, str)
-            or not isinstance(total_points, int)
-            or not isinstance(category_id, str)
-            or (hints and not isinstance(hints, list))
-            or (flags and not isinstance(flags, list))
-        ):
-            raise EmmentalTypeException
 
         self.challenge_id = self._id
         self.title = title
@@ -124,6 +126,24 @@ class Challenge(Document):
         self.category_id = category_id
         self.flags = flags
         self.hints = hints
+        self.ports = ports
+        self.image = image
+        self.challenge_type = challenge_type
+
+        self.verify()
+
+    def verify(self):
+        if (
+            not isinstance(self.title, str)
+            or not isinstance(self.description, str)
+            or not isinstance(self.summary, str)
+            or not isinstance(self.total_points, int)
+            or not isinstance(self.category_id, str)
+            or not isinstance(self.flags, list)
+            or (self.hints and not isinstance(self.hints, list))
+        ):
+            raise EmmentalTypeException
+
         if self.hints and (
             sum([hint["cost"] for hint in self.hints]) > 1
             or min([hint["cost"] for hint in self.hints]) < 0
@@ -138,9 +158,10 @@ class Challenge(Document):
 
         if self.title == "" or self.title is None:
             raise EmptyFieldException
-
+        
     @staticmethod
     def from_dict(dict_object: dict):
+        dict_object["total_points"] = int(dict_object["total_points"])
         return from_dict_class(dict_object, Challenge)
 
 
@@ -152,6 +173,7 @@ class ChallengeParticipation(Document):
         "rating",
         "found_flags",
         "used_hints",
+        "port",
     ]
 
     export_fields = Document.export_fields + [
@@ -162,6 +184,7 @@ class ChallengeParticipation(Document):
         "rating",
         "found_flags",
         "used_hints",
+        "port",
     ]
 
     editable_fields = Document.editable_fields + [
@@ -179,6 +202,7 @@ class ChallengeParticipation(Document):
         used_hints: list = None,
         created_at: int = None,
         updated_at: int = None,
+        port: int = None,
     ):
         super().__init__(_id, created_at, updated_at)
 
@@ -189,6 +213,7 @@ class ChallengeParticipation(Document):
         self.rating = rating
         self.found_flags = found_flags if found_flags else []
         self.used_hints = used_hints if used_hints else []
+        self.port = port
 
     @staticmethod
     def from_dict(dict_object: dict):

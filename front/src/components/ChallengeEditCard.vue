@@ -232,6 +232,9 @@ export default class ChallengeEditCard extends Vue {
     total_points: 0,
     flags: [],
     hints: [],
+    image: '',
+    ports: [],
+    challenge_type: '',
   };
 
   public created() {
