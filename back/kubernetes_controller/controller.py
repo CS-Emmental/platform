@@ -47,3 +47,20 @@ def deploy_challenge_instance(challenge: Challenge, participation: ChallengePart
     participation.port = resp.spec.ports[0].node_port
 
     return participation
+
+
+def stop_challenge_instance(challenge: Challenge, participation: ChallengeParticipation):
+    """
+    Send a request to k8s for stopping the challenge instance linked to this ChallengeParticipation
+    """
+    challenge_name_slug = challenge.title.replace(" ", "-").lower()
+    participation_id = participation.participation_id
+    name = challenge_name_slug + "-" + participation_id
+
+    k8s_apps_v1 = kubernetes.client.AppsV1Api(current_app.k8s)
+    k8s_core_v1 = kubernetes.client.CoreV1Api(current_app.k8s)
+
+    k8s_apps_v1.delete_namespaced_deployment(name=name, namespace="emmental-challenges")
+    k8s_core_v1.delete_namespaced_service(name=name, namespace="emmental-challenges")
+
+    return "deleted"

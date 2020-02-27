@@ -9,7 +9,7 @@ from challenges.manager import (
 )
 from challenges.models import Challenge, ChallengeCategory, ChallengeParticipation
 
-from kubernetes_controller.controller import deploy_challenge_instance
+from kubernetes_controller.controller import deploy_challenge_instance, stop_challenge_instance
 
 
 def get_challenge_category():
@@ -108,6 +108,17 @@ def update_participation(participation_id: str, inputs: dict):
         return "error"
 
 
+def stop_participation(participation_id: str):
+    participation = ChallengeParticipationsManager().get(participation_id)
+    challenge = ChallengesManager.get(participation.challenge_id)
+
+    participation.status = "stopped"
+    participation.port = None
+    stop_challenge_instance(challenge, participation)
+
+    return participation
+
+
 def get_hints(participation_id: str, hint_indexes: list):
     participation = ChallengeParticipationsManager().get(participation_id)
     challenge = ChallengesManager().get(participation.challenge_id)
@@ -119,6 +130,7 @@ def get_hints(participation_id: str, hint_indexes: list):
                 ChallengeParticipationsManager().update_one(participation)
                 return [{"index": i, "text": challenge.hints[i]["text"]} for i in hint_indexes]
 
+
 def validate_flag(participation_id: str, flag_index: int, flag_value: str):
     participation = ChallengeParticipationsManager().get(participation_id)
     challenge = ChallengesManager().get(participation.challenge_id)
@@ -129,4 +141,4 @@ def validate_flag(participation_id: str, flag_index: int, flag_value: str):
                 ChallengeParticipationsManager().update_one(participation)
                 return participation
             else:
-                raise EmmentalException # todo
+                raise EmmentalException  # todo
