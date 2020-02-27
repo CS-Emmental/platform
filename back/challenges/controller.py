@@ -136,4 +136,4 @@ def validate_flag(participation_id: str, flag_index: int, flag_value: str):
                 ChallengeParticipationsManager().update_one(participation)
                 return participation
             else:
-                raise InconsistentFlagSecretException
+                raise InconsistentFlagSecretException(error_code=18)

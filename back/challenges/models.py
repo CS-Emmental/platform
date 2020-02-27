@@ -30,20 +30,24 @@ class ChallengeCategory(Document):
         updated_at: int = None,
     ):
         super().__init__(_id, created_at, updated_at)
-        if (
-            not isinstance(title, str)
-            or not isinstance(icon, str)
-            or not isinstance(description, str)
-        ):
-            raise EmmentalTypeException
-
         self.category_id = self._id
         self.title = title
         self.icon = icon
         self.description = description
+        self.verify()
+
+    def verify(self):
+        if not isinstance(self.title, str):
+            raise EmmentalTypeException(error_code=1, incorrect_input="title")
+
+        if not isinstance(self.icon, str):
+            raise EmmentalTypeException(error_code=2, incorrect_input="icon")
+
+        if not isinstance(self.description, str):
+            raise EmmentalTypeException(error_code=3, incorrect_input="description")
 
         if self.title == "" or self.title == None:
-            raise EmptyFieldException
+            raise EmptyFieldException(error_code=4, blank_field="title")
 
     @staticmethod
     def from_dict(dict_object: dict):
@@ -125,32 +129,51 @@ class Challenge(Document):
         self.verify()
 
     def verify(self):
-        if (
-            not isinstance(self.title, str)
-            or not isinstance(self.description, str)
-            or not isinstance(self.summary, str)
-            or not isinstance(self.total_points, int)
-            or not isinstance(self.category_id, str)
-            or not isinstance(self.flags, list)
-            or (self.hints and not isinstance(self.hints, list))
-        ):
-            raise EmmentalTypeException
+        if not isinstance(self.title, str):
+            raise EmmentalTypeException(error_code=5, incorrect_input="title")
+
+        if not isinstance(self.description, str):
+            raise EmmentalTypeException(error_code=6, incorrect_input="description")
+
+        if not isinstance(self.summary, str):
+            raise EmmentalTypeException(error_code=7, incorrect_input="summary")
+
+        if not isinstance(self.total_points, int):
+            raise EmmentalTypeException(error_code=8, incorrect_input="total_points")
+
+        if not isinstance(self.category_id, str):
+            raise EmmentalTypeException(error_code=9, incorrect_input="category_id")
+
+        if self.flags and not isinstance(self.flags, list):
+            raise EmmentalTypeException(error_code=10, incorrect_input="flags")
+
+        if self.hints and not isinstance(self.hints, list):
+            raise EmmentalTypeException(error_code=11, incorrect_input="hints")
+
+        if not isinstance(self.challenge_type, str):
+            raise EmmentalTypeException(error_code=12, incorrect_input="challenge_type")
+
+        if not isinstance(self.image, str):
+            raise EmmentalTypeException(error_code=13, incorrect_input="image")
+
+        if self.ports and not isinstance(self.ports, list):
+            raise EmmentalTypeException(error_code=14, incorrect_input="ports")
 
         if self.hints and (
             sum([hint["cost"] for hint in self.hints]) > 1
             or min([hint["cost"] for hint in self.hints]) < 0
         ):
-            raise InconsistentHintsException
+            raise InconsistentHintsException(error_code=15)
 
         if self.flags and (
             sum([flag["reward"] for flag in self.flags]) != 1
             or min([flag["reward"] for flag in self.flags]) < 0
         ):
-            raise InconsistentFlagsException
+            raise InconsistentFlagsException(error_code=16)
 
         if self.title == "" or self.title is None:
-            raise EmptyFieldException
-        
+            raise EmptyFieldException(error_code=17, blank_field="title")
+
     @staticmethod
     def from_dict(dict_object: dict):
         dict_object["total_points"] = int(dict_object["total_points"])
