@@ -50,6 +50,12 @@ const actions: ActionTree<ChallengesState, RootState> = {
       commit('insertCurrentuserChallengeParticipation', participation);
     });
   },
+  stopChallengeParticipation({ commit }, challengeId: string): void {
+    api.post(`challenge-participations/${challengeId}/stop-instance`).then((res) => {
+      const participation: ChallengeParticipation = res && res.data;
+      commit('setParticipation', participation);
+    });
+  },
   postParticipation({ commit }, edited: ChallengeParticipation): void {
     api.post(`challenge-participations/${edited.participation_id}`, edited).then((res) => {
       const participationEdited: ChallengeParticipation = res && res.data;
