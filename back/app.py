@@ -10,6 +10,8 @@ from flask_pymongo import PyMongo
 
 from core.exceptions import EmmentalException
 from routes.challenges import challenges
+from routes.challenge_categories import challenge_categories
+from routes.challenge_participations import challenge_participations
 from routes.users import users
 from users.manager import UserManager
 
@@ -65,6 +67,8 @@ def create_app():
 
     app.register_blueprint(users)
     app.register_blueprint(challenges)
+    app.register_blueprint(challenge_categories)
+    app.register_blueprint(challenge_participations)
 
     @app.route("/config")
     def config():

@@ -2,7 +2,8 @@ import kubernetes
 import yaml
 from flask import current_app
 
-from challenges.models import Challenge, ChallengeParticipation
+from challenges.model import Challenge
+from challenge_participations.model import ChallengeParticipation
 from challenges.manager import ChallengesManager
 
 
