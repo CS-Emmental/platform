@@ -2,7 +2,7 @@ import time
 from uuid import uuid4
 from flask_login import UserMixin
 
-from core.models import Document, from_dict_class
+from core.model import Document, from_dict_class
 
 
 class User(Document, UserMixin):

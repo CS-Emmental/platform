@@ -2,7 +2,7 @@ from flask_login import login_user, logout_user
 
 from users.exceptions import IncorrectCredentialsException
 from users.manager import UserManager
-from users.models import User
+from users.model import User
 
 
 def login(inputs):

@@ -1,5 +1,4 @@
-
-from core.models import Document, from_dict_class
+from core.model import Document, from_dict_class
 
 
 class ChallengeParticipation(Document):
