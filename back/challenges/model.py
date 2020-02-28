@@ -9,6 +9,7 @@ from challenges.exceptions import (
     InconsistentFlagsException,
 )
 
+
 class Challenge(Document):
     fields = Document.fields + [
         "title",
@@ -75,7 +76,7 @@ class Challenge(Document):
         self.summary = summary
         self.total_points = total_points
         self.category_id = category_id
-        self.flags = flags
+        self.flags = flags if flags else []
         self.hints = hints
         self.ports = ports
         self.image = image
@@ -109,7 +110,7 @@ class Challenge(Document):
 
         if self.title == "" or self.title is None:
             raise EmptyFieldException
-        
+
     @staticmethod
     def from_dict(dict_object: dict):
         dict_object["total_points"] = int(dict_object["total_points"])
