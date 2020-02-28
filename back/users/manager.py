@@ -1,5 +1,5 @@
 from core.manager import MongoManager
-from users.models import User
+from users.model import User
 
 
 class UserManager(MongoManager):

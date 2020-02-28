@@ -1,8 +1,9 @@
-from core.models import Document, from_dict_class
+from core.model import Document, from_dict_class
 from core.exceptions import (
     EmptyFieldException,
     EmmentalTypeException,
 )
+
 
 class ChallengeCategory(Document):
     fields = Document.fields + [

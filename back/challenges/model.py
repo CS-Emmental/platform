@@ -1,4 +1,4 @@
-from core.models import Document, from_dict_class
+from core.model import Document, from_dict_class
 import time
 from core.exceptions import (
     EmptyFieldException,

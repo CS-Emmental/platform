@@ -2,7 +2,7 @@ import time
 
 import pytest
 
-from core.models import Document
+from core.model import Document
 from core.test_data import data_legit_args, data_error_args
 from core.exceptions import InconsistentDateException
 
