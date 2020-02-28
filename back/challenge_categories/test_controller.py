@@ -13,11 +13,10 @@ class TestGetChallengeCategories:
     """
 
     # Most managers inherit from MongoManager which uses the app_context.
-    app = create_app()
+    app = create_app(testing=True)
 
     @pytest.mark.parametrize(
-        "test_input,expected",
-        [([], []), ([1], [1]), (["", "string_test"], ["", "string_test"])],
+        "test_input,expected", [([], []), ([1], [1]), (["", "string_test"], ["", "string_test"])],
     )
     def test_get_challenge_categories(self, monkeypatch, test_input, expected):
         """
