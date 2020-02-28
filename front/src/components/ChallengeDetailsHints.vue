@@ -35,7 +35,8 @@ import {
   Watch,
 } from 'vue-property-decorator';
 import { Action } from 'vuex-class';
-import { Challenge, ChallengeParticipation } from '../store/challenges/types';
+import { Challenge } from '../store/challenges/types';
+import { ChallengeParticipation } from '../store/challengeParticipations/types';
 
 @Component({
   name: 'ChallengeDetailsHints',
@@ -55,7 +56,7 @@ export default class ChallengeDetailsHints extends Vue {
   })
   public participation: ChallengeParticipation|undefined;
 
-  @Action('useHints', { namespace: 'challenges' })
+  @Action('useHints', { namespace: 'challengeParticipations' })
   public useHints!: CallableFunction;
 
 

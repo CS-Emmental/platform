@@ -108,7 +108,8 @@
 <script  lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Action } from 'vuex-class';
-import { Challenge, ChallengeParticipation } from '../store/challenges/types';
+import { Challenge } from '../store/challenges/types';
+import { ChallengeParticipation } from '../store/challengeParticipations/types';
 
 import EmmentalStatusTag from '@/components/EmmentalStatusTag.vue';
 import ConfirmModal from '@/components/ConfirmModal.vue';
@@ -137,7 +138,7 @@ export default class ChallengeDetailsParticipation extends Vue {
 
   public kubernetesHost: string = process.env.VUE_APP_KUBERNETES_HOST;
 
-  @Action('startChallengeParticipation', { namespace: 'challenges' })
+  @Action('startChallengeParticipation', { namespace: 'challengeParticipations' })
   public startChallengeParticipation!: CallableFunction;
 
   public onStartChallenge() {
@@ -146,17 +147,19 @@ export default class ChallengeDetailsParticipation extends Vue {
 
   public stopMode = false;
 
-  @Action('stopChallengeParticipation', { namespace: 'challenges' })
+  @Action('stopChallengeParticipation', { namespace: 'challengeParticipations' })
   public stopChallengeParticipation!: CallableFunction;
 
   public onStopChallenge() {
-    this.stopChallengeParticipation(this.participation.participation_id);
-    this.stopMode = false;
+    if (this.participation) {
+      this.stopChallengeParticipation(this.participation.participation_id);
+      this.stopMode = false;
+    }
   }
 
   public flagInputs: { [index: number]: string[] } = {};
 
-  @Action('submitFlag', { namespace: 'challenges' })
+  @Action('submitFlag', { namespace: 'challengeParticipations' })
   public submitFlag!: CallableFunction;
 
   public onSubmitFlag(index: number, secret: string) {

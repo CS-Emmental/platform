@@ -73,7 +73,8 @@ import {
   Vue,
 } from 'vue-property-decorator';
 import { State, Getter, Action } from 'vuex-class';
-import { Challenge, ChallengeParticipation } from '../store/challenges/types';
+import { Challenge } from '../store/challenges/types';
+import { ChallengeParticipation } from '../store/challengeParticipations/types';
 import { slug } from '../store/utils';
 
 import EmmentalBox from '@/components/EmmentalBox.vue';
@@ -180,7 +181,7 @@ export default class ChallengeDetails extends Vue {
 
   // Challenge Participation
 
-  @Getter('getParticipationByChallengeId', { namespace: 'challenges' })
+  @Getter('getParticipationByChallengeId', { namespace: 'challengeParticipations' })
   public getParticipationByChallengeId!: CallableFunction;
 
   get participation(): ChallengeParticipation|undefined {
@@ -188,7 +189,7 @@ export default class ChallengeDetails extends Vue {
     return this.getParticipationByChallengeId(challengeId);
   }
 
-  @Getter('getParticipationFinalScore', { namespace: 'challenges' })
+  @Getter('getParticipationFinalScore', { namespace: 'challengeParticipations' })
   public getParticipationFinalScore!: CallableFunction
 
   get finalPoints() {

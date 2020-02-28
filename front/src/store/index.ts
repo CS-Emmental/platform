@@ -5,6 +5,7 @@ import Vuex, {
 import { RootState, User } from './types';
 import { challenges } from './challenges/index';
 import { challengeCategories } from './challengeCategories/index';
+import { challengeParticipations } from './challengeParticipations/index';
 import api from './api';
 import router from '../router';
 
@@ -85,6 +86,7 @@ const store: StoreOptions<RootState> = {
   modules: {
     challenges,
     challengeCategories,
+    challengeParticipations,
   },
 };
 

@@ -1,6 +1,5 @@
 export interface ChallengesState {
   challenges: Challenge[];
-  currentuserPartipations: ChallengeParticipation[];
 }
 
 export interface Challenge {
@@ -31,15 +30,4 @@ export interface Flag {
 export interface Port {
   name: string;
   port: number;
-}
-
-export interface ChallengeParticipation {
-    participation_id: string;
-    challenge_id: string;
-    user_id: string;
-    status: string;
-    rating: number;
-    found_flags: number[];
-    used_hints: number[];
-    port: number;
 }

@@ -32,7 +32,8 @@
 import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 
-import { Challenge, ChallengeParticipation } from '../store/challenges/types';
+import { Challenge } from '../store/challenges/types';
+import { ChallengeParticipation } from '../store/challengeParticipations/types';
 import { slug } from '../store/utils';
 
 import EmmentalStatusTag from '@/components/EmmentalStatusTag.vue';
@@ -69,7 +70,7 @@ export default class ChallengeCard extends Vue {
 
   // Challenge Participation
 
-  @Getter('getParticipationByChallengeId', { namespace: 'challenges' })
+  @Getter('getParticipationByChallengeId', { namespace: 'challengeParticipations' })
   public getParticipationByChallengeId!: CallableFunction;
 
   get participation(): ChallengeParticipation|undefined {
@@ -77,7 +78,7 @@ export default class ChallengeCard extends Vue {
     return this.getParticipationByChallengeId(challengeId);
   }
 
-  @Getter('getParticipationFinalScore', { namespace: 'challenges' })
+  @Getter('getParticipationFinalScore', { namespace: 'challengeParticipations' })
   public getParticipationFinalScore!: CallableFunction
 
   get finalPoints() {
