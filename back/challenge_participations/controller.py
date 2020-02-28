@@ -3,7 +3,9 @@ from flask_login import current_user
 from core.exceptions import (
     EmmentalException,
 )
-
+from challenge_participations.exceptions import (
+    EmmentalFlagSecretException,
+)
 from challenge_participations.manager import ChallengeParticipationsManager
 from challenges.manager import ChallengesManager
 

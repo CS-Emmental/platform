@@ -5,8 +5,8 @@ from core.exceptions import (
     EmmentalTypeException,
 )
 from challenges.exceptions import (
-    InconsistentHintsException,
-    InconsistentFlagsException,
+    EmmentalHintsException,
+    EmmentalFlagsException,
 )
 
 class Challenge(Document):

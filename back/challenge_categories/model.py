@@ -34,20 +34,22 @@ class ChallengeCategory(Document):
         updated_at: int = None,
     ):
         super().__init__(_id, created_at, updated_at)
-        if (
-            not isinstance(title, str)
-            or not isinstance(icon, str)
-            or not isinstance(description, str)
-        ):
-            raise EmmentalTypeException
-
         self.category_id = self._id
         self.title = title
         self.icon = icon
         self.description = description
+        self.verify()
+
+    def verify(self):
+        if not isinstance(title, str):
+            raise EmmentalTypeException(error_code=2, incorrect_input="title")
+        if not isinstance(icon, str):
+            raise EmmentalTypeException(error_code=3, incorrect_input="icon")
+        if not isinstance(description, str):
+            raise EmmentalTypeException(error_code=4, incorrect_input="description")
 
         if self.title == "" or self.title == None:
-            raise EmptyFieldException
+            raise EmptyFieldException(error_code=5, blank_field="title")
 
     @staticmethod
     def from_dict(dict_object: dict):
