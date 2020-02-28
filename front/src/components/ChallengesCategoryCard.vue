@@ -27,10 +27,8 @@
 import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import EmmentalCard from '@/components/EmmentalCard.vue';
-import { ChallengeCategory } from '../store/challenges/types';
+import { ChallengeCategory } from '../store/challengeCategories/types';
 import { slug } from '../store/utils';
-
-const namespace = 'challenges';
 
 @Component({
   name: 'ChallengesCategoryCard',
@@ -45,7 +43,7 @@ export default class ChallengesCategoryCard extends Vue {
   })
   public category!: ChallengeCategory;
 
-  @Getter('getChallengesCountByCategory', { namespace })
+  @Getter('getChallengesCountByCategory', { namespace: 'challenges' })
   public getChallengesCountByCategory!: CallableFunction;
 
   get categoryCount() {

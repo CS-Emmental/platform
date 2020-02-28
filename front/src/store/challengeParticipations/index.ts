@@ -1,17 +1,17 @@
 import { Module } from 'vuex';
-import { ChallengesState } from './types';
+import { ChallengeParticipationsState } from './types';
 import { RootState } from '../types';
 import actions from './actions';
 import mutations from './mutations';
 import getters from './getters';
 
-export const state: ChallengesState = {
-  challenges: [],
+export const state: ChallengeParticipationsState = {
+  currentuserPartipations: [],
 };
 
 const namespaced = true;
 
-export const challenges: Module<ChallengesState, RootState> = {
+export const challengeParticipations: Module<ChallengeParticipationsState, RootState> = {
   namespaced,
   state,
   actions,
