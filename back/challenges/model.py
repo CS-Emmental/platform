@@ -1,7 +1,7 @@
 from core.model import Document, from_dict_class
 import time
 from core.exceptions import (
-    EmptyFieldException,
+    EmmentalEmptyFieldException,
     EmmentalTypeException,
 )
 from challenges.exceptions import (
@@ -119,16 +119,16 @@ class Challenge(Document):
             sum([hint["cost"] for hint in self.hints]) > 1
             or min([hint["cost"] for hint in self.hints]) < 0
         ):
-            raise InconsistentHintsException(error_code=16)
+            raise EmmentalHintsException(error_code=16)
 
         if self.flags and (
             sum([flag["reward"] for flag in self.flags]) != 1
             or min([flag["reward"] for flag in self.flags]) < 0
         ):
-            raise InconsistentFlagsException(error_code=17)
+            raise EmmentalFlagsException(error_code=17)
 
         if self.title == "" or self.title is None:
-            raise EmptyFieldException(error_code=18, blank_field="title")
+            raise EmmentalEmptyFieldException(error_code=18, blank_field="title")
 
     @staticmethod
     def from_dict(dict_object: dict):

@@ -11,7 +11,7 @@ from challenge_categories.test_data import (
 )
 from core.exceptions import (
     InconsistentDateException,
-    EmptyFieldException,
+    EmmentalEmptyFieldException,
     EmmentalTypeException,
 )
 
@@ -70,7 +70,7 @@ class TestInit:
 
     @pytest.mark.parametrize("test_input", data_challenge_category_error_title)
     def test_error_title(self, test_input):
-        with pytest.raises(EmptyFieldException):
+        with pytest.raises(EmmentalEmptyFieldException):
             challengeCategory = ChallengeCategory(
                 _id=test_input["_id"],
                 created_at=test_input["created_at"],

@@ -2,7 +2,7 @@ import time
 
 import pytest
 
-from challenges.exceptions import InconsistentFlagsException, InconsistentHintsException
+from challenges.exceptions import EmmentalFlagsException, EmmentalHintsException
 from challenges.model import Challenge
 from challenges.test_data import (
     data_challenge_error_flags,
@@ -12,7 +12,7 @@ from challenges.test_data import (
     data_challenge_error_type,
     data_challenge_legit_args,
 )
-from core.exceptions import EmmentalTypeException, EmptyFieldException, InconsistentDateException
+from core.exceptions import EmmentalTypeException, EmmentalEmptyFieldException, InconsistentDateException
 
 
 class TestInit:
@@ -80,7 +80,7 @@ class TestInit:
 
     @pytest.mark.parametrize("test_input", data_challenge_error_title)
     def test_error_title(self, test_input):
-        with pytest.raises(EmptyFieldException):
+        with pytest.raises(EmmentalEmptyFieldException):
             challenge = Challenge(
                 _id=test_input["_id"],
                 created_at=test_input["created_at"],
@@ -112,7 +112,7 @@ class TestInit:
 
     @pytest.mark.parametrize("test_input", data_challenge_error_hints)
     def test_error_hints(self, test_input):
-        with pytest.raises(InconsistentHintsException):
+        with pytest.raises(EmmentalHintsException):
             challenge = Challenge(
                 _id=test_input["_id"],
                 created_at=test_input["created_at"],
@@ -128,7 +128,7 @@ class TestInit:
 
     @pytest.mark.parametrize("test_input", data_challenge_error_flags)
     def test_error_flags(self, test_input):
-        with pytest.raises(InconsistentFlagsException):
+        with pytest.raises(EmmentalFlagsException):
             challenge = Challenge(
                 _id=test_input["_id"],
                 created_at=test_input["created_at"],

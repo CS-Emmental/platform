@@ -1,6 +1,6 @@
 from core.model import Document, from_dict_class
 from core.exceptions import (
-    EmptyFieldException,
+    EmmentalEmptyFieldException,
     EmmentalTypeException,
 )
 
@@ -42,15 +42,14 @@ class ChallengeCategory(Document):
         self.verify()
 
     def verify(self):
-        if not isinstance(title, str):
+        if not isinstance(self.title, str):
             raise EmmentalTypeException(error_code=2, incorrect_input="title")
-        if not isinstance(icon, str):
+        if not isinstance(self.icon, str):
             raise EmmentalTypeException(error_code=3, incorrect_input="icon")
-        if not isinstance(description, str):
+        if not isinstance(self.description, str):
             raise EmmentalTypeException(error_code=4, incorrect_input="description")
-
         if self.title == "" or self.title == None:
-            raise EmptyFieldException(error_code=5, blank_field="title")
+            raise EmmentalEmptyFieldException(error_code=5, blank_field="title")
 
     @staticmethod
     def from_dict(dict_object: dict):

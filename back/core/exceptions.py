@@ -10,11 +10,11 @@ class InconsistentDateException(EmmentalException):
     internal_message = "Inconsistent dates: creation date is after update date"
     status_code = 500
 
-class EmptyFieldException(EmmentalException):
+class EmmentalEmptyFieldException(EmmentalException):
     def __init__(self, error_code: int, blank_field: str):
         self.external_message = "Unknown Error"
         self.internal_message = (
-            "Empty field: The following field was blank : " + blank_field
+            "EmmentalEmptyFieldException: The following field was blank : " + blank_field
         )
         self.status_code = 500
         self.error_code = error_code
@@ -27,8 +27,8 @@ class EmmentalTypeException(EmmentalException):
     def __init__(self, error_code: int, incorrect_input: str):
         self.error_code = error_code
         self.internal_message = (
-            "Inconsistent type: the following input did not respect the right type : "
-            + blank_field
+            "EmmentalTypeException: the following input did not respect the right type : "
+            + incorrect_input
         )
         self.external_message = "Unknown Error"
         self.status_code = 500
