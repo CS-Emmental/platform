@@ -30,8 +30,6 @@ import EmmentalCard from '@/components/EmmentalCard.vue';
 import { ChallengeCategory } from '../store/challenges/types';
 import { slug } from '../store/utils';
 
-const namespace = 'challenges';
-
 @Component({
   name: 'ChallengesCategoryCard',
   components: {
@@ -45,7 +43,7 @@ export default class ChallengesCategoryCard extends Vue {
   })
   public category!: ChallengeCategory;
 
-  @Getter('getChallengesCountByCategory', { namespace })
+  @Getter('getChallengesCountByCategory', { namespace: 'challenges' })
   public getChallengesCountByCategory!: CallableFunction;
 
   get categoryCount() {

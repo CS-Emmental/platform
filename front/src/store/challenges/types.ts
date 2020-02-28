@@ -1,14 +1,6 @@
 export interface ChallengesState {
-  challengeCategories: ChallengeCategory[];
   challenges: Challenge[];
   currentuserPartipations: ChallengeParticipation[];
-}
-
-export interface ChallengeCategory {
-  title: string;
-  category_id: string;
-  icon: string;
-  description: string;
 }
 
 export interface Challenge {

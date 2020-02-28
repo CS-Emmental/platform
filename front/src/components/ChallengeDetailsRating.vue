@@ -37,8 +37,6 @@ import {
 import { Action } from 'vuex-class';
 import { Challenge, ChallengeParticipation } from '../store/challenges/types';
 
-const namespace = 'challenges';
-
 @Component({
   name: 'ChallengeDetailsRating',
 })
@@ -57,7 +55,7 @@ export default class ChallengeDetailsRating extends Vue {
   })
   public participation: ChallengeParticipation|undefined;
 
-  @Action('postParticipation', { namespace })
+  @Action('postParticipation', { namespace: 'challenges' })
   public postParticipation!: CallableFunction;
 
   get rating() {

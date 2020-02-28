@@ -38,8 +38,6 @@ import { slug } from '../store/utils';
 import EmmentalStatusTag from '@/components/EmmentalStatusTag.vue';
 import EmmentalCard from '@/components/EmmentalCard.vue';
 
-const namespace = 'challenges';
-
 @Component({
   name: 'ChallengeCard',
   components: {
@@ -54,7 +52,7 @@ export default class ChallengeCard extends Vue {
   })
   public challenge!: Challenge;
 
-  @Getter('getCategoryById', { namespace })
+  @Getter('getCategoryById', { namespace: 'challengeCategories' })
   public getCategoryById!: CallableFunction;
 
   get parentCategory() {
@@ -71,7 +69,7 @@ export default class ChallengeCard extends Vue {
 
   // Challenge Participation
 
-  @Getter('getParticipationByChallengeId', { namespace })
+  @Getter('getParticipationByChallengeId', { namespace: 'challenges' })
   public getParticipationByChallengeId!: CallableFunction;
 
   get participation(): ChallengeParticipation|undefined {
@@ -79,7 +77,7 @@ export default class ChallengeCard extends Vue {
     return this.getParticipationByChallengeId(challengeId);
   }
 
-  @Getter('getParticipationFinalScore', { namespace })
+  @Getter('getParticipationFinalScore', { namespace: 'challenges' })
   public getParticipationFinalScore!: CallableFunction
 
   get finalPoints() {

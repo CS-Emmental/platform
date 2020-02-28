@@ -14,7 +14,7 @@
     </router-link>
     <ul class="menu-list">
       <li
-        v-for="category in categories"
+        v-for="category in challengeCategories"
         :key="category.category_id"
       >
         <router-link
@@ -49,29 +49,22 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { State, Action, Getter } from 'vuex-class';
-import { ChallengesState } from '../store/challenges/types';
-
-const namespace = 'challenges';
+import { ChallengeCategory } from '../store/challengeCategories/types';
 
 @Component({
   name: 'EmmentalSidebar',
 })
 export default class EmmentalSidebar extends Vue {
-  @State('challenges') public challenges: ChallengesState|undefined;
+  @State('challengeCategories', { namespace: 'challengeCategories' }) public challengeCategories: ChallengeCategory[]|undefined;
 
-  @Action('getChallengeCategories', { namespace })
+  @Action('getChallengeCategories', { namespace: 'challengeCategories' })
   public getChallengeCategories!: CallableFunction;
 
-  @Action('getChallenges', { namespace })
+  @Action('getChallenges', { namespace: 'challenges' })
   public getChallenges!: CallableFunction;
 
-  @Getter('getChallengesCountByCategory', { namespace })
+  @Getter('getChallengesCountByCategory', { namespace: 'challenges' })
   public getChallengesCountByCategory!: CallableFunction;
-
-  get categories() {
-    const categories = this.challenges && this.challenges.challengeCategories;
-    return categories || [];
-  }
 
   get menuActive() {
     const route = this.$route;

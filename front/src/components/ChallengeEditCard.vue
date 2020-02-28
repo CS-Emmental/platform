@@ -261,9 +261,8 @@ import { State, Getter } from 'vuex-class';
 import vSelect from 'vue-select';
 import EmmentalRichTextEditor from '@/components/EmmentalRichTextEditor.vue';
 
-import { Challenge, ChallengeCategory } from '../store/challenges/types';
-
-const namespace = 'challenges';
+import { Challenge } from '../store/challenges/types';
+import { ChallengeCategory } from '../store/challengeCategories/types';
 
 @Component({
   name: 'ChallengeEditCard',
@@ -279,10 +278,10 @@ export default class ChallengeEditCard extends Vue {
   })
   public challenge: Challenge|undefined;
 
-  @State('challengeCategories', { namespace })
+  @State('challengeCategories', { namespace: 'challengeCategories' })
   public challengeCategories: ChallengeCategory[]|undefined;
 
-  @Getter('getCategoryById', { namespace })
+  @Getter('getCategoryById', { namespace: 'challengeCategories' })
   public getCategoryById!: CallableFunction;
 
   public challengeEdit: Challenge = {

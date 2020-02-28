@@ -1,19 +1,13 @@
 import Vue from 'vue';
 import { ActionTree } from 'vuex';
 import {
-  ChallengesState, ChallengeCategory, Challenge, ChallengeParticipation,
+  ChallengesState, Challenge, ChallengeParticipation,
 } from './types';
 import { RootState } from '../types';
 import api from '../api';
 
 
 const actions: ActionTree<ChallengesState, RootState> = {
-  getChallengeCategories({ commit }): void {
-    api.get('challenge-categories').then((res) => {
-      const categories: ChallengeCategory[] = res && res.data;
-      commit('setChallengeCategories', categories);
-    });
-  },
   getChallenges({ commit }): void {
     api.get('challenges').then((res) => {
       const challenges: Challenge[] = res && res.data;
@@ -60,24 +54,6 @@ const actions: ActionTree<ChallengesState, RootState> = {
     api.post(`challenge-participations/${edited.participation_id}`, edited).then((res) => {
       const participationEdited: ChallengeParticipation = res && res.data;
       commit('setParticipation', participationEdited);
-    });
-  },
-  insertChallengeCategory({ commit }, inputs: ChallengeCategory): void {
-    api.post('challenge-categories', inputs).then((res) => {
-      const challengeInserted: Challenge = res && res.data;
-      commit('insertChallengeCategory', challengeInserted);
-    });
-  },
-  postChallengeCategory({ commit }, edited: ChallengeCategory): void {
-    api.post(`challenge-categories/${edited.category_id}`, edited).then((res) => {
-      const challengeCategoryEdited: ChallengeCategory = res && res.data;
-      commit('setChallengeCategory', challengeCategoryEdited);
-      Vue.toasted.show(`'${edited.title}' Challenge category edited`);
-    });
-  },
-  deleteChallengeCategory({ commit }, categoryId: string): void {
-    api.delete(`challenge-categories/${categoryId}`).then(() => {
-      commit('deleteChallengeCategory', categoryId);
     });
   },
   useHints({ commit }, updated: ChallengeParticipation): void {

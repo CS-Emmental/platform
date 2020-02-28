@@ -37,8 +37,6 @@ import {
 import { Action } from 'vuex-class';
 import { Challenge, ChallengeParticipation } from '../store/challenges/types';
 
-const namespace = 'challenges';
-
 @Component({
   name: 'ChallengeDetailsHints',
 })
@@ -57,7 +55,7 @@ export default class ChallengeDetailsHints extends Vue {
   })
   public participation: ChallengeParticipation|undefined;
 
-  @Action('useHints', { namespace })
+  @Action('useHints', { namespace: 'challenges' })
   public useHints!: CallableFunction;
 
 

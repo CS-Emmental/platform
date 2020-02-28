@@ -113,8 +113,6 @@ import { Challenge, ChallengeParticipation } from '../store/challenges/types';
 import EmmentalStatusTag from '@/components/EmmentalStatusTag.vue';
 import ConfirmModal from '@/components/ConfirmModal.vue';
 
-const namespace = 'challenges';
-
 @Component({
   name: 'ChallengeDetailsParticipation',
   components: {
@@ -139,7 +137,7 @@ export default class ChallengeDetailsParticipation extends Vue {
 
   public kubernetesHost: string = process.env.VUE_APP_KUBERNETES_HOST;
 
-  @Action('startChallengeParticipation', { namespace })
+  @Action('startChallengeParticipation', { namespace: 'challenges' })
   public startChallengeParticipation!: CallableFunction;
 
   public onStartChallenge() {
@@ -148,7 +146,7 @@ export default class ChallengeDetailsParticipation extends Vue {
 
   public stopMode = false;
 
-  @Action('stopChallengeParticipation', { namespace })
+  @Action('stopChallengeParticipation', { namespace: 'challenges' })
   public stopChallengeParticipation!: CallableFunction;
 
   public onStopChallenge() {
@@ -158,7 +156,7 @@ export default class ChallengeDetailsParticipation extends Vue {
 
   public flagInputs: { [index: number]: string[] } = {};
 
-  @Action('submitFlag', { namespace })
+  @Action('submitFlag', { namespace: 'challenges' })
   public submitFlag!: CallableFunction;
 
   public onSubmitFlag(index: number, secret: string) {
