@@ -35,4 +35,3 @@ class EmmentalTypeException(EmmentalException):
 
     def __str__(self):
         return self.internal_message
-
