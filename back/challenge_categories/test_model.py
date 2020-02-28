@@ -21,7 +21,7 @@ class TestInit:
     Test of the magic function __init__
     """
 
-    def test_only_challenge_title(self):
+    def test_only_category_title(self):
         t_before = int(time.time())
         challengeCategory = ChallengeCategory(title="a")
         t_after = int(time.time())
