@@ -1,6 +1,7 @@
 from challenge_categories.manager import ChallengeCategoriesManager
 from challenge_categories.model import ChallengeCategory
 
+
 def get_challenge_categories():
     categories = ChallengeCategoriesManager().get_all()
     return categories

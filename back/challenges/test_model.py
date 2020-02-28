@@ -12,7 +12,11 @@ from challenges.test_data import (
     data_challenge_error_type,
     data_challenge_legit_args,
 )
-from core.exceptions import EmmentalTypeException, EmmentalEmptyFieldException, InconsistentDateException
+from core.exceptions import (
+    EmmentalTypeException,
+    EmmentalEmptyFieldException,
+    InconsistentDateException,
+)
 
 
 class TestInit:

@@ -13,9 +13,7 @@ class ChallengeParticipationsManager(MongoManager):
         return [ChallengeParticipation.from_dict(x) for x in super().get_query(query)]
 
     def update_one(self, participation):
-        return super().update_one(
-            participation.participation_id, participation.to_insert_dict()
-        )
+        return super().update_one(participation.participation_id, participation.to_insert_dict())
 
     def insert_one(self, participation):
         return super().insert_one(participation.to_insert_dict())
