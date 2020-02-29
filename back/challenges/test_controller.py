@@ -10,6 +10,12 @@ from challenges.controller import (
 )
 from challenges.manager import ChallengesManager
 from app import create_app
+from challenges.test_data import (
+    data_controller_update,
+    data_controller_remove,
+    data_controller_insert,
+)
+
 
 class TestUpdateChallenge:
     """
@@ -19,26 +25,7 @@ class TestUpdateChallenge:
     app = create_app(testing=True)
 
     @pytest.mark.parametrize(
-        "database_input,test_input,expected",
-        [
-            ({"key": "value"}, {"key": "new_value"}, {"key": "new_value"}),
-            ({"key": "value"}, {}, {"key": "value"}),
-            (
-                {"key1": "value1", "key2": "value2"},
-                {"key1": "new_value1", "key2": "value2"},
-                {"key1": "new_value1", "key2": "value2"},
-            ),
-            (
-                {"key1": "value1", "key2": "value2"},
-                {"key1": "new_value1"},
-                {"key1": "new_value1", "key2": "value2"},
-            ),
-            (
-                {"key1": "value1", "key2": "value2"},
-                {"key1": "new_value1", "key2": "new_value2"},
-                {"key1": "new_value1", "key2": "new_value2"},
-            ),
-        ],
+        "database_input,test_input,expected", data_controller_update
     )
     def test_update_challenge(self, monkeypatch, database_input, test_input, expected):
         def mock_get(*args, **kwargs):
@@ -61,9 +48,7 @@ class TestRemoveChallenge:
 
     app = create_app(testing=True)
 
-    @pytest.mark.parametrize(
-        "database_input,expected", [({"key": "value"}, {"n": 1, "ok": 1.0})]
-    )
+    @pytest.mark.parametrize("database_input,expected", data_controller_remove)
     def test_remove_challenge(self, monkeypatch, database_input, expected):
         def mock_get(*args, **kwargs):
             return database_input
@@ -85,9 +70,7 @@ class TestInsertChallenge:
 
     app = create_app(testing=True)
 
-    @pytest.mark.parametrize(
-        "test_input,expected", [({"title": "value"}, {"title": "value"})]
-    )
+    @pytest.mark.parametrize("test_input,expected", data_controller_insert)
     def test_insert_challenge(self, monkeypatch, test_input, expected):
         def mock_insert(*args, **kwargs):
             return None

@@ -13,7 +13,6 @@ from app import create_app
 from challenge_categories.test_data import (
     data_controller_get,
     data_controller_update,
-    data_challenge_category_legit_args,
     data_controller_remove,
     data_controller_insert,
 )
