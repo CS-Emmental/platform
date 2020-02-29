@@ -19,7 +19,7 @@
     </emmental-box>
     <div class="categories">
       <challenges-category-card
-        v-for="category in categories"
+        v-for="category in challengeCategories"
         :key="category.category_id"
         :category="category"
       />
@@ -43,15 +43,13 @@
 <script  lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { State, Getter, Action } from 'vuex-class';
-import { ChallengesState, ChallengeCategory } from '../store/challenges/types';
+import { ChallengeCategory } from '../store/challengeCategories/types';
 import ChallengesCategoryEditCard from '@/components/ChallengesCategoryEditCard.vue';
 
 import EmmentalModal from '@/components/EmmentalModal.vue';
 import ChallengesCategoryCard from '@/components/ChallengesCategoryCard.vue';
 import EmmentalBox from '@/components/EmmentalBox.vue';
 import NewBox from '@/components/NewBox.vue';
-
-const namespace = 'challenges';
 
 @Component({
   name: 'Challenges',
@@ -64,17 +62,12 @@ const namespace = 'challenges';
   },
 })
 export default class Challenges extends Vue {
-  @State('challenges') public challenges: ChallengesState|undefined;
+  @State('challengeCategories', { namespace: 'challengeCategories' }) public challengeCategories: ChallengeCategory[]|undefined;
 
-  @Action('getChallengeCategories', { namespace })
+  @Action('getChallengeCategories', { namespace: 'challengeCategories' })
   public getChallengeCategories!: CallableFunction;
 
   public createMode = false;
-
-  get categories() {
-    const categories = this.challenges && this.challenges.challengeCategories;
-    return categories || [];
-  }
 
   public newChallengeCategory = {
     category_id: '',
@@ -86,7 +79,7 @@ export default class Challenges extends Vue {
   @Getter('hasPermission')
   public hasPermission!: CallableFunction;
 
-  @Action('insertChallengeCategory', { namespace })
+  @Action('insertChallengeCategory', { namespace: 'challengeCategories' })
   public insertChallengeCategory!: CallableFunction;
 
   public created() {

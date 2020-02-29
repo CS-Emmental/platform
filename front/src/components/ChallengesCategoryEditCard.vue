@@ -68,7 +68,7 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 import vSelect from 'vue-select';
 import EmmentalRichTextEditor from '@/components/EmmentalRichTextEditor.vue';
 
-import { ChallengeCategory } from '../store/challenges/types';
+import { ChallengeCategory } from '../store/challengeCategories/types';
 
 
 @Component({

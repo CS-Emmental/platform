@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $_CHALLENGE_NAME_SLUG-$_PARTICIPATION_ID
+  namespace: emmental-challenges
+  labels:
+    tier: challenge-instances
+    challenge_id: $_CHALLENGE_ID
+    participation_id: $_PARTICIPATION_ID
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: challenge-instances
+      challenge_id: $_CHALLENGE_ID
+      participation_id: $_PARTICIPATION_ID
+  template:
+    metadata:
+      labels:
+        tier: challenge-instances
+        challenge_id: $_CHALLENGE_ID
+        participation_id: $_PARTICIPATION_ID
+    spec:
+      containers:
+        - name: $_CHALLENGE_NAME_SLUG
+          image: $_CHALLENGE_NAME_SLUG
+          imagePullPolicy: Never
+          ports:
+            - containerPort: $_PORT
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+      volumes:
+        - name: config-volume
+          configMap:
+              name: configmap-$PARTICIPATION_ID
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: $_CHALLENGE_NAME_SLUG-$_PARTICIPATION_ID
+  namespace: emmental-challenges
+  labels:
+    tier: challenge-instances
+    challenge_id: $_CHALLENGE_ID
+    participation_id: $_PARTICIPATION_ID
+spec:
+  type: NodePort
+  selector:
+    tier: challenge-instances
+    challenge_id: $_CHALLENGE_ID
+    participation_id: $_PARTICIPATION_ID
+  ports:
+    - name: $_PORT_NAME
+      port: $_PORT
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  namespace: emmental-challenges
+  name: configmap-$PARTICIPATION_ID
+  labels:
+    tier: challenge-instances
+    challenge_id: $_CHALLENGE_ID
+    participation_id: $_PARTICIPATION_ID
+data:
+  secret: |-
+    root:secret

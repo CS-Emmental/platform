@@ -73,7 +73,8 @@ import {
   Vue,
 } from 'vue-property-decorator';
 import { State, Getter, Action } from 'vuex-class';
-import { Challenge, ChallengeParticipation } from '../store/challenges/types';
+import { Challenge } from '../store/challenges/types';
+import { ChallengeParticipation } from '../store/challengeParticipations/types';
 import { slug } from '../store/utils';
 
 import EmmentalBox from '@/components/EmmentalBox.vue';
@@ -84,8 +85,6 @@ import ChallengeEditCard from '@/components/ChallengeEditCard.vue';
 import ChallengeDetailsHints from '@/components/ChallengeDetailsHints.vue';
 import ChallengeDetailsRating from '@/components/ChallengeDetailsRating.vue';
 import ChallengeDetailsParticipation from '@/components/ChallengeDetailsParticipation.vue';
-
-const namespace = 'challenges';
 
 @Component({
   name: 'ChallengeDetails',
@@ -115,7 +114,7 @@ export default class ChallengeDetails extends Vue {
   })
   public challengeSlug!: string;
 
-  @Getter('getChallengeFromSlug', { namespace })
+  @Getter('getChallengeFromSlug', { namespace: 'challenges' })
   public getChallengeFromSlug!: CallableFunction;
 
   get challenge(): Challenge {
@@ -148,10 +147,10 @@ export default class ChallengeDetails extends Vue {
 
   public editMode = false;
 
-  @Getter('getCategoryById', { namespace })
+  @Getter('getCategoryById', { namespace: 'challengeCategories' })
   public getCategoryById!: CallableFunction;
 
-  @Action('postChallenge', { namespace })
+  @Action('postChallenge', { namespace: 'challenges' })
   public postChallenge!: CallableFunction;
 
   public save(edited: Challenge) {
@@ -170,7 +169,7 @@ export default class ChallengeDetails extends Vue {
 
   public confirmDeleteMode = false;
 
-  @Action('deleteChallenge', { namespace })
+  @Action('deleteChallenge', { namespace: 'challenges' })
   public deleteChallenge!: CallableFunction;
 
   public onDelete() {
@@ -182,7 +181,7 @@ export default class ChallengeDetails extends Vue {
 
   // Challenge Participation
 
-  @Getter('getParticipationByChallengeId', { namespace })
+  @Getter('getParticipationByChallengeId', { namespace: 'challengeParticipations' })
   public getParticipationByChallengeId!: CallableFunction;
 
   get participation(): ChallengeParticipation|undefined {
@@ -190,7 +189,7 @@ export default class ChallengeDetails extends Vue {
     return this.getParticipationByChallengeId(challengeId);
   }
 
-  @Getter('getParticipationFinalScore', { namespace })
+  @Getter('getParticipationFinalScore', { namespace: 'challengeParticipations' })
   public getParticipationFinalScore!: CallableFunction
 
   get finalPoints() {

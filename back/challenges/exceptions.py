@@ -1,46 +1,27 @@
-class EmmentalException(Exception):
-    error_code = 0
-    external_message = "Unknown Error"
-    internal_message = "Something went wrong here"
-    status_code = 500
+from core.exceptions import EmmentalException
 
 
-class EmptyFieldException(EmmentalException):
-    error_code = 1
-    external_message = "Unknown Error"
-    internal_message = "Empty field: one field cannot be left blank"
-    status_code = 500
+class EmmentalHintsException(EmmentalException):
+    def __init__(self, error_code: int):
+        self.error_code = error_code
+        self.external_message = "Unknown Error"
+        self.internal_message = (
+            "EmmentalHintsException : hints must be positive with a sum inferior to 1"
+        )
+        self.status_code = 500
+
+    def __str__(self):
+        return self.internal_message
 
 
-class EmmentalTypeException(EmmentalException):
-    error_code = 1
-    external_message = "Unknown Error"
-    internal_message = "Inconsistent type: an input did not respect the right type"
-    status_code = 500
+class EmmentalFlagsException(EmmentalException):
+    def __init__(self, error_code: int):
+        self.error_code = error_code
+        self.external_message = "Unknown Error"
+        self.internal_message = (
+            "EmmentalFlagsException: flags must be positive with a sum egal to 1"
+        )
+        status_code = 500
 
-
-class InconsistentHintsException(EmmentalException):
-    error_code = 1
-    external_message = "Unknown Error"
-    internal_message = (
-        "Inconsistent hints: hints must be positive with a sum inferior to 1"
-    )
-    status_code = 500
-
-
-class InconsistentFlagsException(EmmentalException):
-    error_code = 1
-    external_message = "Unknown Error"
-    internal_message = (
-        "Inconsistent flags: flags must be positive with a sum inferior to 1"
-    )
-    status_code = 500
-
-
-class InconsistentFlagSecretException(EmmentalException):
-    error_code = 1
-    external_message = "Unknown Error"
-    internal_message = (
-        "Inconsistent flag secret: The secret submitted was the wrong one"
-    )
-    status_code = 500
+    def __str__(self):
+        return self.internal_message

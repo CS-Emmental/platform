@@ -6,9 +6,7 @@ import mutations from './mutations';
 import getters from './getters';
 
 export const state: ChallengesState = {
-  challengeCategories: [],
   challenges: [],
-  currentuserPartipations: [],
 };
 
 const namespaced = true;

@@ -32,13 +32,12 @@
 import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 
-import { Challenge, ChallengeParticipation } from '../store/challenges/types';
+import { Challenge } from '../store/challenges/types';
+import { ChallengeParticipation } from '../store/challengeParticipations/types';
 import { slug } from '../store/utils';
 
 import EmmentalStatusTag from '@/components/EmmentalStatusTag.vue';
 import EmmentalCard from '@/components/EmmentalCard.vue';
-
-const namespace = 'challenges';
 
 @Component({
   name: 'ChallengeCard',
@@ -54,7 +53,7 @@ export default class ChallengeCard extends Vue {
   })
   public challenge!: Challenge;
 
-  @Getter('getCategoryById', { namespace })
+  @Getter('getCategoryById', { namespace: 'challengeCategories' })
   public getCategoryById!: CallableFunction;
 
   get parentCategory() {
@@ -71,7 +70,7 @@ export default class ChallengeCard extends Vue {
 
   // Challenge Participation
 
-  @Getter('getParticipationByChallengeId', { namespace })
+  @Getter('getParticipationByChallengeId', { namespace: 'challengeParticipations' })
   public getParticipationByChallengeId!: CallableFunction;
 
   get participation(): ChallengeParticipation|undefined {
@@ -79,7 +78,7 @@ export default class ChallengeCard extends Vue {
     return this.getParticipationByChallengeId(challengeId);
   }
 
-  @Getter('getParticipationFinalScore', { namespace })
+  @Getter('getParticipationFinalScore', { namespace: 'challengeParticipations' })
   public getParticipationFinalScore!: CallableFunction
 
   get finalPoints() {

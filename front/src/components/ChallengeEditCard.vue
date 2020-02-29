@@ -56,6 +56,68 @@
         </div>
       </div>
       <div class="field">
+        <label class="label">Challenge Type</label>
+        <div class="control">
+          <v-select
+            v-model="challengeEdit.challenge_type"
+            :options="challengeTypes"
+            :reduce="type => type.value"
+            label="text"
+          />
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Docker Image</label>
+        <div class="control">
+          <input
+            v-model="challengeEdit.image"
+            class="input"
+            type="text"
+          >
+        </div>
+      </div>
+      <label class="label">Ports</label>
+      <div
+        v-for="(port, index) in challengeEdit.ports"
+        :key="`port-${index}`"
+        class="field is-grouped"
+      >
+        <p class="control is-expanded">
+          <input
+            v-model="port.port"
+            class="input"
+            type="number"
+            placeholder="Port"
+          >
+        </p>
+        <p class="control is-expanded">
+          <input
+            v-model="port.name"
+            class="input"
+            type="text"
+            placeholder="Port Name"
+          >
+        </p>
+        <p class="control">
+          <a
+            class="button is-light is-rounded"
+            @click="challengeEdit.ports.splice(index, 1)"
+          >
+            <i class="fas fa-times" />
+          </a>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control">
+          <a
+            class="button is-light is-rounded"
+            @click="onNewPort"
+          >
+            <i class="fas fa-plus plus-icon" />Add Port
+          </a>
+        </p>
+      </div>
+      <div class="field">
         <label class="label">Total Points</label>
         <div class="control">
           <input
@@ -86,7 +148,7 @@
         </p>
         <p class="control is-expanded">
           <input
-            v-model="flag.value"
+            v-model="flag.secret"
             class="input"
             type="text"
             placeholder="Secret"
@@ -199,9 +261,8 @@ import { State, Getter } from 'vuex-class';
 import vSelect from 'vue-select';
 import EmmentalRichTextEditor from '@/components/EmmentalRichTextEditor.vue';
 
-import { Challenge, ChallengeCategory } from '../store/challenges/types';
-
-const namespace = 'challenges';
+import { Challenge } from '../store/challenges/types';
+import { ChallengeCategory } from '../store/challengeCategories/types';
 
 @Component({
   name: 'ChallengeEditCard',
@@ -217,10 +278,10 @@ export default class ChallengeEditCard extends Vue {
   })
   public challenge: Challenge|undefined;
 
-  @State('challengeCategories', { namespace })
+  @State('challengeCategories', { namespace: 'challengeCategories' })
   public challengeCategories: ChallengeCategory[]|undefined;
 
-  @Getter('getCategoryById', { namespace })
+  @Getter('getCategoryById', { namespace: 'challengeCategories' })
   public getCategoryById!: CallableFunction;
 
   public challengeEdit: Challenge = {
@@ -229,9 +290,18 @@ export default class ChallengeEditCard extends Vue {
     summary: '',
     description: '',
     category_id: '',
-    total_points: 0,
-    flags: [],
+    total_points: 100,
+    flags: [
+      {
+        reward: 1,
+        secret: '',
+        text: '',
+      },
+    ],
     hints: [],
+    image: '',
+    ports: [],
+    challenge_type: '',
   };
 
   public created() {
@@ -246,6 +316,24 @@ export default class ChallengeEditCard extends Vue {
     }
   }
 
+  public challengeTypes: {text: string; value: string}[] = [
+    {
+      text: 'Web',
+      value: 'web',
+    },
+    {
+      text: 'Ssh',
+      value: 'ssh',
+    },
+  ];
+
+  public onNewPort() {
+    if (!this.challengeEdit.ports) {
+      this.challengeEdit.ports = [];
+    }
+    this.challengeEdit.ports.push({ port: 80, name: '' });
+  }
+
   public onNewHint() {
     if (!this.challengeEdit.hints) {
       this.challengeEdit.hints = [];
@@ -257,7 +345,7 @@ export default class ChallengeEditCard extends Vue {
     if (!this.challengeEdit.flags) {
       this.challengeEdit.flags = [];
     }
-    this.challengeEdit.flags.push({ reward: 0, value: '', text: '' });
+    this.challengeEdit.flags.push({ reward: 0, secret: '', text: '' });
   }
 
   get flagRewardSum() {

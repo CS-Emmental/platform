@@ -69,7 +69,8 @@
 <script  lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Getter, Action } from 'vuex-class';
-import { ChallengeCategory, Challenge } from '../store/challenges/types';
+import { ChallengeCategory } from '../store/challengeCategories/types';
+import { Challenge } from '../store/challenges/types';
 import { slug } from '../store/utils';
 
 import ChallengesCategoryEditCard from '@/components/ChallengesCategoryEditCard.vue';
@@ -79,8 +80,6 @@ import NewBox from '@/components/NewBox.vue';
 import ConfirmModal from '@/components/ConfirmModal.vue';
 import ChallengeCard from '@/components/ChallengeCard.vue';
 import ChallengeEditCard from '@/components/ChallengeEditCard.vue';
-
-const namespace = 'challenges';
 
 @Component({
   name: 'ChallengesCategory',
@@ -110,22 +109,22 @@ export default class ChallengesCategory extends Vue {
   public deleteCategory = `Are you sure you want to delete this challenge category ?
   If you do so the remaining challenges won't be accessible anymore`
 
-  @Getter('getCategoryFromSlug', { namespace })
+  @Getter('getCategoryFromSlug', { namespace: 'challengeCategories' })
   public getCategoryFromSlug!: CallableFunction;
 
   @Getter('hasPermission')
   public hasPermission!: CallableFunction;
 
-  @Getter('getChallengesCountByCategory', { namespace })
+  @Getter('getChallengesCountByCategory', { namespace: 'challenges' })
   public getChallengesCountByCategory!: CallableFunction;
 
-  @Getter('getChallengesByCategory', { namespace })
+  @Getter('getChallengesByCategory', { namespace: 'challenges' })
   public getChallengesByCategory!: CallableFunction;
 
-  @Action('insertChallenge', { namespace })
+  @Action('insertChallenge', { namespace: 'challenges' })
   public insertChallenge!: CallableFunction;
 
-  @Action('postChallengeCategory', { namespace })
+  @Action('postChallengeCategory', { namespace: 'challengeCategories' })
   public postChallengeCategory!: CallableFunction;
 
 
@@ -157,11 +156,19 @@ export default class ChallengesCategory extends Vue {
       flags: [
         {
           reward: 1,
-          value: '',
+          secret: '',
           text: '',
         },
       ],
       hints: [],
+      image: '',
+      ports: [
+        {
+          port: 80,
+          name: 'http',
+        },
+      ],
+      challenge_type: 'web',
     };
   }
 
@@ -190,7 +197,7 @@ export default class ChallengesCategory extends Vue {
     return actions;
   }
 
-  @Action('deleteChallengeCategory', { namespace })
+  @Action('deleteChallengeCategory', { namespace: 'challengeCategories' })
   public deleteChallengeCategory!: CallableFunction;
 
   public onDelete() {

@@ -22,7 +22,7 @@ export default class App extends Vue {
   @Action('getConfig')
   public getConfig!: CallableFunction;
 
-  @Action('challenges/getCurrentuserChallengeParticipations')
+  @Action('getCurrentuserChallengeParticipations', { namespace: 'challengeParticipations' })
   public getCurrentuserChallengeParticipations!: CallableFunction;
 
   @State('isAuthenticated')
