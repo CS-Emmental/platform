@@ -15,6 +15,15 @@ from core.exceptions import (
     EmmentalTypeException,
 )
 
+def get_challenge_category(test_input):
+    return ChallengeCategory(
+            _id=test_input["_id"],
+            created_at=test_input["created_at"],
+            updated_at=test_input["updated_at"],
+            description=test_input["description"],
+            title=test_input["title"],
+            icon=test_input["icon"],
+        )
 
 class TestInit:
     """
@@ -40,14 +49,7 @@ class TestInit:
 
     @pytest.mark.parametrize("test_input,expected", data_challenge_category_legit_args)
     def test_category_legit_args(self, test_input, expected):
-        challengeCategory = ChallengeCategory(
-            _id=test_input["_id"],
-            created_at=test_input["created_at"],
-            updated_at=test_input["updated_at"],
-            description=test_input["description"],
-            title=test_input["title"],
-            icon=test_input["icon"],
-        )
+        challengeCategory = get_challenge_category(test_input)
 
         assert challengeCategory._id == expected["_id"]
         assert challengeCategory.created_at == expected["created_at"]
@@ -59,35 +61,14 @@ class TestInit:
     @pytest.mark.parametrize("test_input", data_challenge_category_error_time)
     def test_error_time(self, test_input):
         with pytest.raises(InconsistentDateException):
-            challengeCategory = ChallengeCategory(
-                _id=test_input["_id"],
-                created_at=test_input["created_at"],
-                updated_at=test_input["updated_at"],
-                title=test_input["title"],
-                description=test_input["description"],
-                icon=test_input["icon"],
-            )
+            challengeCategory = get_challenge_category(test_input)
 
     @pytest.mark.parametrize("test_input", data_challenge_category_error_title)
     def test_error_title(self, test_input):
         with pytest.raises(EmmentalEmptyFieldException):
-            challengeCategory = ChallengeCategory(
-                _id=test_input["_id"],
-                created_at=test_input["created_at"],
-                updated_at=test_input["updated_at"],
-                title=test_input["title"],
-                description=test_input["description"],
-                icon=test_input["icon"],
-            )
+            challengeCategory = get_challenge_category(test_input)
 
     @pytest.mark.parametrize("test_input", data_challenge_category_error_type)
     def test_error_type(self, test_input):
         with pytest.raises(EmmentalTypeException):
-            challengeCategory = ChallengeCategory(
-                _id=test_input["_id"],
-                created_at=test_input["created_at"],
-                updated_at=test_input["updated_at"],
-                title=test_input["title"],
-                description=test_input["description"],
-                icon=test_input["icon"],
-            )
+            challengeCategory = get_challenge_category(test_input)
