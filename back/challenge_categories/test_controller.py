@@ -1,5 +1,5 @@
 """
-Test of the controller of challenges module
+Test of the controller of challenge Category module
 """
 import pytest
 from challenge_categories.controller import (
