@@ -43,6 +43,14 @@ class Document:
             setattr(self, key, inputs_filtered[key])
         setattr(self, "updated_at", int(time.time()))
 
+        self.verify()
+
+    def verify(self):
+        """
+        Must check the integrity of the object or otherwise raise error
+        """
+        pass
+
     @staticmethod
     def from_dict(dict_object: dict):
         raise NotImplementedError

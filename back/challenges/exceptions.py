@@ -4,7 +4,7 @@ from core.exceptions import EmmentalException
 class EmmentalHintsException(EmmentalException):
     def __init__(self, error_code: int):
         self.error_code = error_code
-        self.external_message = "Unknown Error"
+        self.external_message = "All hints must be positive and their sum inferior to 1"
         self.internal_message = (
             "EmmentalHintsException : hints must be positive with a sum inferior to 1"
         )

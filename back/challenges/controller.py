@@ -19,6 +19,9 @@ def get_all_challenges():
 def update_challenge(challenge_id: str, inputs: dict):
     challenge_updated = ChallengesManager().get(challenge_id)
     challenge_updated.update(inputs)
+
+    # Do not forget to check if the object is correct after any update
+    challenge_updated.verify()
     try:
         ChallengesManager().update_one(challenge_updated)
         return challenge_updated
