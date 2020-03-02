@@ -6,7 +6,7 @@ from challenge_categories.model import ChallengeCategory
 from challenge_categories.test_data import (
     data_challenge_category_error_title,
     data_challenge_category_error_time,
-    data_challenge_category_legit_args,
+    data_challenge_category_custom_init,
     data_challenge_category_error_type,
 )
 from core.exceptions import (
@@ -32,14 +32,16 @@ class TestInit:
     Test of the magic function __init__
     """
 
-    def test_only_category_title(self):
+    def test_default_init(self):
         t_before = int(time.time())
-        challengeCategory = ChallengeCategory(title="a")
+        # Title field is mandatory in ChallengeCategory object
+        challengeCategory = ChallengeCategory(title="title")
         t_after = int(time.time())
+
         # assert _id is not undefined
         assert challengeCategory._id
 
-        assert challengeCategory.title == "a"
+        assert challengeCategory.title == "title"
 
         assert challengeCategory.created_at
         assert challengeCategory.created_at >= t_before
@@ -49,8 +51,8 @@ class TestInit:
         assert challengeCategory.updated_at >= t_before
         assert challengeCategory.updated_at <= t_after
 
-    @pytest.mark.parametrize("test_input,expected", data_challenge_category_legit_args)
-    def test_category_legit_args(self, test_input, expected):
+    @pytest.mark.parametrize("test_input,expected", data_challenge_category_custom_init)
+    def test_custom_init(self, test_input, expected):
         challengeCategory = get_challenge_category(test_input)
 
         assert challengeCategory._id == expected["_id"]

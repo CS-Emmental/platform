@@ -1,4 +1,4 @@
-data_challenge_category_legit_args = [
+data_challenge_category_custom_init = [
     (
         {
             "_id": "a",
@@ -121,16 +121,7 @@ data_challenge_category_error_type = [
             "updated_at": 0,
         }
     ),
-    (
-        {
-            "_id": None,
-            "title": 1,
-            "icon": 1,
-            "description": 1,
-            "created_at": 0,
-            "updated_at": 0,
-        }
-    ),
+    ({"_id": None, "title": 1, "icon": 1, "description": 1, "created_at": 0, "updated_at": 0,}),
 ]
 
 data_controller_update = [
