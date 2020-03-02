@@ -10,7 +10,7 @@ from challenge_categories.controller import (
 )
 from challenge_categories.manager import ChallengeCategoriesManager
 from app import create_app
-from challenge_categories.test_data import (
+from challenge_categories.test_controller_data import (
     data_controller_get,
     data_controller_update,
     data_controller_remove,

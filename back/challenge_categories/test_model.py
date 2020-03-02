@@ -3,7 +3,7 @@ import time
 import pytest
 
 from challenge_categories.model import ChallengeCategory
-from challenge_categories.test_data import (
+from challenge_categories.test_model_data import (
     data_challenge_category_error_title,
     data_challenge_category_error_time,
     data_challenge_category_custom_init,
