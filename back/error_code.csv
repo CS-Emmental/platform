@@ -24,3 +24,4 @@ error_code;meaning (internal_message)
 22;Non-admin user attemps to update a challenge
 23;Non-admin user attemps to create a challenge
 24;Non-admin user attemps to delete a challenge
+25;An union field was hydrated by a forbidden value

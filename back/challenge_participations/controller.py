@@ -14,7 +14,7 @@ from kubernetes_controller.controller import (
 def start_participation(options: dict):
     options["user_id"] = current_user.user_id
 
-    new_participation = ChallengeParticipation(**options)
+    new_participation = ChallengeParticipation(status="ongoing", **options)
     challenge = ChallengesManager().get(new_participation.challenge_id)
 
     new_participation = deploy_challenge_instance(challenge, new_participation)
@@ -81,4 +81,4 @@ def validate_flag(participation_id: str, flag_index: int, flag_value: str):
                 ChallengeParticipationsManager().update_one(participation)
                 return participation
             else:
-                raise EmmentalException  # todo
+                raise EmmentalException  # TODO

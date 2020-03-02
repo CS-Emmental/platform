@@ -1,5 +1,7 @@
 from core.model import Document, from_dict_class
 
+from core.exceptions import EmmentalUnionException
+
 
 class ChallengeParticipation(Document):
     fields = Document.fields + [
@@ -32,7 +34,7 @@ class ChallengeParticipation(Document):
         _id: str = None,
         challenge_id: str = "",
         user_id: str = "",
-        status: str = "ongoing",
+        status: str = "",  # ""|"ongoing"|"stopped"
         rating: int = None,
         found_flags: list = None,
         used_hints: list = None,
@@ -40,8 +42,8 @@ class ChallengeParticipation(Document):
         updated_at: int = None,
         port: int = None,
     ):
-        super().__init__(_id, created_at, updated_at)
 
+        super().__init__(_id, created_at, updated_at)
         self.participation_id = self._id
         self.challenge_id = challenge_id
         self.user_id = user_id
@@ -50,6 +52,13 @@ class ChallengeParticipation(Document):
         self.found_flags = found_flags if found_flags else []
         self.used_hints = used_hints if used_hints else []
         self.port = port
+
+        self.verify()
+
+    def verify(self):
+        super().verify()
+        if self.status not in ("", "ongoing", "stopped"):
+            raise EmmentalUnionException(error_code=25, field="status", incorrect_input=self.status)
 
     @staticmethod
     def from_dict(dict_object: dict):
