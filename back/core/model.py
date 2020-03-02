@@ -25,8 +25,7 @@ class Document:
         self.created_at = created_at if isinstance(created_at, int) else int(time.time())
         self.updated_at = updated_at if isinstance(updated_at, int) else int(time.time())
 
-        if self.updated_at < self.created_at:
-            raise EmmentalDateException
+        Document.verify(self)
 
     def to_dict(self):
         return {key: getattr(self, key) for key in self.export_fields}
@@ -43,13 +42,15 @@ class Document:
             setattr(self, key, inputs_filtered[key])
         setattr(self, "updated_at", int(time.time()))
 
-        self.verify()
+        Document.verify(self)
 
     def verify(self):
         """
-        Must check the integrity of the object or otherwise raise error
+        Must check the integrity of the object or otherwise raise errors
+        Override it but do not forget to (super) call it
         """
-        pass
+        if self.updated_at < self.created_at:
+            raise EmmentalDateException
 
     @staticmethod
     def from_dict(dict_object: dict):

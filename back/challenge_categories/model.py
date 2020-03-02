@@ -42,6 +42,7 @@ class ChallengeCategory(Document):
         self.verify()
 
     def verify(self):
+        super().verify()
         if not isinstance(self.title, str):
             raise EmmentalTypeException(error_code=2, incorrect_input="title")
         if not isinstance(self.icon, str):

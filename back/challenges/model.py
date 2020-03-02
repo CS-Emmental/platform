@@ -85,6 +85,7 @@ class Challenge(Document):
         self.verify()
 
     def verify(self):
+        super().verify()
         if not isinstance(self.title, str):
             raise EmmentalTypeException(error_code=6, incorrect_input="title")
 
