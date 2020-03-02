@@ -20,27 +20,16 @@ def update_challenge(challenge_id: str, inputs: dict):
     challenge_updated = ChallengesManager().get(challenge_id)
     challenge_updated.update(inputs)
 
-    # Do not forget to check if the object is correct after any update
-    challenge_updated.verify()
-    try:
-        ChallengesManager().update_one(challenge_updated)
-        return challenge_updated
-    except Exception:
-        return "error"
+    ChallengesManager().update_one(challenge_updated)
+    return challenge_updated
 
 
 def insert_challenge(inputs: dict):
     challenge_inserted = Challenge(**inputs)
-    try:
-        ChallengesManager().insert_one(challenge_inserted)
-        return challenge_inserted
-    except Exception:
-        return "error"
+    ChallengesManager().insert_one(challenge_inserted)
+    return challenge_inserted
 
 
 def remove_challenge(challenge_id: str):
     challenge_deleted = ChallengesManager().get(challenge_id)
-    try:
-        return ChallengesManager().remove_one(challenge_deleted)
-    except Exception:
-        return "error"
+    return ChallengesManager().remove_one(challenge_deleted)

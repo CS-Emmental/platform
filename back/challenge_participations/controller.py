@@ -31,11 +31,8 @@ def get_currentuser_participations():
 def update_participation(participation_id: str, inputs: dict):
     participation_updated = ChallengeParticipationsManager().get(participation_id)
     participation_updated.update(inputs)
-    try:
-        ChallengeParticipationsManager().update_one(participation_updated)
-        return participation_updated
-    except Exception:
-        return "error"
+    ChallengeParticipationsManager().update_one(participation_updated)
+    return participation_updated
 
 
 def stop_participation(participation_id: str):
