@@ -94,8 +94,8 @@
         </template>
         <template v-else-if="participation.status==='stopped'">
           <button
-            class="button is-light is-fullwidth restart-button"
-            @click="stopMode=true"
+            class="button is-dark is-fullwidth restart-button"
+            @click="onRestartChallenge"
           >
             Restart challenge
           </button>
@@ -143,6 +143,15 @@ export default class ChallengeDetailsParticipation extends Vue {
 
   public onStartChallenge() {
     this.startChallengeParticipation(this.challenge.challenge_id);
+  }
+
+  @Action('restartChallengeParticipation', { namespace: 'challengeParticipations' })
+  public restartChallengeParticipation!: CallableFunction;
+
+  public onRestartChallenge() {
+    if (this.participation) {
+      this.restartChallengeParticipation(this.participation.participation_id);
+    }
   }
 
   public stopMode = false;
