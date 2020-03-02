@@ -8,13 +8,19 @@ from challenges.manager import ChallengesManager
 
 
 def deploy_challenge_instance(challenge: Challenge, participation: ChallengeParticipation):
+    """
+    Start a challenge instance and modify the given participation object with the port assigned by kubernetes
+    """
     challenge_id = challenge.challenge_id
+
     challenge_name_slug = challenge.title.replace(" ", "-").lower()
     participation_id = participation.participation_id
+    identifier = challenge_name_slug + "-" + participation_id
+
     port = int(challenge.ports[0]["port"])
     port_name = challenge.ports[0]["name"]
+
     image = challenge.image
-    identifier = challenge_name_slug + "-" + participation_id
 
     with open("./kubernetes_controller/manifest.yaml") as f:
         deployment, service, config_map = yaml.load_all(f, Loader=yaml.FullLoader)
@@ -59,7 +65,7 @@ def deploy_challenge_instance(challenge: Challenge, participation: ChallengePart
 
 def stop_challenge_instance(challenge: Challenge, participation: ChallengeParticipation):
     """
-    Send a request to k8s for stopping the challenge instance linked to this ChallengeParticipation
+    Send a request to k8s that stop the challenge instance linked to this ChallengeParticipation
     """
     challenge_name_slug = challenge.title.replace(" ", "-").lower()
     participation_id = participation.participation_id
