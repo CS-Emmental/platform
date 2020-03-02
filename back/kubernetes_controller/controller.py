@@ -72,5 +72,6 @@ def stop_challenge_instance(challenge: Challenge, participation: ChallengePartic
 
     k8s_apps_v1.delete_namespaced_deployment(name=name, namespace="emmental-challenges")
     k8s_core_v1.delete_namespaced_service(name=name, namespace="emmental-challenges")
+    k8s_core_v1.delete_namespaced_config_map(name=name, namespace="emmental-challenges")
 
     return "deleted"
