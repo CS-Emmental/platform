@@ -1,3 +1,9 @@
+from core.exceptions import (
+    EmmentalDateException,
+    EmmentalEmptyFieldException,
+    EmmentalTypeException,
+)
+
 data_challenge_category_custom_init = [
     (
         # Well typed, not realistic
@@ -58,8 +64,10 @@ data_challenge_category_custom_init = [
     ),
 ]
 
-data_challenge_category_error_time = [
+
+data_challenge_category_error = [
     (
+        # updated_at explicitly before created_at
         {
             "_id": None,
             "title": "title",
@@ -67,9 +75,11 @@ data_challenge_category_error_time = [
             "description": "description",
             "created_at": 10,
             "updated_at": 5,
-        }
+        },
+        EmmentalDateException,
     ),
     (
+        # updated_at implicitly before created_at
         {
             "_id": None,
             "title": "title",
@@ -77,12 +87,11 @@ data_challenge_category_error_time = [
             "description": "description",
             "created_at": None,
             "updated_at": 10,
-        }
+        },
+        EmmentalDateException,
     ),
-]
-
-data_challenge_category_error_title = [
     (
+        # Title cannot be empty string
         {
             "_id": None,
             "title": "",
@@ -90,40 +99,43 @@ data_challenge_category_error_title = [
             "description": "description",
             "created_at": 0,
             "updated_at": 0,
-        }
-    )
-]
-data_challenge_category_error_type = [
+        },
+        EmmentalEmptyFieldException,
+    ),
     (
+        # title must be a string
         {
             "_id": None,
-            "title": None,
+            "title": 123,
             "icon": "icon",
             "description": "description",
             "created_at": 0,
             "updated_at": 0,
-        }
+        },
+        EmmentalTypeException,
     ),
     (
+        # icon must be a string
         {
             "_id": None,
             "title": "title",
-            "icon": None,
+            "icon": 156,
             "description": "description",
             "created_at": 0,
             "updated_at": 0,
-        }
+        },
+        EmmentalTypeException,
     ),
     (
+        # description must be a string
         {
             "_id": None,
             "title": "title",
             "icon": "icon",
-            "description": None,
+            "description": 798654,
             "created_at": 0,
             "updated_at": 0,
-        }
+        },
+        EmmentalTypeException,
     ),
-    ({"_id": None, "title": 1, "icon": 1, "description": 1, "created_at": 0, "updated_at": 0,}),
 ]
-

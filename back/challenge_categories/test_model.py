@@ -4,10 +4,8 @@ import pytest
 
 from challenge_categories.model import ChallengeCategory
 from challenge_categories.test_model_data import (
-    data_challenge_category_error_title,
-    data_challenge_category_error_time,
     data_challenge_category_custom_init,
-    data_challenge_category_error_type,
+    data_challenge_category_error,
 )
 from core.exceptions import (
     EmmentalDateException,
@@ -62,17 +60,7 @@ class TestInit:
         assert challengeCategory.description == expected["description"]
         assert challengeCategory.icon == expected["icon"]
 
-    @pytest.mark.parametrize("test_input", data_challenge_category_error_time)
-    def test_error_time(self, test_input):
-        with pytest.raises(EmmentalDateException):
-            challengeCategory = get_challenge_category(test_input)
-
-    @pytest.mark.parametrize("test_input", data_challenge_category_error_title)
-    def test_error_title(self, test_input):
-        with pytest.raises(EmmentalEmptyFieldException):
-            challengeCategory = get_challenge_category(test_input)
-
-    @pytest.mark.parametrize("test_input", data_challenge_category_error_type)
-    def test_error_type(self, test_input):
-        with pytest.raises(EmmentalTypeException):
+    @pytest.mark.parametrize("test_input,error_raised", data_challenge_category_error)
+    def test_error(self, test_input, error_raised):
+        with pytest.raises(error_raised):
             challengeCategory = get_challenge_category(test_input)
