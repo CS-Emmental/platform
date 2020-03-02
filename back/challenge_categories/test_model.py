@@ -10,20 +10,22 @@ from challenge_categories.test_data import (
     data_challenge_category_error_type,
 )
 from core.exceptions import (
-    InconsistentDateException,
+    EmmentalDateException,
     EmmentalEmptyFieldException,
     EmmentalTypeException,
 )
 
+
 def get_challenge_category(test_input):
     return ChallengeCategory(
-            _id=test_input["_id"],
-            created_at=test_input["created_at"],
-            updated_at=test_input["updated_at"],
-            description=test_input["description"],
-            title=test_input["title"],
-            icon=test_input["icon"],
-        )
+        _id=test_input["_id"],
+        created_at=test_input["created_at"],
+        updated_at=test_input["updated_at"],
+        description=test_input["description"],
+        title=test_input["title"],
+        icon=test_input["icon"],
+    )
+
 
 class TestInit:
     """
@@ -60,7 +62,7 @@ class TestInit:
 
     @pytest.mark.parametrize("test_input", data_challenge_category_error_time)
     def test_error_time(self, test_input):
-        with pytest.raises(InconsistentDateException):
+        with pytest.raises(EmmentalDateException):
             challengeCategory = get_challenge_category(test_input)
 
     @pytest.mark.parametrize("test_input", data_challenge_category_error_title)

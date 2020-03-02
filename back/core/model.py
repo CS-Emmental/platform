@@ -1,7 +1,7 @@
 import time
 from uuid import uuid4
 
-from core.exceptions import InconsistentDateException
+from core.exceptions import EmmentalDateException
 
 
 class Document:
@@ -26,7 +26,7 @@ class Document:
         self.updated_at = updated_at if isinstance(updated_at, int) else int(time.time())
 
         if self.updated_at < self.created_at:
-            raise InconsistentDateException
+            raise EmmentalDateException
 
     def to_dict(self):
         return {key: getattr(self, key) for key in self.export_fields}

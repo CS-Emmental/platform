@@ -4,7 +4,7 @@ import pytest
 
 from core.model import Document
 from core.test_data import data_legit_args, data_error_args
-from core.exceptions import InconsistentDateException
+from core.exceptions import EmmentalDateException
 
 
 class TestInit:
@@ -42,7 +42,7 @@ class TestInit:
 
     @pytest.mark.parametrize("test_input", data_error_args)
     def test_error_args(self, test_input):
-        with pytest.raises(InconsistentDateException):
+        with pytest.raises(EmmentalDateException):
             document = Document(
                 _id=test_input["_id"],
                 created_at=test_input["created_at"],

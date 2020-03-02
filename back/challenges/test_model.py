@@ -15,8 +15,10 @@ from challenges.test_data import (
 from core.exceptions import (
     EmmentalTypeException,
     EmmentalEmptyFieldException,
-    InconsistentDateException,
+    EmmentalDateException,
 )
+
+
 def get_challenge(test_input):
     return Challenge(
         _id=test_input["_id"],
@@ -30,6 +32,7 @@ def get_challenge(test_input):
         total_points=test_input["total_points"],
         category_id=test_input["category_id"],
     )
+
 
 class TestInit:
     """
@@ -69,30 +72,25 @@ class TestInit:
 
     @pytest.mark.parametrize("test_input", data_challenge_error_time)
     def test_error_time(self, test_input):
-        with pytest.raises(InconsistentDateException):
+        with pytest.raises(EmmentalDateException):
             challenge = get_challenge(test_input)
-
 
     @pytest.mark.parametrize("test_input", data_challenge_error_title)
     def test_error_title(self, test_input):
         with pytest.raises(EmmentalEmptyFieldException):
             challenge = get_challenge(test_input)
 
-
     @pytest.mark.parametrize("test_input", data_challenge_error_type)
     def test_error_type(self, test_input):
         with pytest.raises(EmmentalTypeException):
             challenge = get_challenge(test_input)
-
 
     @pytest.mark.parametrize("test_input", data_challenge_error_hints)
     def test_error_hints(self, test_input):
         with pytest.raises(EmmentalHintsException):
             challenge = get_challenge(test_input)
 
-
     @pytest.mark.parametrize("test_input", data_challenge_error_flags)
     def test_error_flags(self, test_input):
         with pytest.raises(EmmentalFlagsException):
             challenge = get_challenge(test_input)
-
