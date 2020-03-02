@@ -29,9 +29,7 @@ def deploy_challenge_instance(challenge: Challenge, participation: ChallengePart
     deployment["spec"]["template"]["spec"]["containers"][0]["name"] = challenge_name_slug
     deployment["spec"]["template"]["spec"]["containers"][0]["image"] = image
     deployment["spec"]["template"]["spec"]["containers"][0]["ports"][0]["containerPort"] = port
-    deployment["spec"]["template"]["spec"]["volumes"][0]["configMap"]["name"] = (
-        "configmap-" + participation_id
-    )
+    deployment["spec"]["template"]["spec"]["volumes"][0]["configMap"]["name"] = identifier
 
     service["metadata"]["name"] = identifier
     service["metadata"]["labels"]["challenge_id"] = challenge_id
@@ -41,7 +39,7 @@ def deploy_challenge_instance(challenge: Challenge, participation: ChallengePart
     service["spec"]["ports"][0]["name"] = port_name
     service["spec"]["ports"][0]["port"] = port
 
-    config_map["metadata"]["name"] = "configmap-" + participation_id
+    config_map["metadata"]["name"] = identifier
     config_map["metadata"]["labels"]["challenge_id"] = challenge_id
     config_map["metadata"]["labels"]["participation_id"] = participation_id
     config_map["data"]["secret"] = "root:" + participation_id
