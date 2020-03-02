@@ -3,7 +3,7 @@ import time
 import pytest
 
 from core.model import Document
-from core.test_data import data_legit_args, data_error_args
+from core.test_data import data_init, data_error_args
 from core.exceptions import EmmentalDateException
 
 
@@ -12,7 +12,7 @@ class TestInit:
     Test of the magic function __init__
     """
 
-    def test_no_args(self):
+    def test_default_init(self):
         t_before = int(time.time())
         document = Document()
         t_after = int(time.time())
@@ -28,8 +28,8 @@ class TestInit:
         assert document.updated_at >= t_before
         assert document.updated_at <= t_after
 
-    @pytest.mark.parametrize("test_input,expected", data_legit_args)
-    def test_some_legit_args(self, test_input, expected):
+    @pytest.mark.parametrize("test_input,expected", data_init)
+    def test_init(self, test_input, expected):
         document = Document(
             _id=test_input["_id"],
             created_at=test_input["created_at"],
