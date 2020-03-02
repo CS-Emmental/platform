@@ -47,15 +47,15 @@ def deploy_challenge_instance(challenge: Challenge, participation: ChallengePart
     config_map["data"]["secret"] = "root:" + participation_id
 
     k8s_apps_v1 = kubernetes.client.AppsV1Api(current_app.k8s)
-    k8s_apps_v1.create_namespaced_deployment(body=deployment, namespace="emmental-challenges")
-
     k8s_core_v1 = kubernetes.client.CoreV1Api(current_app.k8s)
+
     k8s_core_v1.create_namespaced_config_map(body=config_map, namespace="emmental-challenges")
+    k8s_apps_v1.create_namespaced_deployment(body=deployment, namespace="emmental-challenges")
     resp = k8s_core_v1.create_namespaced_service(
         body=service, namespace="emmental-challenges", pretty="true"
     )
-    participation.port = resp.spec.ports[0].node_port
 
+    participation.port = resp.spec.ports[0].node_port
     return participation
 
 
