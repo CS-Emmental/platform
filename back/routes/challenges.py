@@ -3,10 +3,11 @@ from flask_login import current_user, login_required
 
 from challenges.controller import (
     get_all_challenges,
-    update_challenge,
     insert_challenge,
     remove_challenge,
+    update_challenge,
 )
+from users.exceptions import BadPermissionException
 
 challenges = Blueprint("challenges", "challenges")
 
@@ -25,7 +26,7 @@ def post_challenge(challenge_id: str):
         updated = update_challenge(challenge_id, update_dict)
         return jsonify(updated.to_dict())
     else:
-        return jsonify("unauthorized")
+        raise BadPermissionException(error_code=22)
 
 
 @challenges.route("/challenges", methods=["POST"])
@@ -36,7 +37,7 @@ def put_challenge():
         inserted = insert_challenge(insert_dict)
         return jsonify(inserted.to_dict())
     else:
-        return jsonify("unauthorized")
+        raise BadPermissionException(error_code=23)
 
 
 @challenges.route("/challenges/<challenge_id>", methods=["DELETE"])
@@ -46,4 +47,4 @@ def delete_challenge(challenge_id: str):
         deleted_response = remove_challenge(challenge_id)
         return jsonify(deleted_response)
     else:
-        return jsonify("unauthorized")
+        raise BadPermissionException(error_code=24)

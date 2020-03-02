@@ -18,3 +18,9 @@ error_code;meaning (internal_message)
 16;Inconsistent hints in challenges/models.py -> this means there's an error in the cost of the hints
 17;Inconsistent flags in challenges/models.py -> this means there's an error in the reward of the flags
 18;Empty field raised by Challenge.title in challenges/models.py
+19;Non-admin user attemps to update a category
+20;Non-admin user attemps to delete a category
+21;Non-admin user attemps to create a category
+22;Non-admin user attemps to update a challenge
+23;Non-admin user attemps to create a challenge
+24;Non-admin user attemps to delete a challenge
