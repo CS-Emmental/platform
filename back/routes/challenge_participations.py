@@ -2,12 +2,13 @@ from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_required
 
 from challenge_participations.controller import (
-    start_participation,
     get_currentuser_participations,
-    update_participation,
     get_hints,
-    validate_flag,
+    restart_participation,
+    start_participation,
     stop_participation,
+    update_participation,
+    validate_flag,
 )
 
 challenge_participations = Blueprint("challenge_participations", "challenge_participations")
@@ -19,6 +20,24 @@ def start_challenge_participation():
     options = request.json
     participation = start_participation(options)
     return jsonify(participation.to_dict())
+
+
+@challenge_participations.route(
+    "/challenge-participations/<participation_id>/restart-instance", methods=["POST"]
+)
+@login_required
+def restart_challenge_participation(participation_id: str):
+    res = restart_participation(participation_id)
+    return jsonify(res.to_dict())
+
+
+@challenge_participations.route(
+    "/challenge-participations/<participation_id>/stop-instance", methods=["POST"]
+)
+@login_required
+def stop_challenge_participation(participation_id: str):
+    res = stop_participation(participation_id)
+    return jsonify(res.to_dict())
 
 
 @challenge_participations.route("/challenge-participations/current-user", methods=["GET"])
@@ -34,15 +53,6 @@ def post_participation(participation_id: str):
     update_dict = request.json
     updated = update_participation(participation_id, update_dict)
     return jsonify(updated.to_dict())
-
-
-@challenge_participations.route(
-    "/challenge-participations/<participation_id>/stop-instance", methods=["POST"]
-)
-@login_required
-def stop_challenge_participation(participation_id: str):
-    res = stop_participation(participation_id)
-    return jsonify(res.to_dict())
 
 
 @challenge_participations.route(

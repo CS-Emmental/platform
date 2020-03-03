@@ -37,3 +37,20 @@ class EmmentalTypeException(EmmentalException):
 
     def __str__(self):
         return self.internal_message
+
+
+class EmmentalUnionException(EmmentalException):
+    """
+    Describe exception where a field must match a pre-determined list of values
+    """
+
+    def __init__(self, error_code: int, field: str, incorrect_input: str):
+        self.error_code = error_code
+        self.internal_message = "EmmentalUnionException: {} cannot be set to: {}".format(
+            field, incorrect_input
+        )
+        self.external_message = "Unknown Error"
+        self.status_code = 500
+
+    def __str__(self):
+        return self.internal_message

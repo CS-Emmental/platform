@@ -33,7 +33,7 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-              name: configmap-$PARTICIPATION_ID
+            name: $_CHALLENGE_NAME_SLUG-$_PARTICIPATION_ID
 ---
 apiVersion: v1
 kind: Service
@@ -58,7 +58,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   namespace: emmental-challenges
-  name: configmap-$PARTICIPATION_ID
+  name: $_CHALLENGE_NAME_SLUG-$_PARTICIPATION_ID
   labels:
     tier: challenge-instances
     challenge_id: $_CHALLENGE_ID
