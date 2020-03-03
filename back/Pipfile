@@ -4,7 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-pylint-flask = "*"
+pylint-flask = "==0.6.*"
 pytest = "==5.3.*"
 
 [packages]
@@ -12,8 +12,8 @@ flask = "==1.1.*"
 flask-cors = "==3.0.*"
 Flask-PyMongo = "==2.3.*"
 flask-login = "==0.4.*"
-pyyaml = "*"
-kubernetes = "*"
+pyyaml = "==5.3.*"
+kubernetes = "==10.0.*"
 
 [requires]
 python_version = "3.6"
