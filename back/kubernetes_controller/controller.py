@@ -1,54 +1,42 @@
 import kubernetes
 import yaml
 from flask import current_app
+from jinja2 import FileSystemLoader, Environment
 
-from challenges.model import Challenge
 from challenge_participations.model import ChallengeParticipation
 from challenges.manager import ChallengesManager
+from challenges.model import Challenge
 
 
 def deploy_challenge_instance(challenge: Challenge, participation: ChallengeParticipation):
-    """
-    Start a challenge instance and modify the given participation object with the port assigned by kubernetes
-    """
     challenge_id = challenge.challenge_id
-
     challenge_name_slug = challenge.title.replace(" ", "-").lower()
     participation_id = participation.participation_id
-    identifier = challenge_name_slug + "-" + participation_id
 
     port = int(challenge.ports[0]["port"])
     port_name = challenge.ports[0]["name"]
 
     image = challenge.image
 
-    with open("./kubernetes_controller/manifest.yaml") as f:
-        deployment, service, config_map = yaml.load_all(f, Loader=yaml.FullLoader)
-
-    deployment["metadata"]["name"] = identifier
-    deployment["metadata"]["labels"]["challenge_id"] = challenge_id
-    deployment["metadata"]["labels"]["participation_id"] = participation_id
-    deployment["spec"]["selector"]["matchLabels"]["challenge_id"] = challenge_id
-    deployment["spec"]["selector"]["matchLabels"]["participation_id"] = participation_id
-    deployment["spec"]["template"]["metadata"]["labels"]["challenge_id"] = challenge_id
-    deployment["spec"]["template"]["metadata"]["labels"]["participation_id"] = participation_id
-    deployment["spec"]["template"]["spec"]["containers"][0]["name"] = challenge_name_slug
-    deployment["spec"]["template"]["spec"]["containers"][0]["image"] = image
-    deployment["spec"]["template"]["spec"]["containers"][0]["ports"][0]["containerPort"] = port
-    deployment["spec"]["template"]["spec"]["volumes"][0]["configMap"]["name"] = identifier
-
-    service["metadata"]["name"] = identifier
-    service["metadata"]["labels"]["challenge_id"] = challenge_id
-    service["metadata"]["labels"]["participation_id"] = participation_id
-    service["spec"]["selector"]["challenge_id"] = challenge_id
-    service["spec"]["selector"]["participation_id"] = participation_id
-    service["spec"]["ports"][0]["name"] = port_name
-    service["spec"]["ports"][0]["port"] = port
-
-    config_map["metadata"]["name"] = identifier
-    config_map["metadata"]["labels"]["challenge_id"] = challenge_id
-    config_map["metadata"]["labels"]["participation_id"] = participation_id
-    config_map["data"]["secret"] = "root:" + participation_id
+    jinja = Environment(
+        loader=FileSystemLoader(searchpath="./kubernetes_controller"),
+        trim_blocks=True,
+        lstrip_blocks=True,
+    )
+    template = jinja.get_template("manifest.yaml.j2")
+    deployment, service, config_map = yaml.load_all(
+        template.render(
+            {
+                "CHALLENGE_NAME_SLUG": challenge_name_slug,
+                "PARTICIPATION_ID": participation_id,
+                "CHALLENGE_ID": challenge_id,
+                "IMAGE": image,
+                "PORT": port,
+                "PORT_NAME": port_name,
+                "SECRET": participation_id,
+            }
+        )
+    )
 
     k8s_apps_v1 = kubernetes.client.AppsV1Api(current_app.k8s)
     k8s_core_v1 = kubernetes.client.CoreV1Api(current_app.k8s)
