@@ -9,7 +9,6 @@ pytest = "==5.3.*"
 
 [packages]
 flask = "==1.1.*"
-flask-cors = "==3.0.*"
 Flask-PyMongo = "==2.3.*"
 flask-login = "==0.4.*"
 pyyaml = "==5.3.*"

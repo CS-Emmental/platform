@@ -4,7 +4,6 @@ import traceback
 import kubernetes
 from flask import Flask, jsonify
 from flask.logging import create_logger
-from flask_cors import CORS
 from flask_login import LoginManager, current_user
 from flask_pymongo import PyMongo
 
@@ -50,7 +49,6 @@ def create_app(testing=False):
 
     login_manager = LoginManager()
     login_manager.init_app(app)
-    CORS(app, supports_credentials=True)
     app.logger = create_logger(app)
 
     @login_manager.user_loader
