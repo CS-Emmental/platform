@@ -1,5 +1,6 @@
+import time
+from flask import current_app
 from flask_login import current_user
-
 from challenge_participations.exceptions import EmmentalFlagSecretException
 from challenge_participations.manager import ChallengeParticipationsManager
 from challenge_participations.model import ChallengeParticipation
@@ -17,7 +18,14 @@ def start_participation(options: dict):
     new_participation = ChallengeParticipation(status="ongoing", **options)
     challenge = ChallengesManager().get(new_participation.challenge_id)
 
-    new_participation = deploy_challenge_instance(challenge, new_participation)
+    new_participation.port = deploy_challenge_instance(
+        challenge_id=challenge.challenge_id,
+        challenge_title=challenge.title,
+        participation_id=new_participation.participation_id,
+        ports=challenge.ports,
+        image=challenge.image,
+    )
+    new_participation.started_at = int(time.time())
 
     ChallengeParticipationsManager().insert_one(new_participation)
     return new_participation
@@ -27,8 +35,15 @@ def restart_participation(participation_id: str):
     participation = ChallengeParticipationsManager().get(participation_id)
     challenge = ChallengesManager().get(participation.challenge_id)
 
-    participation = deploy_challenge_instance(challenge, participation)
+    participation.port = deploy_challenge_instance(
+        challenge_id=challenge.challenge_id,
+        challenge_title=challenge.title,
+        participation_id=participation.participation_id,
+        ports=challenge.ports,
+        image=challenge.image,
+    )
     participation.status = "ongoing"
+    participation.started_at = int(time.time())
 
     ChallengeParticipationsManager().update_one(participation)
     return participation
@@ -38,7 +53,10 @@ def stop_participation(participation_id: str):
     participation = ChallengeParticipationsManager().get(participation_id)
     challenge = ChallengesManager().get(participation.challenge_id)
 
-    stop_challenge_instance(challenge, participation)
+    stop_challenge_instance(
+        challenge_title=challenge.title,
+        participation_id=participation.participation_id,
+    )
     participation.status = "stopped"
     participation.port = None
 
@@ -46,9 +64,26 @@ def stop_participation(participation_id: str):
     return participation
 
 
+def stop_old_participations():
+    old_timediff = current_app.config["INSTANCE_TIME_TO_LIVE_HOURS"] * 3600
+    old_threshold = int(time.time()) - old_timediff
+    old_participations = ChallengeParticipationsManager().get_query(
+        {"status": "ongoing", "started_at": {"$lte": old_threshold,},}
+    )
+    for participation in old_participations:
+        stop_participation(participation.participation_id)
+    current_app.logger.info(
+        "Stopped following old instances : {}".format(
+            [participation.participation_id for participation in old_participations]
+        )
+    )
+
+
 def get_currentuser_participations():
     currentuser_id = current_user.user_id
-    participations = ChallengeParticipationsManager().get_query({"user_id": currentuser_id})
+    participations = ChallengeParticipationsManager().get_query(
+        {"user_id": currentuser_id}
+    )
     return participations
 
 
@@ -68,7 +103,10 @@ def get_hints(participation_id: str, hint_indexes: list):
             if set(participation.used_hints) <= set(hint_indexes):
                 participation.used_hints = hint_indexes
                 ChallengeParticipationsManager().update_one(participation)
-                return [{"index": i, "text": challenge.hints[i]["text"]} for i in hint_indexes]
+                return [
+                    {"index": i, "text": challenge.hints[i]["text"]}
+                    for i in hint_indexes
+                ]
 
 
 def validate_flag(participation_id: str, flag_index: int, flag_value: str):
