@@ -19,7 +19,7 @@ RUN python setup.py bdist_wheel
 WORKDIR /app/dist
 RUN pip install Emmental*.whl
 
-# Launch uwsgi server that "start / read the (by default) variable" application in app.py
+# Launch uwsgi server 
 RUN pip install uwsgi
 EXPOSE 5000
 WORKDIR /app/Emmental
