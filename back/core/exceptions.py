@@ -16,7 +16,8 @@ class EmmentalEmptyFieldException(EmmentalException):
     def __init__(self, error_code: int, blank_field: str):
         self.external_message = "Unknown Error"
         self.internal_message = (
-            "EmmentalEmptyFieldException: The following field was blank : " + blank_field
+            "EmmentalEmptyFieldException: The following field was blank : "
+            + blank_field
         )
         self.status_code = 500
         self.error_code = error_code

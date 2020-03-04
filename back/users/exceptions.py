@@ -11,11 +11,12 @@ class IncorrectCredentialsException(EmmentalException):
     def __str__(self):
         return self.internal_message
 
+
 class BadPermissionException(EmmentalException):
     def __init__(self, error_code: int):
         self.error_code = error_code
         self.external_message = "You cannot do this"
-        self.internal_message = "Someone tried to access a resource he has no right on"    
+        self.internal_message = "Someone tried to access a resource he has no right on"
 
         # Maybe authentified but has not the right permissions
         status_code = 403
