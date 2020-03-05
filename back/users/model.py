@@ -3,10 +3,8 @@ from uuid import uuid4
 from flask_login import UserMixin
 
 from core.model import Document, from_dict_class
-from core.exceptions import (
-    EmmentalEmptyFieldException,
-    EmmentalTypeException,
-)
+from core.exceptions import EmmentalEmptyFieldException, EmmentalTypeException
+
 
 class User(Document, UserMixin):
     fields = [
@@ -32,11 +30,7 @@ class User(Document, UserMixin):
         "permissions",
     ]
 
-    editable_fields = [
-        "email",
-        "firstname",
-        "lastname",
-    ]
+    editable_fields = ["email", "firstname", "lastname"]
 
     def __init__(
         self,
