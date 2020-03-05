@@ -15,6 +15,7 @@ def login(inputs):
 
 
 def signup(inputs):
+    inputs["permissions"]=[]
     user = User(**inputs)
     if UserManager().insert_one(user):
         login_user(user)
