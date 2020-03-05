@@ -3,7 +3,10 @@ from uuid import uuid4
 from flask_login import UserMixin
 
 from core.model import Document, from_dict_class
-
+from core.exceptions import (
+    EmmentalEmptyFieldException,
+    EmmentalTypeException,
+)
 
 class User(Document, UserMixin):
     fields = [
@@ -45,9 +48,10 @@ class User(Document, UserMixin):
         lastname: str = "",
         is_active: bool = True,
         permissions: list = [],
-        created_at: float = None,
+        created_at: int = None,
+        updated_at: int = None,
     ):
-        self._id = str(uuid4()) if not _id else _id
+        super().__init__(_id, created_at, updated_at)
         self.user_id = self._id
         self.username = username
         self.password = password
@@ -55,7 +59,29 @@ class User(Document, UserMixin):
         self.firstname = firstname
         self.lastname = lastname
         self.permissions = permissions
-        self.created_at = time.time() if not created_at else created_at
+        self.verify()
+
+    def verify(self):
+        if not isinstance(self.username, str):
+            raise EmmentalTypeException(error_code=26, incorrect_input="username")
+        if not isinstance(self.password, str):
+            raise EmmentalTypeException(error_code=27, incorrect_input="password")
+        if not isinstance(self.email, str):
+            raise EmmentalTypeException(error_code=28, incorrect_input="email")
+        if not isinstance(self.firstname, str):
+            raise EmmentalTypeException(error_code=29, incorrect_input="firstname")
+        if not isinstance(self.lastname, str):
+            raise EmmentalTypeException(error_code=30, incorrect_input="lastname")
+        if not isinstance(self.permissions, list):
+            raise EmmentalTypeException(error_code=31, incorrect_input="permissions")
+        if not isinstance(self.is_active, bool):
+            raise EmmentalTypeException(error_code=32, incorrect_input="is_active")
+        if self.username == "":
+            raise EmmentalEmptyFieldException(error_code=33, blank_field="username")
+        if self.password == "" or self.password is None:
+            raise EmmentalEmptyFieldException(error_code=34, blank_field="password")
+        if self.email == "" or self.email is None:
+            raise EmmentalEmptyFieldException(error_code=35, blank_field="email")
 
     def get_id(self):
         return self.user_id
