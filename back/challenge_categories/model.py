@@ -1,13 +1,12 @@
+from core.exceptions import EmmentalEmptyFieldException, EmmentalTypeException
 from core.model import Document, from_dict_class
-from core.exceptions import (
-    EmmentalEmptyFieldException,
-    EmmentalTypeException,
-)
+from core.utils import slug
 
 
 class ChallengeCategory(Document):
     fields = Document.fields + [
         "title",
+        "title_slug",
         "icon",
         "description",
     ]
@@ -15,6 +14,7 @@ class ChallengeCategory(Document):
     export_fields = Document.export_fields + [
         "category_id",
         "title",
+        "title_slug",
         "icon",
         "description",
     ]
@@ -29,6 +29,7 @@ class ChallengeCategory(Document):
         self,
         _id: str = None,
         title: str = "",
+        title_slug: str = "",
         icon: str = "fas fa-shield-alt",
         description: str = "",
         created_at: int = None,
@@ -37,18 +38,22 @@ class ChallengeCategory(Document):
         super().__init__(_id, created_at, updated_at)
         self.category_id = self._id
         self.title = title
+        self.title_slug = slug(self.title) if not title_slug else title_slug
         self.icon = icon
         self.description = description
+
         self.verify()
 
     def verify(self):
         super().verify()
+
         if not isinstance(self.title, str):
             raise EmmentalTypeException(error_code=2, incorrect_input="title")
         if not isinstance(self.icon, str):
             raise EmmentalTypeException(error_code=3, incorrect_input="icon")
         if not isinstance(self.description, str):
             raise EmmentalTypeException(error_code=4, incorrect_input="description")
+
         if self.title == "" or self.title == None:
             raise EmmentalEmptyFieldException(error_code=5, blank_field="title")
 
