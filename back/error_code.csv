@@ -25,3 +25,12 @@ error_code;meaning (internal_message)
 23;Non-admin user attemps to create a challenge
 24;Non-admin user attemps to delete a challenge
 25;An union field was hydrated by a forbidden value
+26;Type Error raised by username in users/models.py
+27;Type Error raised by password in users/models.py
+28;Type Error raised by email in users/models.py
+29;Type Error raised by firstname in users/models.py
+30;Type Error raised by lastname in users/models.py
+31;Type Error raised by permissions in users/models.py
+32;Empty field raised by username in users/models.py
+33;Empty field raised by password in users/models.py
+34;Empty field raised by email in users/models.py

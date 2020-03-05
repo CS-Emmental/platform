@@ -68,14 +68,12 @@ class User(Document, UserMixin):
             raise EmmentalTypeException(error_code=30, incorrect_input="lastname")
         if not isinstance(self.permissions, list):
             raise EmmentalTypeException(error_code=31, incorrect_input="permissions")
-        if not isinstance(self.is_active, bool):
-            raise EmmentalTypeException(error_code=32, incorrect_input="is_active")
         if self.username == "":
-            raise EmmentalEmptyFieldException(error_code=33, blank_field="username")
+            raise EmmentalEmptyFieldException(error_code=32, blank_field="username")
         if self.password == "" or self.password is None:
-            raise EmmentalEmptyFieldException(error_code=34, blank_field="password")
+            raise EmmentalEmptyFieldException(error_code=33, blank_field="password")
         if self.email == "" or self.email is None:
-            raise EmmentalEmptyFieldException(error_code=35, blank_field="email")
+            raise EmmentalEmptyFieldException(error_code=34, blank_field="email")
 
     def get_id(self):
         return self.user_id
