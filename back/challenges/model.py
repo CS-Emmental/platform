@@ -1,13 +1,7 @@
 from core.model import Document, from_dict_class
 import time
-from core.exceptions import (
-    EmmentalEmptyFieldException,
-    EmmentalTypeException,
-)
-from challenges.exceptions import (
-    EmmentalHintsException,
-    EmmentalFlagsException,
-)
+from core.exceptions import EmmentalEmptyFieldException, EmmentalTypeException
+from challenges.exceptions import EmmentalHintsException, EmmentalFlagsException
 
 
 class Challenge(Document):
