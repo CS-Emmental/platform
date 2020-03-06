@@ -25,4 +25,5 @@ error_code;meaning (internal_message)
 23;Non-admin user attemps to create a challenge
 24;Non-admin user attemps to delete a challenge
 25;An union field was hydrated by a forbidden value
-26;Another challenge category has the same slugified title
+26;At update, another challenge category has the same slugified title
+27;At creation, another challenge category has the same slugified title

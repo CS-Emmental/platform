@@ -14,7 +14,7 @@ def update_challenge_category(category_id: str, inputs: dict):
     category_to_update = category_manager.get(category_id)
     category_to_update.update(inputs)
 
-    same_title_slug_categories = category_manager.get_query(
+    same_title_slug_categories = category_manager.get_query(  # list
         {"title_slug": category_to_update.title_slug}
     )
     for challenge_category in same_title_slug_categories:
@@ -31,7 +31,15 @@ def remove_challenge_category(category_id: str):
 
 
 def insert_challenge_category(inputs: dict):
-    category_inserted = ChallengeCategory(**inputs)
+    category_manager = ChallengeCategoriesManager()
 
-    ChallengeCategoriesManager().insert_one(category_inserted)
-    return category_inserted
+    category_to_insert = ChallengeCategory(**inputs)
+
+    same_title_slug_categories = category_manager.count(  # count
+        {"title_slug": category_to_insert.title_slug}
+    )
+    if same_title_slug_categories != 0:
+        raise EmmentalNotUniqueException(error_code=27)
+
+    category_manager.insert_one(category_to_insert)
+    return category_to_insert
