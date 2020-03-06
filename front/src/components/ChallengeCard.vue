@@ -4,7 +4,7 @@
       <div class="level">
         <div class="level-left">
           <router-link
-            :to="`/challenges/${parentCategory.title_slug}/${challengeSlug}`"
+            :to="`/challenges/${parentCategory.title_slug}/${challenge.title_slug}`"
             class="subtitle is-4 level-item card-header-title"
           >
             {{ challenge.title }}
@@ -60,9 +60,6 @@ export default class ChallengeCard extends Vue {
     return this.getCategoryById(this.challenge.category_id);
   }
 
-  get challengeSlug() {
-    return this.challenge && slug(this.challenge.title);
-  }
 
   // Challenge Participation
 

@@ -149,6 +149,7 @@ export default class ChallengesCategory extends Vue {
     return this.category && {
       challenge_id: '',
       title: '',
+      title_slug: '',
       summary: '',
       description: '',
       category_id: this.category.category_id,
