@@ -42,7 +42,7 @@ class Document:
             setattr(self, key, inputs_filtered[key])
         setattr(self, "updated_at", int(time.time()))
 
-        Document.verify(self)
+        self.verify()
 
     def verify(self):
         """
