@@ -18,6 +18,7 @@ data_challenge_category_custom_init = [
         {
             "_id": "a",
             "title": "a",
+            "title_slug": "a",
             "icon": "a",
             "description": "a",
             "created_at": 0,
@@ -37,6 +38,7 @@ data_challenge_category_custom_init = [
         {
             "_id": "c853fd69-e222-4e07-a261-efe1791aa542",
             "title": "title",
+            "title_slug": "title",
             "icon": "icon",
             "description": "description",
             "created_at": 1581002681,
@@ -56,6 +58,7 @@ data_challenge_category_custom_init = [
         {
             "_id": "c853fd69-e222-4e07-a261-efe1791aa542",
             "title": "title",
+            "title_slug": "title",
             "icon": "icon",
             "description": "description",
             "created_at": 1581002681,
