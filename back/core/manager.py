@@ -14,6 +14,9 @@ class MongoManager:
     def get_query(self, query):
         return self.collection.find(query)
 
+    def count(self, query):
+        return self.collection.count_documents(query)
+
     def update_one(self, _id, update_dict):
         return self.collection.update({"_id": _id}, {"$set": update_dict})
 
