@@ -54,3 +54,14 @@ class EmmentalUnionException(EmmentalException):
 
     def __str__(self):
         return self.internal_message
+
+
+class EmmentalNotUniqueException(EmmentalException):
+    def __init__(self, error_code: int):
+        self.error_code = error_code
+        self.internal_message = "The object has not been created / updated in db because another object exists with the same set of unique fields"
+        self.external_message = "Object not created / updated"
+        self.status_code = 500
+
+    def __str__(self):
+        return self.internal_message
