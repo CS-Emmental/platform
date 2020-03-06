@@ -1,18 +1,15 @@
-from core.model import Document, from_dict_class
 import time
-from core.exceptions import (
-    EmmentalEmptyFieldException,
-    EmmentalTypeException,
-)
-from challenges.exceptions import (
-    EmmentalHintsException,
-    EmmentalFlagsException,
-)
+
+from challenges.exceptions import EmmentalFlagsException, EmmentalHintsException
+from core.exceptions import EmmentalEmptyFieldException, EmmentalTypeException
+from core.model import Document, from_dict_class
+from core.utils import slug
 
 
 class Challenge(Document):
     fields = Document.fields + [
         "title",
+        "title_slug",
         "description",
         "category_id",
         "total_points",
@@ -27,6 +24,7 @@ class Challenge(Document):
     export_fields = Document.export_fields + [
         "challenge_id",
         "title",
+        "title_slug",
         "description",
         "category_id",
         "total_points",
@@ -55,6 +53,7 @@ class Challenge(Document):
         self,
         _id: str = None,
         title: str = "",
+        title_slug: str = "",
         description: str = "",
         summary: str = "",
         category_id: str = "",
@@ -72,6 +71,7 @@ class Challenge(Document):
 
         self.challenge_id = self._id
         self.title = title
+        self.title_slug = title_slug  # Can come from db. Always equal slug(self.title), c.f verify
         self.description = description
         self.summary = summary
         self.total_points = total_points
@@ -130,6 +130,10 @@ class Challenge(Document):
 
         if self.title == "" or self.title is None:
             raise EmmentalEmptyFieldException(error_code=18, blank_field="title")
+
+        # Once "outer" inputs are fine, we can check and set following fields accordingly
+        if self.title_slug != slug(self.title):
+            self.title_slug = slug(self.title)
 
     @staticmethod
     def from_dict(dict_object: dict):
