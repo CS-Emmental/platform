@@ -23,15 +23,15 @@ def update_challenge(challenge_id: str, inputs: dict):
     challenge_to_update = challenge_manager.get(challenge_id)
     challenge_to_update.update(inputs)
 
-    same_title_slug_challenges = challenge_manager.get_query(  # list
+    same_title_slug_challenges = challenge_manager.count(  # int
         {
+            "_id": {"$ne": challenge_to_update.challenge_id},
             "title_slug": challenge_to_update.title_slug,
             "category_id": challenge_to_update.category_id,
         }
     )
-    for challenge in same_title_slug_challenges:
-        if challenge.challenge_id != challenge_to_update.challenge_id:
-            raise EmmentalNotUniqueException(error_code=28)
+    if same_title_slug_challenges != 0:
+        raise EmmentalNotUniqueException(error_code=28)
 
     challenge_manager.update_one(challenge_to_update)
     return challenge_to_update
@@ -42,7 +42,7 @@ def insert_challenge(inputs: dict):
 
     challenge_to_insert = Challenge(**inputs)
 
-    same_title_slug_challenges = challenge_manager.count(  # count
+    same_title_slug_challenges = challenge_manager.count(  # int
         {
             "title_slug": challenge_to_insert.title_slug,
             "category_id": challenge_to_insert.category_id,
