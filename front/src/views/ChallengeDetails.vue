@@ -158,7 +158,7 @@ export default class ChallengeDetails extends Vue {
       this.editMode = false;
       if (edited.title !== this.challenge.title
         || edited.category_id !== this.challenge.category_id) {
-        const catSlug = slug(this.getCategoryById(edited.category_id).title);
+        const catSlug = this.getCategoryById(edited.category_id).title_slug;
         const challSlug = slug(edited.title);
         this.$router.push(`/challenges/${catSlug}/${challSlug}`);
       }
@@ -173,7 +173,7 @@ export default class ChallengeDetails extends Vue {
   public deleteChallenge!: CallableFunction;
 
   public onDelete() {
-    const catSlug = slug(this.getCategoryById(this.challenge.category_id).title);
+    const catSlug = this.getCategoryById(this.challenge.category_id).title_slug;
     this.deleteChallenge(this.challenge.challenge_id).then(() => {
       this.$router.push(`/challenges/${catSlug}`);
     });

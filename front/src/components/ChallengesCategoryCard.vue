@@ -2,7 +2,7 @@
   <emmental-card>
     <template v-slot:header>
       <router-link
-        :to="`/challenges/${categorySlug}`"
+        :to="`/challenges/${category.title_slug}`"
         class="subtitle is-4 card-header-title"
       >
         <i
@@ -28,7 +28,6 @@ import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Getter } from 'vuex-class';
 import EmmentalCard from '@/components/EmmentalCard.vue';
 import { ChallengeCategory } from '../store/challengeCategories/types';
-import { slug } from '../store/utils';
 
 @Component({
   name: 'ChallengesCategoryCard',
@@ -48,10 +47,6 @@ export default class ChallengesCategoryCard extends Vue {
 
   get categoryCount() {
     return this.category && this.getChallengesCountByCategory(this.category.category_id);
-  }
-
-  get categorySlug() {
-    return this.category && slug(this.category.title);
   }
 }
 </script>

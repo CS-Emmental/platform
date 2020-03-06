@@ -18,10 +18,10 @@
         :key="category.category_id"
       >
         <router-link
-          :to="`/challenges/${category.title.toLowerCase().replace(' ', '-')}`"
+          :to="`/challenges/${category.title_slug}`"
           class="menu-item"
           :class="{
-            'is-active': category.title.toLowerCase().replace(' ', '-') == menuActive.category
+            'is-active': category.title_slug == menuActive.category
           }"
         >
           {{ category.title }}

@@ -1,5 +1,5 @@
-export function slug(title: string): string {
-  return title.toLowerCase().replace(/ /g, '-');
+export function slug(s: string): string {
+  return s.toLowerCase().replace(/ /g, '-');
 }
 
 export default slug;

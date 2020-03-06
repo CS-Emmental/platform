@@ -88,6 +88,7 @@ export default class ChallengesCategoryEdit extends Vue {
   public challengesCategoryEdit: ChallengeCategory = {
     category_id: '',
     title: '',
+    title_slug: '',
     description: '',
     icon: '',
   };

@@ -5,16 +5,15 @@ import {
 }
   from './types';
 import { RootState } from '../types';
-import { slug } from '../utils';
 
 const getters: GetterTree<ChallengeCategoriesState, RootState> = {
   getCategoryFromSlug(state) {
-    return (slugStr: string): ChallengeCategory|undefined => state.challengeCategories.find(
-      (cat: ChallengeCategory) => slug(cat.title) === slugStr,
+    return (slugStr: string): ChallengeCategory | undefined => state.challengeCategories.find(
+      (cat: ChallengeCategory) => cat.title_slug === slugStr,
     );
   },
   getCategoryById(state) {
-    return (categoryId: string): ChallengeCategory|undefined => state.challengeCategories.find(
+    return (categoryId: string): ChallengeCategory | undefined => state.challengeCategories.find(
       (cat: ChallengeCategory) => cat.category_id === categoryId,
     );
   },
