@@ -12,6 +12,9 @@ class ChallengesManager(MongoManager):
     def get(self, challenge_id):
         return Challenge.from_dict(super().get(challenge_id))
 
+    def get_query(self, query):
+        return [Challenge.from_dict(x) for x in super().get_query(query)]
+
     def update_one(self, challenge):
         return super().update_one(challenge.challenge_id, challenge.to_insert_dict())
 
