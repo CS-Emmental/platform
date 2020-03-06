@@ -38,7 +38,7 @@ class ChallengeCategory(Document):
         super().__init__(_id, created_at, updated_at)
         self.category_id = self._id
         self.title = title
-        self.title_slug = slug(self.title) if not title_slug else title_slug
+        self.title_slug = title_slug  # Can come from db. Always equal slug(self.title), c.f verify
         self.icon = icon
         self.description = description
 
@@ -56,6 +56,10 @@ class ChallengeCategory(Document):
 
         if self.title == "" or self.title == None:
             raise EmmentalEmptyFieldException(error_code=5, blank_field="title")
+
+        # Once "outer" inputs are fine, we can check and set following fields accordingly
+        if self.title_slug != slug(self.title):
+            self.title_slug = slug(self.title)
 
     @staticmethod
     def from_dict(dict_object: dict):
