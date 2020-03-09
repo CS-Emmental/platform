@@ -1,15 +1,15 @@
-from challenge_categories.manager import ChallengeCategoriesManager
+from challenge_categories.manager import ChallengeCategoryManager
 from challenge_categories.model import ChallengeCategory
 from core.exceptions import EmmentalNotUniqueException
 
 
 def get_challenge_categories():
-    categories = ChallengeCategoriesManager().get_all()
+    categories = ChallengeCategoryManager().get_all()
     return categories
 
 
 def update_challenge_category(category_id: str, inputs: dict):
-    category_manager = ChallengeCategoriesManager()
+    category_manager = ChallengeCategoryManager()
 
     category_to_update = category_manager.get(category_id)
     category_to_update.update(inputs)
@@ -28,12 +28,12 @@ def update_challenge_category(category_id: str, inputs: dict):
 
 
 def remove_challenge_category(category_id: str):
-    category_deleted = ChallengeCategoriesManager().get(category_id)
-    return ChallengeCategoriesManager().remove_one(category_deleted)
+    category_deleted = ChallengeCategoryManager().get(category_id)
+    return ChallengeCategoryManager().remove_one(category_deleted)
 
 
 def insert_challenge_category(inputs: dict):
-    category_manager = ChallengeCategoriesManager()
+    category_manager = ChallengeCategoryManager()
 
     category_to_insert = ChallengeCategory(**inputs)
 

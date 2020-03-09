@@ -8,7 +8,7 @@ from challenge_categories.controller import (
     remove_challenge_category,
     insert_challenge_category,
 )
-from challenge_categories.manager import ChallengeCategoriesManager
+from challenge_categories.manager import ChallengeCategoryManager
 from app import create_app
 from challenge_categories.test_controller_data import (
     data_controller_get,
@@ -29,13 +29,13 @@ class TestGetChallengeCategories:
     @pytest.mark.parametrize("test_input,expected", data_controller_get)
     def test_get_challenge_categories(self, monkeypatch, test_input, expected):
         """
-        Test if the function well returns what the ChallengeCategoriesManager returns
+        Test if the function well returns what the ChallengeCategoryManager returns
         """
 
         def mock_get_all(*args, **kwargs):
             return test_input
 
-        monkeypatch.setattr(ChallengeCategoriesManager, "get_all", mock_get_all)
+        monkeypatch.setattr(ChallengeCategoryManager, "get_all", mock_get_all)
 
         with self.app.app_context():
             assert get_challenge_categories() == expected
@@ -60,8 +60,8 @@ class TestUpdateChallengeCategory:
         def mock_update(*args, **kwargs):
             return None
 
-        monkeypatch.setattr(ChallengeCategoriesManager, "get", mock_get)
-        monkeypatch.setattr(ChallengeCategoriesManager, "update_one", mock_update)
+        monkeypatch.setattr(ChallengeCategoryManager, "get", mock_get)
+        monkeypatch.setattr(ChallengeCategoryManager, "update_one", mock_update)
 
         with self.app.app_context():
             assert update_challenge_category("id", test_input) == expected
@@ -82,8 +82,8 @@ class TestRemoveChallengeCategory:
         def mock_remove(*args, **kwargs):
             return {"n": 1, "ok": 1.0}
 
-        monkeypatch.setattr(ChallengeCategoriesManager, "get", mock_get)
-        monkeypatch.setattr(ChallengeCategoriesManager, "remove_one", mock_remove)
+        monkeypatch.setattr(ChallengeCategoryManager, "get", mock_get)
+        monkeypatch.setattr(ChallengeCategoryManager, "remove_one", mock_remove)
 
         with self.app.app_context():
             assert remove_challenge_category("id") == expected
@@ -101,7 +101,7 @@ class TestInsertChallengeCategory:
         def mock_insert(*args, **kwargs):
             return None
 
-        monkeypatch.setattr(ChallengeCategoriesManager, "insert_one", mock_insert)
+        monkeypatch.setattr(ChallengeCategoryManager, "insert_one", mock_insert)
 
         with self.app.app_context():
             assert insert_challenge_category(test_input).title == expected["title"]

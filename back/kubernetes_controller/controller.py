@@ -4,7 +4,7 @@ from flask import current_app
 from jinja2 import Environment, FileSystemLoader
 
 from challenge_participations.model import ChallengeParticipation
-from challenges.manager import ChallengesManager
+from challenges.manager import ChallengeManager
 from challenges.model import Challenge
 from core.utils import slug
 
