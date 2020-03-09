@@ -4,13 +4,15 @@ import traceback
 import kubernetes
 from flask import Flask, jsonify
 from flask.logging import create_logger
+from flask_apscheduler import APScheduler
 from flask_login import LoginManager, current_user
 from flask_pymongo import PyMongo
 
+from challenge_participations.controller import stop_old_participations
 from core.exceptions import EmmentalException
-from routes.challenges import challenges
 from routes.challenge_categories import challenge_categories
 from routes.challenge_participations import challenge_participations
+from routes.challenges import challenges
 from routes.users import users
 from users.manager import UserManager
 
@@ -47,6 +49,23 @@ def create_app(testing=False):
 
     app.mongo = PyMongo(app)
 
+    #  Scheduler to kill old challenges
+    if (
+        not app.debug or os.environ.get("WERKZEUG_RUN_MAIN") == "true"
+    ):  # avoid double task exec in dev
+        scheduler = APScheduler()
+        scheduler.init_app(app)
+        scheduler.start()
+
+    @scheduler.task(
+        "cron",
+        id="do_stop_old_participation",
+        hours="*/{}".format(app.config["CHECK_OLD_CHALLENGES_INTERVAL_HOURS"]),
+    )
+    def stop_old():
+        with app.app_context():
+            stop_old_participations()
+
     login_manager = LoginManager()
     login_manager.init_app(app)
     app.logger = create_logger(app)
@@ -59,7 +78,9 @@ def create_app(testing=False):
     def handle_emmental_exception(e):
         app.logger.error(traceback.format_exc())
         app.logger.error(e.internal_message)
-        response = jsonify({"error_code": e.error_code, "error_message": e.external_message,})
+        response = jsonify(
+            {"error_code": e.error_code, "error_message": e.external_message,}
+        )
         return response, e.status_code
 
     @app.errorhandler(Exception)

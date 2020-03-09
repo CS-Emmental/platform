@@ -18,7 +18,9 @@ def get_categories():
     return jsonify([c.to_dict() for c in categories])
 
 
-@challenge_categories.route("/challenge-categories/<challenge_category_id>", methods=["POST"])
+@challenge_categories.route(
+    "/challenge-categories/<challenge_category_id>", methods=["POST"]
+)
 def update_category(challenge_category_id: str):
     update_dict = request.json
     if current_user.has_permissions(["admin"]):
@@ -28,7 +30,9 @@ def update_category(challenge_category_id: str):
         raise BadPermissionException(error_code=19)
 
 
-@challenge_categories.route("/challenge-categories/<challenge_category_id>", methods=["DELETE"])
+@challenge_categories.route(
+    "/challenge-categories/<challenge_category_id>", methods=["DELETE"]
+)
 def delete_category(challenge_category_id: str):
     if current_user.has_permissions(["admin"]):
         deleted_response = remove_challenge_category(challenge_category_id)

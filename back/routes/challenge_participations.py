@@ -11,7 +11,9 @@ from challenge_participations.controller import (
     validate_flag,
 )
 
-challenge_participations = Blueprint("challenge_participations", "challenge_participations")
+challenge_participations = Blueprint(
+    "challenge_participations", "challenge_participations"
+)
 
 
 @challenge_participations.route("/challenge-participations", methods=["POST"])
@@ -40,14 +42,18 @@ def stop_challenge_participation(participation_id: str):
     return jsonify(res.to_dict())
 
 
-@challenge_participations.route("/challenge-participations/current-user", methods=["GET"])
+@challenge_participations.route(
+    "/challenge-participations/current-user", methods=["GET"]
+)
 @login_required
 def get_current_user_participations():
     participations = get_currentuser_participations()
     return jsonify([p.to_dict() for p in participations])
 
 
-@challenge_participations.route("/challenge-participations/<participation_id>", methods=["POST"])
+@challenge_participations.route(
+    "/challenge-participations/<participation_id>", methods=["POST"]
+)
 @login_required
 def post_participation(participation_id: str):
     update_dict = request.json

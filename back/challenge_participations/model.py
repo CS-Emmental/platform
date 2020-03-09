@@ -12,6 +12,7 @@ class ChallengeParticipation(Document):
         "found_flags",
         "used_hints",
         "port",
+        "started_at",
     ]
 
     export_fields = Document.export_fields + [
@@ -23,6 +24,7 @@ class ChallengeParticipation(Document):
         "found_flags",
         "used_hints",
         "port",
+        "started_at",
     ]
 
     editable_fields = Document.editable_fields + [
@@ -41,6 +43,7 @@ class ChallengeParticipation(Document):
         created_at: int = None,
         updated_at: int = None,
         port: int = None,
+        started_at: int = None,
     ):
 
         super().__init__(_id, created_at, updated_at)
@@ -52,13 +55,16 @@ class ChallengeParticipation(Document):
         self.found_flags = found_flags if found_flags else []
         self.used_hints = used_hints if used_hints else []
         self.port = port
+        self.started_at = started_at
 
         self.verify()
 
     def verify(self):
         super().verify()
         if self.status not in ("", "ongoing", "stopped"):
-            raise EmmentalUnionException(error_code=25, field="status", incorrect_input=self.status)
+            raise EmmentalUnionException(
+                error_code=25, field="status", incorrect_input=self.status
+            )
 
     @staticmethod
     def from_dict(dict_object: dict):
