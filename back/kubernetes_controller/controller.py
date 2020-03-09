@@ -1,11 +1,12 @@
 import kubernetes
 import yaml
 from flask import current_app
-from jinja2 import FileSystemLoader, Environment
+from jinja2 import Environment, FileSystemLoader
 
 from challenge_participations.model import ChallengeParticipation
 from challenges.manager import ChallengesManager
 from challenges.model import Challenge
+from core.utils import slug
 
 
 def deploy_challenge_instance(
@@ -15,7 +16,7 @@ def deploy_challenge_instance(
     ports: list,
     image: str,
 ):
-    challenge_name_slug = challenge_title.replace(" ", "-").lower()
+    challenge_name_slug = slug(challenge_title)
 
     port = int(ports[0]["port"])
     port_name = ports[0]["name"]
@@ -62,7 +63,7 @@ def stop_challenge_instance(challenge_title: str, participation_id: str):
     """
     Send a request to k8s that stop the challenge instance linked to this ChallengeParticipation
     """
-    challenge_name_slug = challenge_title.replace(" ", "-").lower()
+    challenge_name_slug = slug(challenge_title)
     participation_id = participation_id
     name = challenge_name_slug + "-" + participation_id
 
