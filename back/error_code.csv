@@ -29,3 +29,12 @@ error_code;meaning (internal_message)
 27;At creation, another challenge category has the same slugified title
 28;At update, another challenge has the same slugified title
 29;At creation, another challenge has the same slugified title
+30;Type Error raised by lastname in users/models.py
+31;Type Error raised by permissions in users/models.py
+32;Empty field raised by username in users/models.py
+33;Empty field raised by password in users/models.py
+34;Empty field raised by email in users/models.py
+35;Type Error raised by username in users/models.py
+36;Type Error raised by password in users/models.py
+37;Type Error raised by email in users/models.py
+38;Type Error raised by firstname in users/models.py

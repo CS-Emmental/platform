@@ -4,14 +4,7 @@ import pytest
 
 from challenges.exceptions import EmmentalFlagsException, EmmentalHintsException
 from challenges.model import Challenge
-from challenges.test_data import (
-    data_challenge_error_flags,
-    data_challenge_error_hints,
-    data_challenge_error_time,
-    data_challenge_error_title,
-    data_challenge_error_type,
-    data_challenge_legit_args,
-)
+from challenges.test_data import data_challenge_error, data_challenge_legit_args
 from core.exceptions import (
     EmmentalTypeException,
     EmmentalEmptyFieldException,
@@ -70,27 +63,7 @@ class TestInit:
         assert challenge.flags == expected["flags"]
         assert challenge.category_id == expected["category_id"]
 
-    @pytest.mark.parametrize("test_input", data_challenge_error_time)
-    def test_error_time(self, test_input):
-        with pytest.raises(EmmentalDateException):
-            challenge = get_challenge(test_input)
-
-    @pytest.mark.parametrize("test_input", data_challenge_error_title)
-    def test_error_title(self, test_input):
-        with pytest.raises(EmmentalEmptyFieldException):
-            challenge = get_challenge(test_input)
-
-    @pytest.mark.parametrize("test_input", data_challenge_error_type)
-    def test_error_type(self, test_input):
-        with pytest.raises(EmmentalTypeException):
-            challenge = get_challenge(test_input)
-
-    @pytest.mark.parametrize("test_input", data_challenge_error_hints)
-    def test_error_hints(self, test_input):
-        with pytest.raises(EmmentalHintsException):
-            challenge = get_challenge(test_input)
-
-    @pytest.mark.parametrize("test_input", data_challenge_error_flags)
-    def test_error_flags(self, test_input):
-        with pytest.raises(EmmentalFlagsException):
+    @pytest.mark.parametrize("test_input,error_raised", data_challenge_error)
+    def test_error(self, test_input, error_raised):
+        with pytest.raises(error_raised):
             challenge = get_challenge(test_input)

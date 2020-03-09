@@ -1,3 +1,10 @@
+from core.exceptions import (
+    EmmentalTypeException,
+    EmmentalEmptyFieldException,
+    EmmentalDateException,
+)
+from challenges.exceptions import EmmentalFlagsException, EmmentalHintsException
+
 data_challenge_legit_args = [
     (
         {
@@ -78,9 +85,9 @@ data_challenge_legit_args = [
         },
     ),
 ]
-
-data_challenge_error_time = [
+data_challenge_error = [
     (
+        # updated_at explicitly before created_at
         {
             "_id": None,
             "title": "a",
@@ -92,9 +99,11 @@ data_challenge_error_time = [
             "hints": [],
             "created_at": 10,
             "updated_at": 5,
-        }
+        },
+        EmmentalDateException,
     ),
     (
+        # updated_at implicitly before created_at
         {
             "_id": None,
             "title": "a",
@@ -106,26 +115,27 @@ data_challenge_error_time = [
             "hints": [],
             "created_at": None,
             "updated_at": 5,
-        }
+        },
+        EmmentalDateException,
     ),
-]
-
-data_challenge_error_title = [
-    {
-        "_id": None,
-        "title": "",
-        "description": "a",
-        "summary": "a",
-        "category_id": "a",
-        "total_points": 0,
-        "flags": [],
-        "hints": [],
-        "created_at": None,
-        "updated_at": None,
-    }
-]
-data_challenge_error_type = [
     (
+        # title cannot be empty
+        {
+            "_id": None,
+            "title": "",
+            "description": "a",
+            "summary": "a",
+            "category_id": "a",
+            "total_points": 0,
+            "flags": [],
+            "hints": [],
+            "created_at": None,
+            "updated_at": None,
+        },
+        EmmentalEmptyFieldException,
+    ),
+    (
+        # title must be a string
         {
             "_id": None,
             "title": None,
@@ -137,9 +147,11 @@ data_challenge_error_type = [
             "hints": [],
             "created_at": None,
             "updated_at": None,
-        }
+        },
+        EmmentalTypeException,
     ),
     (
+        # description must be a string
         {
             "_id": None,
             "title": "a",
@@ -151,9 +163,11 @@ data_challenge_error_type = [
             "hints": [],
             "created_at": None,
             "updated_at": None,
-        }
+        },
+        EmmentalTypeException,
     ),
     (
+        # summary must be a string
         {
             "_id": None,
             "title": "a",
@@ -165,9 +179,11 @@ data_challenge_error_type = [
             "hints": [],
             "created_at": None,
             "updated_at": None,
-        }
+        },
+        EmmentalTypeException,
     ),
     (
+        # category_id must be a string
         {
             "_id": None,
             "title": "a",
@@ -179,9 +195,11 @@ data_challenge_error_type = [
             "hints": [],
             "created_at": None,
             "updated_at": None,
-        }
+        },
+        EmmentalTypeException,
     ),
     (
+        # total_points must be an int
         {
             "_id": None,
             "title": "a",
@@ -193,9 +211,11 @@ data_challenge_error_type = [
             "hints": [],
             "created_at": None,
             "updated_at": None,
-        }
+        },
+        EmmentalTypeException,
     ),
     (
+        # flags must be a list
         {
             "_id": None,
             "title": "a",
@@ -207,9 +227,11 @@ data_challenge_error_type = [
             "hints": [],
             "created_at": None,
             "updated_at": None,
-        }
+        },
+        EmmentalTypeException,
     ),
     (
+        # hints must be a list
         {
             "_id": None,
             "title": "a",
@@ -221,12 +243,11 @@ data_challenge_error_type = [
             "hints": "[]",
             "created_at": None,
             "updated_at": None,
-        }
+        },
+        EmmentalTypeException,
     ),
-]
-
-data_challenge_error_hints = [
     (
+        # cost of hints can't exceed 1
         {
             "_id": None,
             "title": "None",
@@ -238,9 +259,11 @@ data_challenge_error_hints = [
             "hints": [{"cost": 0.2, "text": ""}, {"cost": 0.9, "text": ""}],
             "created_at": None,
             "updated_at": None,
-        }
+        },
+        EmmentalHintsException,
     ),
     (
+        # hints cost cannot be negative
         {
             "_id": None,
             "title": "None",
@@ -252,12 +275,11 @@ data_challenge_error_hints = [
             "hints": [{"cost": -0.2, "text": ""}, {"cost": 0.2, "text": ""}],
             "created_at": None,
             "updated_at": None,
-        }
+        },
+        EmmentalHintsException,
     ),
-]
-
-data_challenge_error_flags = [
     (
+        # flags reward cannot be negative
         {
             "_id": None,
             "title": "None",
@@ -272,9 +294,11 @@ data_challenge_error_flags = [
             "hints": [],
             "created_at": None,
             "updated_at": None,
-        }
+        },
+        EmmentalFlagsException,
     ),
     (
+        # flags reward total sum must equal one
         {
             "_id": None,
             "title": "None",
@@ -289,9 +313,11 @@ data_challenge_error_flags = [
             "hints": [],
             "created_at": None,
             "updated_at": None,
-        }
+        },
+        EmmentalFlagsException,
     ),
     (
+        # flags reward total sum must equal one
         {
             "_id": None,
             "title": "None",
@@ -303,9 +329,11 @@ data_challenge_error_flags = [
             "hints": [],
             "created_at": None,
             "updated_at": None,
-        }
+        },
+        EmmentalFlagsException,
     ),
 ]
+
 data_controller_update = [
     ({"key": "value"}, {"key": "new_value"}, {"key": "new_value"}),
     ({"key": "value"}, {}, {"key": "value"}),

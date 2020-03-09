@@ -1,5 +1,3 @@
-import time
-
 from challenges.exceptions import EmmentalFlagsException, EmmentalHintsException
 from core.exceptions import EmmentalEmptyFieldException, EmmentalTypeException
 from core.model import Document, from_dict_class
