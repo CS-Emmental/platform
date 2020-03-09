@@ -2,7 +2,7 @@ import time
 from uuid import uuid4
 from flask_login import UserMixin
 
-from core.model import Document, from_dict_class
+from core.model import Document
 from core.exceptions import EmmentalEmptyFieldException, EmmentalTypeException
 
 
@@ -83,4 +83,4 @@ class User(Document, UserMixin):
 
     @staticmethod
     def from_dict(dict_object: dict):
-        return from_dict_class(dict_object, User)
+        return Document.from_dict_class(dict_object, User)

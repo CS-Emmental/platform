@@ -1,5 +1,5 @@
 from core.exceptions import EmmentalEmptyFieldException, EmmentalTypeException
-from core.model import Document, from_dict_class
+from core.model import Document
 from core.utils import slug
 
 
@@ -38,7 +38,8 @@ class ChallengeCategory(Document):
         super().__init__(_id, created_at, updated_at)
         self.category_id = self._id
         self.title = title
-        self.title_slug = title_slug  # Can come from db. Always equal slug(self.title), c.f verify
+        # Can come from db. Always equal slug(self.title), c.f verify
+        self.title_slug = title_slug
         self.icon = icon
         self.description = description
 
@@ -63,4 +64,4 @@ class ChallengeCategory(Document):
 
     @staticmethod
     def from_dict(dict_object: dict):
-        return from_dict_class(dict_object, ChallengeCategory)
+        return Document.from_dict_class(dict_object, ChallengeCategory)

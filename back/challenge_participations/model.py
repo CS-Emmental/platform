@@ -1,4 +1,4 @@
-from core.model import Document, from_dict_class
+from core.model import Document
 
 from core.exceptions import EmmentalUnionException
 
@@ -68,4 +68,4 @@ class ChallengeParticipation(Document):
 
     @staticmethod
     def from_dict(dict_object: dict):
-        return from_dict_class(dict_object, ChallengeParticipation)
+        return Document.from_dict_class(dict_object, ChallengeParticipation)
