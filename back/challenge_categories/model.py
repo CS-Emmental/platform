@@ -27,15 +27,13 @@ class ChallengeCategory(Document):
 
     def __init__(
         self,
-        _id: str = None,
         title: str = "",
         title_slug: str = "",
         icon: str = "fas fa-shield-alt",
         description: str = "",
-        created_at: int = None,
-        updated_at: int = None,
+        **kwargs
     ):
-        super().__init__(_id, created_at, updated_at)
+        super().__init__(**kwargs)
         self.category_id = self._id
         self.title = title
         # Can come from db. Always equal slug(self.title), c.f verify

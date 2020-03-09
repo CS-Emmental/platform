@@ -49,7 +49,6 @@ class Challenge(Document):
 
     def __init__(
         self,
-        _id: str = None,
         title: str = "",
         title_slug: str = "",
         description: str = "",
@@ -58,14 +57,13 @@ class Challenge(Document):
         total_points: int = 0,
         flags: list = None,
         hints: list = None,
-        created_at: int = None,
-        updated_at: int = None,
         ports: list = None,
         image: str = "",
         challenge_type: str = "",
+        **kwargs,
     ):
 
-        super().__init__(_id, created_at, updated_at)
+        super().__init__(**kwargs)
 
         self.challenge_id = self._id
         self.title = title

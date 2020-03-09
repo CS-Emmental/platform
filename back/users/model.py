@@ -34,7 +34,6 @@ class User(Document, UserMixin):
 
     def __init__(
         self,
-        _id: str = None,
         username: str = "",
         password: str = "",
         email: str = "",
@@ -42,10 +41,10 @@ class User(Document, UserMixin):
         lastname: str = "",
         is_active: bool = True,
         permissions: list = [],
-        created_at: int = None,
-        updated_at: int = None,
+        **kwargs,
     ):
-        super().__init__(_id, created_at, updated_at)
+        super().__init__(**kwargs)
+        
         self.user_id = self._id
         self.username = username
         self.password = password

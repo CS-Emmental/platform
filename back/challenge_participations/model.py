@@ -33,20 +33,18 @@ class ChallengeParticipation(Document):
 
     def __init__(
         self,
-        _id: str = None,
         challenge_id: str = "",
         user_id: str = "",
         status: str = "",  # ""|"ongoing"|"stopped"
         rating: int = None,
         found_flags: list = None,
         used_hints: list = None,
-        created_at: int = None,
-        updated_at: int = None,
         port: int = None,
         started_at: int = None,
+        **kwargs,
     ):
 
-        super().__init__(_id, created_at, updated_at)
+        super().__init__(**kwargs)
         self.participation_id = self._id
         self.challenge_id = challenge_id
         self.user_id = user_id
