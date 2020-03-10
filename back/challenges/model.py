@@ -56,11 +56,11 @@ class Challenge(Document):
         summary: str = "",
         category_id: str = "",
         total_points: int = 0,
-        flags: list = None,
-        hints: list = None,
+        flags: list = None,  # List[flag] where flag: {"reward": int, "secret": str, "text": str}
+        hints: list = None,  # List[hint] where hint: {"cost": float, "text": str}
         created_at: int = None,
         updated_at: int = None,
-        ports: list = None,
+        ports: list = None,  # List[int]
         image: str = "",
         challenge_type: str = "",
     ):
@@ -121,7 +121,7 @@ class Challenge(Document):
             raise EmmentalHintsException(error_code=16)
 
         if self.flags and (
-            sum([flag["reward"] for flag in self.flags]) != 1
+            sum([flag["reward"] for flag in self.flags]) > 1
             or min([flag["reward"] for flag in self.flags]) < 0
         ):
             raise EmmentalFlagsException(error_code=17)
