@@ -64,7 +64,6 @@ def stop_challenge_instance(challenge_title: str, participation_id: str):
     Send a request to k8s that stop the challenge instance linked to this ChallengeParticipation
     """
     challenge_name_slug = slug(challenge_title)
-    participation_id = participation_id
     name = challenge_name_slug + "-" + participation_id
 
     k8s_apps_v1 = kubernetes.client.AppsV1Api(current_app.k8s)
