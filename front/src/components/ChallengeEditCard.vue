@@ -287,6 +287,7 @@ export default class ChallengeEditCard extends Vue {
   public challengeEdit: Challenge = {
     challenge_id: '',
     title: '',
+    title_slug: '',
     summary: '',
     description: '',
     category_id: '',
@@ -302,6 +303,8 @@ export default class ChallengeEditCard extends Vue {
     image: '',
     ports: [],
     challenge_type: '',
+    created_at: 0,
+    updated_at: 0,
   };
 
   public created() {
