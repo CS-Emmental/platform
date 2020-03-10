@@ -13,6 +13,7 @@ from app import create_app
 from challenge_categories.test_controller_data import (
     data_controller_get,
     data_controller_update,
+    data_controller_update_errors,
     data_controller_remove,
     data_controller_insert,
 )
@@ -69,25 +70,37 @@ class TestUpdateChallengeCategory:
         monkeypatch.setattr(ChallengeCategoriesManager, "update_one", mock_update_one)
 
         with self.app.app_context():
-            updated_challenge = update_challenge_category("id", update_fields)
+            # category_id is not used because of mocks of MongoManager -> Can be any value
+            updated_challenge = update_challenge_category(category_id="id", inputs=update_fields)
 
         assert updated_challenge.title == expected.title
         assert updated_challenge.title_slug == expected.title_slug
         assert updated_challenge.icon == expected.icon
         assert updated_challenge.description == expected.description
 
+    @pytest.mark.parametrize(
+        "get_manager,count_manager,update_fields,error", data_controller_update_errors
+    )
+    def test_update_challenge_category_errors(
+        self, monkeypatch, get_manager, count_manager, update_fields, error
     ):
         def mock_get(*args, **kwargs):
-            return database_input
+            return get_manager
 
-        def mock_update(*args, **kwargs):
+        def mock_count(*args, **kwargs):
+            return count_manager
+
+        def mock_update_one(*args, **kwargs):
+            # None is acceptable since the return value is not used
             return None
 
         monkeypatch.setattr(ChallengeCategoriesManager, "get", mock_get)
-        monkeypatch.setattr(ChallengeCategoriesManager, "update_one", mock_update)
+        monkeypatch.setattr(ChallengeCategoriesManager, "count", mock_count)
+        monkeypatch.setattr(ChallengeCategoriesManager, "update_one", mock_update_one)
 
         with self.app.app_context():
-            assert update_challenge_category("id", test_input) == expected
+            with pytest.raises(error):
+                update_challenge_category("id", update_fields)
 
 
 class TestRemoveChallengeCategory:
