@@ -2,20 +2,22 @@
 Test of the controller of challenge Category module
 """
 import pytest
+
+from app import create_app
 from challenge_categories.controller import (
     get_challenge_categories,
-    update_challenge_category,
-    remove_challenge_category,
     insert_challenge_category,
+    remove_challenge_category,
+    update_challenge_category,
 )
 from challenge_categories.manager import ChallengeCategoriesManager
-from app import create_app
 from challenge_categories.test_controller_data import (
     data_controller_get,
+    data_controller_insert,
+    data_controller_insert_errors,
+    data_controller_remove,
     data_controller_update,
     data_controller_update_errors,
-    data_controller_remove,
-    data_controller_insert,
 )
 
 
@@ -76,12 +78,12 @@ class TestUpdateChallengeCategory:
 
         with self.app.app_context():
             # category_id is not used because of mocks of MongoManager -> Can be any value
-            updated_challenge = update_challenge_category(category_id="id", inputs=update_fields)
+            updated_category = update_challenge_category(category_id="id", inputs=update_fields)
 
-        assert updated_challenge.title == expected.title
-        assert updated_challenge.title_slug == expected.title_slug
-        assert updated_challenge.icon == expected.icon
-        assert updated_challenge.description == expected.description
+        assert updated_category.title == expected.title
+        assert updated_category.title_slug == expected.title_slug
+        assert updated_category.icon == expected.icon
+        assert updated_category.description == expected.description
 
     @pytest.mark.parametrize(
         "get_manager,count_manager,update_fields,error", data_controller_update_errors
@@ -137,12 +139,36 @@ class TestInsertChallengeCategory:
 
     app = create_app(testing=True)
 
-    @pytest.mark.parametrize("test_input,expected", data_controller_insert)
-    def test_insert_challenge_category(self, monkeypatch, test_input, expected):
-        def mock_insert(*args, **kwargs):
-            return None
+    @pytest.mark.parametrize(
+        "inputs_dict,insert_one_manager,count_manager,expected", data_controller_insert
+    )
+    def test_insert_challenge_category(
+        self, monkeypatch, inputs_dict, insert_one_manager, count_manager, expected
+    ):
+        def mock_insert_one(*args, **kwargs):
+            return insert_one_manager
 
-        monkeypatch.setattr(ChallengeCategoriesManager, "insert_one", mock_insert)
+        def mock_count(*args, **kwargs):
+            return count_manager
+
+        monkeypatch.setattr(ChallengeCategoriesManager, "insert_one", mock_insert_one)
+        monkeypatch.setattr(ChallengeCategoriesManager, "count", mock_count)
 
         with self.app.app_context():
-            assert insert_challenge_category(test_input).title == expected["title"]
+            inserted_category = insert_challenge_category(inputs=inputs_dict)
+
+        assert inserted_category.title == expected.title
+        assert inserted_category.title_slug == expected.title_slug
+        assert inserted_category.icon == expected.icon
+        assert inserted_category.description == expected.description
+
+    @pytest.mark.parametrize("inputs_dict,count_manager,error", data_controller_insert_errors)
+    def test_insert_challenge_category_error(self, monkeypatch, inputs_dict, count_manager, error):
+        def mock_count(*args, **kwargs):
+            return count_manager
+
+        monkeypatch.setattr(ChallengeCategoriesManager, "count", mock_count)
+
+        with self.app.app_context():
+            with pytest.raises(error):
+                insert_challenge_category(inputs=inputs_dict)

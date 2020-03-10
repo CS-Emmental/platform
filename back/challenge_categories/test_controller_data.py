@@ -55,4 +55,28 @@ data_controller_remove = [
     (ChallengeCategory(_id="id", title="title"), {"n": 1, "ok": 1.0}, {"n": 1, "ok": 1.0})
 ]
 
-data_controller_insert = [({"title": "value"}, {"title": "value"})]
+data_controller_insert = [
+    # Simplest insertion
+    ({"title": "title"}, {"nInserted": 1}, 0, ChallengeCategory(title="title")),
+    # Complete realistic insertion
+    (
+        {
+            "title": "Long title with 4 spaces",
+            "icon": "nice icon string",
+            "description": "Lorem ipsum dolor sit amet.",
+        },
+        {"nInserted": 1},
+        0,
+        ChallengeCategory(
+            title="Long title with 4 spaces",
+            icon="nice icon string",
+            description="Lorem ipsum dolor sit amet.",
+        ),
+    ),
+]
+
+data_controller_insert_errors = [
+    # Test if it raises an error if Mongo tells there is already a category with the same title slug
+    ({"title": "a title whose slug already exists"}, 1, EmmentalNotUniqueException),
+    ({"title": "a title whose slug already exists"}, 10, EmmentalNotUniqueException),
+]
