@@ -49,10 +49,33 @@ class TestUpdateChallengeCategory:
     app = create_app(testing=True)
 
     @pytest.mark.parametrize(
-        "database_input,test_input,expected", data_controller_update
+        "get_manager,count_manager,update_fields,expected", data_controller_update
     )
     def test_update_challenge_category(
-        self, monkeypatch, database_input, test_input, expected
+        self, monkeypatch, get_manager, count_manager, update_fields, expected
+    ):
+        def mock_get(*args, **kwargs):
+            return get_manager
+
+        def mock_count(*args, **kwargs):
+            return count_manager
+
+        def mock_update_one(*args, **kwargs):
+            # None is acceptable since the return value is not used
+            return None
+
+        monkeypatch.setattr(ChallengeCategoriesManager, "get", mock_get)
+        monkeypatch.setattr(ChallengeCategoriesManager, "count", mock_count)
+        monkeypatch.setattr(ChallengeCategoriesManager, "update_one", mock_update_one)
+
+        with self.app.app_context():
+            updated_challenge = update_challenge_category("id", update_fields)
+
+        assert updated_challenge.title == expected.title
+        assert updated_challenge.title_slug == expected.title_slug
+        assert updated_challenge.icon == expected.icon
+        assert updated_challenge.description == expected.description
+
     ):
         def mock_get(*args, **kwargs):
             return database_input

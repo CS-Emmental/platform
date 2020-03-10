@@ -1,20 +1,25 @@
+from challenge_categories.model import ChallengeCategory
+
 data_controller_update = [
-    ({"key": "value"}, {"key": "new_value"}, {"key": "new_value"}),
-    ({"key": "value"}, {}, {"key": "value"}),
     (
-        {"key1": "value1", "key2": "value2"},
-        {"key1": "new_value1", "key2": "value2"},
-        {"key1": "new_value1", "key2": "value2"},
+        # Simplest example
+        ChallengeCategory(_id="const_id", title="old_title"),
+        0,
+        {"title": "new_title"},
+        ChallengeCategory(_id="const_id", title="new_title"),
     ),
     (
-        {"key1": "value1", "key2": "value2"},
-        {"key1": "new_value1"},
-        {"key1": "new_value1", "key2": "value2"},
-    ),
-    (
-        {"key1": "value1", "key2": "value2"},
-        {"key1": "new_value1", "key2": "new_value2"},
-        {"key1": "new_value1", "key2": "new_value2"},
+        # More complete example
+        ChallengeCategory(_id="const_id", title="old title"),
+        0,
+        {"title": "Brand new title 1", "icon": "another_icon", "description": "lalalalala"},
+        ChallengeCategory(
+            _id="const_id",
+            title="Brand new title 1",
+            icon="another_icon",
+            title_slug="brand-new-title-1",
+            description="lalalalala"
+        ),
     ),
 ]
 
