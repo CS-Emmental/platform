@@ -68,7 +68,7 @@ def stop_old_participations():
     old_timediff = current_app.config["INSTANCE_TIME_TO_LIVE_HOURS"] * 3600
     old_threshold = int(time.time()) - old_timediff
     old_participations = ChallengeParticipationManager().get_query(
-        {"status": "ongoing", "started_at": {"$lte": old_threshold,},}
+        {"status": "ongoing", "started_at": {"$lte": old_threshold, }, }
     )
     for participation in old_participations:
         stop_participation(participation.participation_id)
@@ -97,16 +97,18 @@ def update_participation(participation_id: str, inputs: dict):
 def get_hints(participation_id: str, hint_indexes: list):
     participation = ChallengeParticipationManager().get(participation_id)
     challenge = ChallengeManager().get(participation.challenge_id)
-    if challenge.hints:
-        if max(hint_indexes) < len(challenge.hints) and min(hint_indexes) >= 0:
-            # You can't request less hints than you had before
-            if set(participation.used_hints) <= set(hint_indexes):
-                participation.used_hints = hint_indexes
-                ChallengeParticipationManager().update_one(participation)
-                return [
-                    {"index": i, "text": challenge.hints[i]["text"]}
-                    for i in hint_indexes
-                ]
+    if participation.status in ["ongoing", "stopped"]:
+        if challenge.hints:
+            if max(hint_indexes) < len(challenge.hints) and min(hint_indexes) >= 0:
+                # You can't request less hints than you had before
+                if set(participation.used_hints) <= set(hint_indexes):
+                    participation.used_hints = hint_indexes
+                    ChallengeParticipationManager().update_one(participation)
+                    return [
+                        {"index": i, "text": challenge.hints[i]["text"]}
+                        for i in hint_indexes
+                    ]
+    raise EmmentalException  # TODO
 
 
 def validate_flag(participation_id: str, flag_index: int, flag_value: str):
@@ -116,7 +118,18 @@ def validate_flag(participation_id: str, flag_index: int, flag_value: str):
         if flag_index not in participation.found_flags:
             if flag_value == challenge.flags[flag_index]["secret"]:
                 participation.found_flags.append(flag_index)
-                ChallengeParticipationManager().update_one(participation)
-                return participation
             else:
                 raise EmmentalException  # TODO
+
+    # Finish challenge if all flags are validated
+    if len(participation.found_flags) == len(challenge.flags):
+        if participation.status == "ongoing":
+            stop_challenge_instance(
+                challenge_title=challenge.title,
+                participation_id=participation.participation_id,
+            )
+        participation.port = None
+        participation.status = "finished"
+
+    ChallengeParticipationManager().update_one(participation)
+    return participation

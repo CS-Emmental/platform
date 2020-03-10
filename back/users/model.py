@@ -44,7 +44,7 @@ class User(Document, UserMixin):
         **kwargs,
     ):
         super().__init__(**kwargs)
-        
+
         self.user_id = self._id
         self.username = username
         self.password = password

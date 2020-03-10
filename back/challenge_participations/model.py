@@ -35,7 +35,7 @@ class ChallengeParticipation(Document):
         self,
         challenge_id: str = "",
         user_id: str = "",
-        status: str = "",  # ""|"ongoing"|"stopped"
+        status: str = "",  # ""|"ongoing"|"stopped"|"finished"
         rating: int = None,
         found_flags: list = None,
         used_hints: list = None,
@@ -59,7 +59,7 @@ class ChallengeParticipation(Document):
 
     def verify(self):
         super().verify()
-        if self.status not in ("", "ongoing", "stopped"):
+        if self.status not in ("", "ongoing", "stopped", "finished"):
             raise EmmentalUnionException(
                 error_code=25, field="status", incorrect_input=self.status
             )
