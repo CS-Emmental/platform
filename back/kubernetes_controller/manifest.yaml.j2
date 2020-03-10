@@ -26,7 +26,9 @@ spec:
           image: {{ IMAGE }}
           imagePullPolicy: Never
           ports:
-            - containerPort: {{ PORT }}
+          {% for port in PORT %}
+            - containerPort: {{ port['port'] }}
+          {% endfor %}
           volumeMounts:
             - name: config-volume
               mountPath: /etc/config
@@ -51,8 +53,10 @@ spec:
     challenge_id: {{ CHALLENGE_ID }}
     participation_id: {{ PARTICIPATION_ID }}
   ports:
-    - name: {{ PORT_NAME }}
-      port: {{ PORT }}
+  {% for port in PORT %}
+    - name: {{ port['name'] }}
+      port: {{ port['port'] }}
+  {% endfor %}
 ---
 kind: ConfigMap
 apiVersion: v1

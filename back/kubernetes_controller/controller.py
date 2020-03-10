@@ -18,9 +18,6 @@ def deploy_challenge_instance(
 ):
     challenge_name_slug = slug(challenge_title)
 
-    port = int(ports[0]["port"])
-    port_name = ports[0]["name"]
-
     jinja = Environment(
         loader=FileSystemLoader(searchpath="./kubernetes_controller"),
         trim_blocks=True,
@@ -34,8 +31,7 @@ def deploy_challenge_instance(
                 "PARTICIPATION_ID": participation_id,
                 "CHALLENGE_ID": challenge_id,
                 "IMAGE": image,
-                "PORT": port,
-                "PORT_NAME": port_name,
+                "PORT": ports,
                 "SECRET": participation_id,
             }
         )
