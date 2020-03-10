@@ -22,12 +22,8 @@ class Document:
         self, _id: str = None, created_at: int = None, updated_at: int = None,
     ):
         self._id = _id if (_id and isinstance(_id, str)) else str(uuid4())
-        self.created_at = (
-            created_at if isinstance(created_at, int) else int(time.time())
-        )
-        self.updated_at = (
-            updated_at if isinstance(updated_at, int) else int(time.time())
-        )
+        self.created_at = created_at if isinstance(created_at, int) else int(time.time())
+        self.updated_at = updated_at if isinstance(updated_at, int) else int(time.time())
 
         Document.verify(self)
 
@@ -41,7 +37,7 @@ class Document:
         return {key: getattr(self, key) for key in self.editable_fields}
 
     def update(self, inputs: dict = None):
-        inputs_filtered = {k: inputs[k] for k in self.editable_fields}
+        inputs_filtered = {k: inputs[k] for k in inputs if k in self.editable_fields}
         for key in inputs_filtered:
             setattr(self, key, inputs_filtered[key])
         setattr(self, "updated_at", int(time.time()))
