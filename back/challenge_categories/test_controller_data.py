@@ -1,6 +1,15 @@
 from challenge_categories.model import ChallengeCategory
 from core.exceptions import EmmentalNotUniqueException
 
+
+data_controller_get = [
+    (ChallengeCategory(_id="id", title="title"), ChallengeCategory(_id="id", title="title")),
+    (
+        ChallengeCategory(_id="id", title="title", description="Lorem ipsum dolor sit amet."),
+        ChallengeCategory(_id="id", title="title", description="Lorem ipsum dolor sit amet."),
+    ),
+]
+
 data_controller_update = [
     (
         # Simplest example
@@ -43,4 +52,3 @@ data_controller_update_errors = [
 
 data_controller_remove = [({"key": "value"}, {"n": 1, "ok": 1.0})]
 data_controller_insert = [({"title": "value"}, {"title": "value"})]
-data_controller_get = [([], []), ([1], [1]), (["", "string_test"], ["", "string_test"])]

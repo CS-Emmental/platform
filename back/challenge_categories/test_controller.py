@@ -39,7 +39,12 @@ class TestGetChallengeCategories:
         monkeypatch.setattr(ChallengeCategoriesManager, "get_all", mock_get_all)
 
         with self.app.app_context():
-            assert get_challenge_categories() == expected
+            get_challenge = get_challenge_categories()
+
+        assert get_challenge.title == expected.title
+        assert get_challenge.title_slug == expected.title_slug
+        assert get_challenge.icon == expected.icon
+        assert get_challenge.description == expected.description
 
 
 class TestUpdateChallengeCategory:
