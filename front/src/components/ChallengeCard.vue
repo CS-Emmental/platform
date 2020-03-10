@@ -34,7 +34,6 @@ import { Getter } from 'vuex-class';
 
 import { Challenge } from '../store/challenges/types';
 import { ChallengeParticipation } from '../store/challengeParticipations/types';
-import { slug } from '../store/utils';
 
 import EmmentalStatusTag from '@/components/EmmentalStatusTag.vue';
 import EmmentalCard from '@/components/EmmentalCard.vue';
