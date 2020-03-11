@@ -49,22 +49,23 @@ def create_app(testing=False):
 
     app.mongo = PyMongo(app)
 
-    #  Scheduler to kill old challenges
-    if (
-        not app.debug or os.environ.get("WERKZEUG_RUN_MAIN") == "true"
-    ):  # avoid double task exec in dev
-        scheduler = APScheduler()
-        scheduler.init_app(app)
-        scheduler.start()
+    if not testing:
+        #  Scheduler to kill old challenges
+        if (
+            not app.debug or os.environ.get("WERKZEUG_RUN_MAIN") == "true"
+        ):  # avoid double task exec in dev
+            scheduler = APScheduler()
+            scheduler.init_app(app)
+            scheduler.start()
 
-    @scheduler.task(
-        "cron",
-        id="do_stop_old_participation",
-        hours="*/{}".format(app.config["CHECK_OLD_CHALLENGES_INTERVAL_HOURS"]),
-    )
-    def stop_old():
-        with app.app_context():
-            stop_old_participations()
+        @scheduler.task(
+            "cron",
+            id="do_stop_old_participation",
+            hours="*/{}".format(app.config["CHECK_OLD_CHALLENGES_INTERVAL_HOURS"]),
+        )
+        def stop_old():
+            with app.app_context():
+                stop_old_participations()
 
     login_manager = LoginManager()
     login_manager.init_app(app)
