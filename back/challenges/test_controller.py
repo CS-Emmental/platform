@@ -87,7 +87,9 @@ class TestRemoveChallenge:
 
     app = create_app(testing=True)
 
-    @pytest.mark.parametrize("get_manager,remove_manager,expected", data_controller_remove)
+    @pytest.mark.parametrize(
+        "get_manager,remove_manager,expected", data_controller_remove
+    )
     def test_remove_challenge(self, monkeypatch, get_manager, remove_manager, expected):
         def mock_get(*args, **kwargs):
             return get_manager
@@ -139,8 +141,12 @@ class TestInsertChallenge:
         assert inserted_challenge.image == expected.image
         assert inserted_challenge.challenge_type == expected.challenge_type
 
-    @pytest.mark.parametrize("count_manager,inputs_dict,error", data_controller_insert_errors)
-    def test_insert_challenge_error(self, monkeypatch, count_manager, inputs_dict, error):
+    @pytest.mark.parametrize(
+        "count_manager,inputs_dict,error", data_controller_insert_errors
+    )
+    def test_insert_challenge_error(
+        self, monkeypatch, count_manager, inputs_dict, error
+    ):
         def mock_count(*args, **kwargs):
             return count_manager
 

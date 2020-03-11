@@ -20,7 +20,11 @@ data_controller_update = [
             "category_id": "d626d9aa-f8a9-45b6-8f49-74893ee27e41",  # uuid4
             "total_points": 100,
             "flags": [
-                {"reward": 1, "secret": "1234", "text": "The secret to find is four digits",}
+                {
+                    "reward": 1,
+                    "secret": "1234",
+                    "text": "The secret to find is four digits",
+                }
             ],
             "hints": [{"cost": 0.5, "text": "Try some common passwords ;)",}],
             "ports": [8888],
@@ -33,7 +37,13 @@ data_controller_update = [
             summary="Lorem ipsum dolor sit amet.",
             category_id="d626d9aa-f8a9-45b6-8f49-74893ee27e41",
             total_points=100,
-            flags=[{"reward": 1, "secret": "1234", "text": "The secret to find is four digits",}],
+            flags=[
+                {
+                    "reward": 1,
+                    "secret": "1234",
+                    "text": "The secret to find is four digits",
+                }
+            ],
             hints=[{"cost": 0.5, "text": "Try some common passwords ;)",}],
             ports=[8888],
             image="my-docker-image",
@@ -56,7 +66,11 @@ data_controller_update_errors = [
         0,
         {
             "flags": [
-                {"reward": 100, "secret": "1234", "text": "The secret to find is four digits",}
+                {
+                    "reward": 100,
+                    "secret": "1234",
+                    "text": "The secret to find is four digits",
+                }
             ]
         },
         EmmentalFlagsException,
@@ -67,7 +81,11 @@ data_controller_update_errors = [
         0,
         {
             "flags": [
-                {"reward": 0.8, "secret": "1234", "text": "The secret to find is four digits",},
+                {
+                    "reward": 0.8,
+                    "secret": "1234",
+                    "text": "The secret to find is four digits",
+                },
                 {
                     "reward": 0.8,
                     "secret": "5678",
@@ -83,7 +101,11 @@ data_controller_update_errors = [
         0,
         {
             "flags": [
-                {"reward": -5, "secret": "1234", "text": "The secret to find is four digits",},
+                {
+                    "reward": -5,
+                    "secret": "1234",
+                    "text": "The secret to find is four digits",
+                },
             ]
         },
         EmmentalFlagsException,
@@ -94,7 +116,11 @@ data_controller_update_errors = [
         0,
         {
             "flags": [
-                {"reward": -5, "secret": "1234", "text": "The secret to find is four digits",},
+                {
+                    "reward": -5,
+                    "secret": "1234",
+                    "text": "The secret to find is four digits",
+                },
                 {
                     "reward": 0.8,
                     "secret": "5678",
@@ -161,7 +187,11 @@ data_controller_insert = [
             "category_id": "d626d9aa-f8a9-45b6-8f49-74893ee27e41",  # uuid4
             "total_points": 100,
             "flags": [
-                {"reward": 1, "secret": "1234", "text": "The secret to find is four digits",}
+                {
+                    "reward": 1,
+                    "secret": "1234",
+                    "text": "The secret to find is four digits",
+                }
             ],
             "hints": [{"cost": 0.5, "text": "Try some common passwords ;)",}],
             "ports": [8888],
@@ -176,7 +206,13 @@ data_controller_insert = [
             summary="Lorem ipsum dolor sit amet.",
             category_id="d626d9aa-f8a9-45b6-8f49-74893ee27e41",
             total_points=100,
-            flags=[{"reward": 1, "secret": "1234", "text": "The secret to find is four digits",}],
+            flags=[
+                {
+                    "reward": 1,
+                    "secret": "1234",
+                    "text": "The secret to find is four digits",
+                }
+            ],
             hints=[{"cost": 0.5, "text": "Try some common passwords ;)",}],
             ports=[8888],
             image="my-docker-image",
@@ -194,7 +230,11 @@ data_controller_insert_errors = [
         0,
         {
             "flags": [
-                {"reward": 100, "secret": "1234", "text": "The secret to find is four digits",}
+                {
+                    "reward": 100,
+                    "secret": "1234",
+                    "text": "The secret to find is four digits",
+                }
             ]
         },
         EmmentalFlagsException,
@@ -204,7 +244,11 @@ data_controller_insert_errors = [
         0,
         {
             "flags": [
-                {"reward": 0.8, "secret": "1234", "text": "The secret to find is four digits",},
+                {
+                    "reward": 0.8,
+                    "secret": "1234",
+                    "text": "The secret to find is four digits",
+                },
                 {
                     "reward": 0.8,
                     "secret": "5678",
@@ -219,7 +263,11 @@ data_controller_insert_errors = [
         0,
         {
             "flags": [
-                {"reward": -5, "secret": "1234", "text": "The secret to find is four digits",},
+                {
+                    "reward": -5,
+                    "secret": "1234",
+                    "text": "The secret to find is four digits",
+                },
             ]
         },
         EmmentalFlagsException,
@@ -229,7 +277,11 @@ data_controller_insert_errors = [
         0,
         {
             "flags": [
-                {"reward": -5, "secret": "1234", "text": "The secret to find is four digits",},
+                {
+                    "reward": -5,
+                    "secret": "1234",
+                    "text": "The secret to find is four digits",
+                },
                 {
                     "reward": 0.8,
                     "secret": "5678",
