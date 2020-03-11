@@ -2,7 +2,7 @@ from core.manager import MongoManager
 from challenge_participations.model import ChallengeParticipation
 
 
-class ChallengeParticipationsManager(MongoManager):
+class ChallengeParticipationManager(MongoManager):
     def __init__(self):
         super().__init__("challenge_participations")
 

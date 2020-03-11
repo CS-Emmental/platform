@@ -1,6 +1,6 @@
 from challenges.exceptions import EmmentalFlagsException, EmmentalHintsException
 from core.exceptions import EmmentalEmptyFieldException, EmmentalTypeException
-from core.model import Document, from_dict_class
+from core.model import Document
 from core.utils import slug
 
 
@@ -49,7 +49,6 @@ class Challenge(Document):
 
     def __init__(
         self,
-        _id: str = None,
         title: str = "",
         title_slug: str = "",
         description: str = "",
@@ -58,18 +57,18 @@ class Challenge(Document):
         total_points: int = 0,
         flags: list = None,  # List[flag] where flag: {"reward": int, "secret": str, "text": str}
         hints: list = None,  # List[hint] where hint: {"cost": float, "text": str}
-        created_at: int = None,
-        updated_at: int = None,
         ports: list = None,  # List[int]
         image: str = "",
         challenge_type: str = "",
+        **kwargs,
     ):
 
-        super().__init__(_id, created_at, updated_at)
+        super().__init__(**kwargs)
 
         self.challenge_id = self._id
         self.title = title
-        self.title_slug = title_slug  # Can come from db. Always equal slug(self.title), c.f verify
+        # Can come from db. Always equal slug(self.title), c.f verify
+        self.title_slug = title_slug
         self.description = description
         self.summary = summary
         self.total_points = total_points
@@ -136,4 +135,4 @@ class Challenge(Document):
     @staticmethod
     def from_dict(dict_object: dict):
         dict_object["total_points"] = int(dict_object["total_points"])
-        return from_dict_class(dict_object, Challenge)
+        return Document.from_dict_class(dict_object, Challenge)

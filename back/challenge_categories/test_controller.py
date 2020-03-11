@@ -10,7 +10,7 @@ from challenge_categories.controller import (
     remove_challenge_category,
     update_challenge_category,
 )
-from challenge_categories.manager import ChallengeCategoriesManager
+from challenge_categories.manager import ChallengeCategoryManager
 from challenge_categories.test_controller_data import (
     data_controller_get,
     data_controller_insert,
@@ -32,13 +32,13 @@ class TestGetChallengeCategories:
     @pytest.mark.parametrize("test_input,expected", data_controller_get)
     def test_get_challenge_categories(self, monkeypatch, test_input, expected):
         """
-        Test if the function well returns what the ChallengeCategoriesManager returns
+        Test if the function well returns what the ChallengeCategoryManager returns
         """
 
         def mock_get_all(*args, **kwargs):
             return test_input
 
-        monkeypatch.setattr(ChallengeCategoriesManager, "get_all", mock_get_all)
+        monkeypatch.setattr(ChallengeCategoryManager, "get_all", mock_get_all)
 
         with self.app.app_context():
             get_challenge = get_challenge_categories()

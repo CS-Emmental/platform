@@ -1,12 +1,12 @@
 from flask_login import current_user
 
-from challenges.manager import ChallengesManager
+from challenges.manager import ChallengeManager
 from challenges.model import Challenge
 from core.exceptions import EmmentalNotUniqueException
 
 
 def get_all_challenges():
-    challenges = ChallengesManager().get_all()
+    challenges = ChallengeManager().get_all()
     if current_user.is_anonymous or not current_user.has_permissions(["admin"]):
         for challenge in challenges:
             for flag in challenge.flags:
@@ -18,7 +18,7 @@ def get_all_challenges():
 
 
 def update_challenge(challenge_id: str, inputs: dict):
-    challenge_manager = ChallengesManager()
+    challenge_manager = ChallengeManager()
 
     challenge_to_update = challenge_manager.get(challenge_id)
     challenge_to_update.update(inputs)
@@ -38,7 +38,7 @@ def update_challenge(challenge_id: str, inputs: dict):
 
 
 def insert_challenge(inputs: dict):
-    challenge_manager = ChallengesManager()
+    challenge_manager = ChallengeManager()
 
     challenge_to_insert = Challenge(**inputs)
 
@@ -56,5 +56,5 @@ def insert_challenge(inputs: dict):
 
 
 def remove_challenge(challenge_id: str):
-    challenge_deleted = ChallengesManager().get(challenge_id)
-    return ChallengesManager().remove_one(challenge_deleted)
+    challenge_deleted = ChallengeManager().get(challenge_id)
+    return ChallengeManager().remove_one(challenge_deleted)
