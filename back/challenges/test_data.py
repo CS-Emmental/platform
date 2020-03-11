@@ -478,5 +478,9 @@ data_controller_update_errors = [
     ),
 ]
 
-data_controller_remove = [({"key": "value"}, {"n": 1, "ok": 1.0})]
+data_controller_remove = [
+    # Very simple test with dummy test data. To improve when the function tested becomes more complex
+    (Challenge(_id="id", title="title"), {"n": 1, "ok": 1.0}, {"n": 1, "ok": 1.0})
+]
+
 data_controller_insert = [({"title": "value"}, {"title": "value"})]

@@ -86,16 +86,16 @@ class TestRemoveChallenge:
 
     app = create_app(testing=True)
 
-    @pytest.mark.parametrize("database_input,expected", data_controller_remove)
-    def test_remove_challenge(self, monkeypatch, database_input, expected):
+    @pytest.mark.parametrize("get_manager,remove_manager,expected", data_controller_remove)
+    def test_remove_challenge(self, monkeypatch, get_manager, remove_manager, expected):
         def mock_get(*args, **kwargs):
-            return database_input
+            return get_manager
 
-        def mock_remove(*args, **kwargs):
-            return {"n": 1, "ok": 1.0}
+        def mock_remove_one(*args, **kwargs):
+            return remove_manager
 
         monkeypatch.setattr(ChallengesManager, "get", mock_get)
-        monkeypatch.setattr(ChallengesManager, "remove_one", mock_remove)
+        monkeypatch.setattr(ChallengesManager, "remove_one", mock_remove_one)
 
         with self.app.app_context():
             assert remove_challenge("id") == expected
