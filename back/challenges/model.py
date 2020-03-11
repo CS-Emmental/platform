@@ -121,7 +121,7 @@ class Challenge(Document):
             raise EmmentalHintsException(error_code=16)
 
         if self.flags and (
-            sum([flag["reward"] for flag in self.flags]) > 1
+            sum([flag["reward"] for flag in self.flags]) != 1
             or min([flag["reward"] for flag in self.flags]) < 0
         ):
             raise EmmentalFlagsException(error_code=17)
