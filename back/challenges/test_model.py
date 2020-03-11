@@ -2,14 +2,8 @@ import time
 
 import pytest
 
-from challenges.exceptions import EmmentalFlagsException, EmmentalHintsException
 from challenges.model import Challenge
-from challenges.test_data import data_challenge_error, data_challenge_legit_args
-from core.exceptions import (
-    EmmentalTypeException,
-    EmmentalEmptyFieldException,
-    EmmentalDateException,
-)
+from challenges.test_model_data import data_challenge_error, data_challenge_legit_args
 
 
 def get_challenge(test_input):

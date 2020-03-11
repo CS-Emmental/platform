@@ -5,13 +5,12 @@ import pytest
 
 from app import create_app
 from challenges.controller import (
-    get_all_challenges,
     insert_challenge,
     remove_challenge,
     update_challenge,
 )
 from challenges.manager import ChallengesManager
-from challenges.test_data import (
+from challenges.test_controller_data import (
     data_controller_insert,
     data_controller_insert_errors,
     data_controller_remove,
