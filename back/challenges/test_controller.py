@@ -2,19 +2,21 @@
 Test of the controller of challenges module
 """
 import pytest
+
+from app import create_app
 from challenges.controller import (
     get_all_challenges,
-    update_challenge,
-    remove_challenge,
     insert_challenge,
+    remove_challenge,
+    update_challenge,
 )
 from challenges.manager import ChallengesManager
-from app import create_app
 from challenges.test_data import (
+    data_controller_insert,
+    data_controller_insert_errors,
+    data_controller_remove,
     data_controller_update,
     data_controller_update_errors,
-    data_controller_remove,
-    data_controller_insert,
 )
 
 
@@ -108,12 +110,43 @@ class TestInsertChallenge:
 
     app = create_app(testing=True)
 
-    @pytest.mark.parametrize("test_input,expected", data_controller_insert)
-    def test_insert_challenge(self, monkeypatch, test_input, expected):
-        def mock_insert(*args, **kwargs):
-            return None
+    @pytest.mark.parametrize(
+        "inputs_dict,insert_one_manager,count_manager,expected", data_controller_insert
+    )
+    def test_insert_challenge(
+        self, monkeypatch, inputs_dict, insert_one_manager, count_manager, expected
+    ):
+        def mock_insert_one(*args, **kwargs):
+            return insert_one_manager
 
-        monkeypatch.setattr(ChallengesManager, "insert_one", mock_insert)
+        def mock_count(*args, **kwargs):
+            return count_manager
+
+        monkeypatch.setattr(ChallengesManager, "insert_one", mock_insert_one)
+        monkeypatch.setattr(ChallengesManager, "count", mock_count)
 
         with self.app.app_context():
-            assert insert_challenge(test_input).title == expected["title"]
+            inserted_challenge = insert_challenge(inputs=inputs_dict)
+
+        assert inserted_challenge.title == expected.title
+        assert inserted_challenge.title_slug == expected.title_slug
+        assert inserted_challenge.description == expected.description
+        assert inserted_challenge.summary == expected.summary
+        assert inserted_challenge.category_id == expected.category_id
+        assert inserted_challenge.total_points == expected.total_points
+        assert inserted_challenge.flags == expected.flags
+        assert inserted_challenge.hints == expected.hints
+        assert inserted_challenge.ports == expected.ports
+        assert inserted_challenge.image == expected.image
+        assert inserted_challenge.challenge_type == expected.challenge_type
+
+    @pytest.mark.parametrize("count_manager,inputs_dict,error", data_controller_insert_errors)
+    def test_insert_challenge_error(self, monkeypatch, count_manager, inputs_dict, error):
+        def mock_count(*args, **kwargs):
+            return count_manager
+
+        monkeypatch.setattr(ChallengesManager, "count", mock_count)
+
+        with self.app.app_context():
+            with pytest.raises(error):
+                insert_challenge(inputs=inputs_dict)
