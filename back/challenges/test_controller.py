@@ -8,7 +8,7 @@ from challenges.controller import (
     remove_challenge,
     insert_challenge,
 )
-from challenges.manager import ChallengesManager
+from challenges.manager import ChallengeManager
 from app import create_app
 from challenges.test_data import (
     data_controller_update,
@@ -34,8 +34,8 @@ class TestUpdateChallenge:
         def mock_update(*args, **kwargs):
             return None
 
-        monkeypatch.setattr(ChallengesManager, "get", mock_get)
-        monkeypatch.setattr(ChallengesManager, "update_one", mock_update)
+        monkeypatch.setattr(ChallengeManager, "get", mock_get)
+        monkeypatch.setattr(ChallengeManager, "update_one", mock_update)
 
         with self.app.app_context():
             assert update_challenge("id", test_input) == expected
@@ -56,8 +56,8 @@ class TestRemoveChallenge:
         def mock_remove(*args, **kwargs):
             return {"n": 1, "ok": 1.0}
 
-        monkeypatch.setattr(ChallengesManager, "get", mock_get)
-        monkeypatch.setattr(ChallengesManager, "remove_one", mock_remove)
+        monkeypatch.setattr(ChallengeManager, "get", mock_get)
+        monkeypatch.setattr(ChallengeManager, "remove_one", mock_remove)
 
         with self.app.app_context():
             assert remove_challenge("id") == expected
@@ -75,7 +75,7 @@ class TestInsertChallenge:
         def mock_insert(*args, **kwargs):
             return None
 
-        monkeypatch.setattr(ChallengesManager, "insert_one", mock_insert)
+        monkeypatch.setattr(ChallengeManager, "insert_one", mock_insert)
 
         with self.app.app_context():
             assert insert_challenge(test_input).title == expected["title"]

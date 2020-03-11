@@ -60,7 +60,7 @@ def create_app(testing=False):
     @scheduler.task(
         "cron",
         id="do_stop_old_participation",
-        hours="*/{}".format(app.config["CHECK_OLD_CHALLENGES_INTERVAL_HOURS"]),
+        hour="*/{}".format(app.config["CHECK_OLD_CHALLENGES_INTERVAL_HOURS"]),
     )
     def stop_old():
         with app.app_context():

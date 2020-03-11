@@ -1,31 +1,33 @@
 <template>
-  <emmental-card>
-    <template v-slot:header>
-      <div class="level">
-        <div class="level-left">
-          <router-link
-            :to="`/challenges/${parentCategory.title_slug}/${challenge.title_slug}`"
-            class="subtitle is-4 level-item card-header-title"
-          >
-            {{ challenge.title }}
-          </router-link>
-          <emmental-status-tag
-            v-if="participation"
-            class="level-item"
-            :status="participation.status"
+  <div class="level">
+    <div class="level-left">
+      <router-link
+        :to="`/challenges/${parentCategory.title_slug}/${challenge.title_slug}`"
+        tag="div"
+        class="subtitle is-5 level-item challenge-link"
+      >
+        {{ challenge.title }}
+      </router-link>
+    </div>
+    <div class="level-right">
+      <div
+        v-if="participation"
+        class="level-item"
+      >
+        <div>
+          <i
+            class="fas fa-circle"
+            :class="style"
           />
         </div>
       </div>
-    </template>
-    <template v-slot:content>
-      <p class="subtitle is-6">
-        {{ finalPoints }}/{{ challenge.total_points }} points
-      </p>
-      <p>
-        {{ challenge.summary }}
-      </p>
-    </template>
-  </emmental-card>
+      <div class="level-item">
+        <div class="subtitle is-6 points">
+          {{ finalPoints }}/{{ challenge.total_points }}
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -36,13 +38,11 @@ import { Challenge } from '../store/challenges/types';
 import { ChallengeParticipation } from '../store/challengeParticipations/types';
 
 import EmmentalStatusTag from '@/components/EmmentalStatusTag.vue';
-import EmmentalCard from '@/components/EmmentalCard.vue';
 
 @Component({
   name: 'ChallengeCard',
   components: {
     EmmentalStatusTag,
-    EmmentalCard,
   },
 })
 export default class ChallengeCard extends Vue {
@@ -77,11 +77,31 @@ export default class ChallengeCard extends Vue {
     return this.participation
       ? this.getParticipationFinalScore(this.participation.participation_id) : 0;
   }
+
+  public style_dict: {[id: string]: string} = {
+    ongoing: 'has-text-primary',
+    stopped: 'has-text-danger',
+    finished: 'has-text-success',
+  };
+
+  get style(): string {
+    if (this.participation) {
+      return this.style_dict[this.participation.status] || '';
+    }
+    return '';
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+.challenge-link {
+  cursor: pointer;
+}
 .level-item.subtitle {
   margin-bottom: 0;
+}
+.points {
+  min-width: 5rem;
+  text-align: right;
 }
 </style>

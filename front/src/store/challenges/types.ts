@@ -15,6 +15,8 @@ export interface Challenge {
   image: string;
   ports: Port[];
   challenge_type: string;
+  created_at: number;
+  updated_at: number;
 }
 
 export interface Hint {

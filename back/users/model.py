@@ -2,7 +2,7 @@ import time
 from uuid import uuid4
 from flask_login import UserMixin
 
-from core.model import Document, from_dict_class
+from core.model import Document
 from core.exceptions import EmmentalEmptyFieldException, EmmentalTypeException
 
 
@@ -34,7 +34,6 @@ class User(Document, UserMixin):
 
     def __init__(
         self,
-        _id: str = None,
         username: str = "",
         password: str = "",
         email: str = "",
@@ -42,10 +41,10 @@ class User(Document, UserMixin):
         lastname: str = "",
         is_active: bool = True,
         permissions: list = [],
-        created_at: int = None,
-        updated_at: int = None,
+        **kwargs,
     ):
-        super().__init__(_id, created_at, updated_at)
+        super().__init__(**kwargs)
+
         self.user_id = self._id
         self.username = username
         self.password = password
@@ -83,4 +82,4 @@ class User(Document, UserMixin):
 
     @staticmethod
     def from_dict(dict_object: dict):
-        return from_dict_class(dict_object, User)
+        return Document.from_dict_class(dict_object, User)

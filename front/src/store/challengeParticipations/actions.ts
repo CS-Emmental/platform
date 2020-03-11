@@ -45,7 +45,7 @@ const actions: ActionTree<ChallengeParticipationsState, RootState> = {
     ).then((res) => {
       const hintList: { index: number; text: string }[] = res && res.data;
       commit('setParticipation', updated);
-      commit('challenges/setHintsText', { challengeId: updated.challenge_id, hintList });
+      commit('challenges/setHintsText', { challengeId: updated.challenge_id, hintList }, { root: true });
     });
   },
   submitFlag({ commit }, { participationId, index, secret }: {

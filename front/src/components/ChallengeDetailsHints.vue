@@ -69,7 +69,7 @@ export default class ChallengeDetailsHints extends Vue {
   }
 
   onUseHint(index: number) {
-    if (this.participation) {
+    if (this.participation && ['ongoing', 'stopped'].includes(this.participation.status)) {
       const updated = { ...this.participation };
       updated.used_hints.push(index);
       this.useHints(updated);
