@@ -72,13 +72,15 @@ class TestUpdateChallengeCategory:
             # None is acceptable since the return value is not used
             return None
 
-        monkeypatch.setattr(ChallengeCategoriesManager, "get", mock_get)
-        monkeypatch.setattr(ChallengeCategoriesManager, "count", mock_count)
-        monkeypatch.setattr(ChallengeCategoriesManager, "update_one", mock_update_one)
+        monkeypatch.setattr(ChallengeCategoryManager, "get", mock_get)
+        monkeypatch.setattr(ChallengeCategoryManager, "count", mock_count)
+        monkeypatch.setattr(ChallengeCategoryManager, "update_one", mock_update_one)
 
         with self.app.app_context():
             # category_id is not used because of mocks of MongoManager -> Can be any value
-            updated_category = update_challenge_category(category_id="id", inputs=update_fields)
+            updated_category = update_challenge_category(
+                category_id="id", inputs=update_fields
+            )
 
         assert updated_category.title == expected.title
         assert updated_category.title_slug == expected.title_slug
@@ -101,9 +103,9 @@ class TestUpdateChallengeCategory:
             # None is acceptable since the return value is not used
             return None
 
-        monkeypatch.setattr(ChallengeCategoriesManager, "get", mock_get)
-        monkeypatch.setattr(ChallengeCategoriesManager, "count", mock_count)
-        monkeypatch.setattr(ChallengeCategoriesManager, "update_one", mock_update_one)
+        monkeypatch.setattr(ChallengeCategoryManager, "get", mock_get)
+        monkeypatch.setattr(ChallengeCategoryManager, "count", mock_count)
+        monkeypatch.setattr(ChallengeCategoryManager, "update_one", mock_update_one)
 
         with self.app.app_context():
             with pytest.raises(error):
@@ -117,16 +119,20 @@ class TestRemoveChallengeCategory:
 
     app = create_app(testing=True)
 
-    @pytest.mark.parametrize("get_manager,remove_manager,expected", data_controller_remove)
-    def test_remove_challenge_category(self, monkeypatch, get_manager, remove_manager, expected):
+    @pytest.mark.parametrize(
+        "get_manager,remove_manager,expected", data_controller_remove
+    )
+    def test_remove_challenge_category(
+        self, monkeypatch, get_manager, remove_manager, expected
+    ):
         def mock_get(*args, **kwargs):
             return get_manager
 
         def mock_remove_one(*args, **kwargs):
             return remove_manager
 
-        monkeypatch.setattr(ChallengeCategoriesManager, "get", mock_get)
-        monkeypatch.setattr(ChallengeCategoriesManager, "remove_one", mock_remove_one)
+        monkeypatch.setattr(ChallengeCategoryManager, "get", mock_get)
+        monkeypatch.setattr(ChallengeCategoryManager, "remove_one", mock_remove_one)
 
         with self.app.app_context():
             assert remove_challenge_category("id") == expected
@@ -151,8 +157,8 @@ class TestInsertChallengeCategory:
         def mock_count(*args, **kwargs):
             return count_manager
 
-        monkeypatch.setattr(ChallengeCategoriesManager, "insert_one", mock_insert_one)
-        monkeypatch.setattr(ChallengeCategoriesManager, "count", mock_count)
+        monkeypatch.setattr(ChallengeCategoryManager, "insert_one", mock_insert_one)
+        monkeypatch.setattr(ChallengeCategoryManager, "count", mock_count)
 
         with self.app.app_context():
             inserted_category = insert_challenge_category(inputs=inputs_dict)
@@ -162,12 +168,16 @@ class TestInsertChallengeCategory:
         assert inserted_category.icon == expected.icon
         assert inserted_category.description == expected.description
 
-    @pytest.mark.parametrize("inputs_dict,count_manager,error", data_controller_insert_errors)
-    def test_insert_challenge_category_error(self, monkeypatch, inputs_dict, count_manager, error):
+    @pytest.mark.parametrize(
+        "inputs_dict,count_manager,error", data_controller_insert_errors
+    )
+    def test_insert_challenge_category_error(
+        self, monkeypatch, inputs_dict, count_manager, error
+    ):
         def mock_count(*args, **kwargs):
             return count_manager
 
-        monkeypatch.setattr(ChallengeCategoriesManager, "count", mock_count)
+        monkeypatch.setattr(ChallengeCategoryManager, "count", mock_count)
 
         with self.app.app_context():
             with pytest.raises(error):

@@ -9,7 +9,7 @@ from challenges.controller import (
     remove_challenge,
     update_challenge,
 )
-from challenges.manager import ChallengesManager
+from challenges.manager import ChallengeManager
 from challenges.test_controller_data import (
     data_controller_insert,
     data_controller_insert_errors,
@@ -37,9 +37,9 @@ class TestUpdateChallenge:
         def mock_update_one(*args, **kwargs):
             return None
 
-        monkeypatch.setattr(ChallengesManager, "get", mock_get)
-        monkeypatch.setattr(ChallengesManager, "count", mock_count)
-        monkeypatch.setattr(ChallengesManager, "update_one", mock_update_one)
+        monkeypatch.setattr(ChallengeManager, "get", mock_get)
+        monkeypatch.setattr(ChallengeManager, "count", mock_count)
+        monkeypatch.setattr(ChallengeManager, "update_one", mock_update_one)
 
         with self.app.app_context():
             updated_challenge = update_challenge("id", update_dict)
@@ -71,9 +71,9 @@ class TestUpdateChallenge:
         def mock_update_one(*args, **kwargs):
             return None
 
-        monkeypatch.setattr(ChallengesManager, "get", mock_get)
-        monkeypatch.setattr(ChallengesManager, "count", mock_count)
-        monkeypatch.setattr(ChallengesManager, "update_one", mock_update_one)
+        monkeypatch.setattr(ChallengeManager, "get", mock_get)
+        monkeypatch.setattr(ChallengeManager, "count", mock_count)
+        monkeypatch.setattr(ChallengeManager, "update_one", mock_update_one)
 
         with self.app.app_context():
             with pytest.raises(error):
@@ -97,8 +97,8 @@ class TestRemoveChallenge:
         def mock_remove_one(*args, **kwargs):
             return remove_manager
 
-        monkeypatch.setattr(ChallengesManager, "get", mock_get)
-        monkeypatch.setattr(ChallengesManager, "remove_one", mock_remove_one)
+        monkeypatch.setattr(ChallengeManager, "get", mock_get)
+        monkeypatch.setattr(ChallengeManager, "remove_one", mock_remove_one)
 
         with self.app.app_context():
             assert remove_challenge("id") == expected
@@ -123,8 +123,8 @@ class TestInsertChallenge:
         def mock_count(*args, **kwargs):
             return count_manager
 
-        monkeypatch.setattr(ChallengesManager, "insert_one", mock_insert_one)
-        monkeypatch.setattr(ChallengesManager, "count", mock_count)
+        monkeypatch.setattr(ChallengeManager, "insert_one", mock_insert_one)
+        monkeypatch.setattr(ChallengeManager, "count", mock_count)
 
         with self.app.app_context():
             inserted_challenge = insert_challenge(inputs=inputs_dict)
@@ -150,7 +150,7 @@ class TestInsertChallenge:
         def mock_count(*args, **kwargs):
             return count_manager
 
-        monkeypatch.setattr(ChallengesManager, "count", mock_count)
+        monkeypatch.setattr(ChallengeManager, "count", mock_count)
 
         with self.app.app_context():
             with pytest.raises(error):
