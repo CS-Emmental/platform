@@ -1,5 +1,8 @@
 # CS Emmental
 
+## Documentation
+[Read the docs](https://cs-emmental.readthedocs.io/en/latest/index.html)
+
 ## Prérequis (sur Linux)
 
 *  Vérifier l'installation de docker-compose, sinon installer: `docker-compose --version`
