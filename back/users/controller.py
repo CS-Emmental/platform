@@ -8,7 +8,7 @@ from users.model import User
 def login(inputs):
     user = UserManager().get_one_by_query(inputs)
     if not user:
-        raise IncorrectCredentialsException
+        raise IncorrectCredentialsException(error_code=42)
     else:
         login_user(user)
         return user
