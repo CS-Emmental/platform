@@ -161,8 +161,15 @@ export default class ChallengesCategory extends Vue {
           text: '',
         },
       ],
+      containers: {
+        containers: {
+          dns_name: {
+            image: 'image_name',
+            ports: [],
+          },
+        },
+      },
       hints: [],
-      containers: {},
       challenge_type: 'web',
       created_at: 0,
       updated_at: 0,

@@ -70,12 +70,12 @@
         <label class="label">Containers</label>
         <div class="control">
           <textarea
-            v-model="challengeEdit.containers"
-            class="input"
+            class="input containers-input"
             type="text"
             placeholder="YAML topology description, see documentation"
-            :value="containersYaml"
-            @input="challengeEdit.containers = loadYaml($event.target.value)"
+            :value="containersDump"
+            @input="updateContainers($event.target.value)"
+            @keyup.enter.stop=""
           />
         </div>
       </div>
@@ -277,7 +277,9 @@ export default class ChallengeEditCard extends Vue {
     updated_at: 0,
   };
 
-  public containersYaml = safeDump(this.challengeEdit.containers);
+  get containersDump() {
+    return safeDump(this.challengeEdit.containers);
+  }
 
   public created() {
     if (this.challenge) {
@@ -308,10 +310,6 @@ export default class ChallengeEditCard extends Vue {
   public loadYaml(data: string) {
     this.challengeEdit.containers = safeLoad(data);
   }
-
-  // public containersYaml() {
-  //   return safeDump(this.challengeEdit.containers);
-  // }
 
   public onNewHint() {
     if (!this.challengeEdit.hints) {
@@ -347,6 +345,11 @@ export default class ChallengeEditCard extends Vue {
       this.$toasted.show('Challenge form is invalid');
     }
   }
+
+  public updateContainers(yamlDump: string) {
+    this.challengeEdit.containers = safeLoad(yamlDump);
+    console.log(yamlDump);
+  }
 }
 </script>
 
@@ -377,5 +380,8 @@ export default class ChallengeEditCard extends Vue {
 }
 .plus-icon {
   margin-right: .2rem;
+}
+.containers-input {
+  min-height: 10rem;
 }
 </style>
