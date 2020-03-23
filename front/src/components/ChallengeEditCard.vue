@@ -67,55 +67,17 @@
         </div>
       </div>
       <div class="field">
-        <label class="label">Docker Image</label>
+        <label class="label">Containers</label>
         <div class="control">
-          <input
-            v-model="challengeEdit.image"
+          <textarea
+            v-model="challengeEdit.containers"
             class="input"
             type="text"
-          >
+            placeholder="YAML topology description, see documentation"
+            :value="containersYaml"
+            @input="challengeEdit.containers = loadYaml($event.target.value)"
+          />
         </div>
-      </div>
-      <label class="label">Ports</label>
-      <div
-        v-for="(port, index) in challengeEdit.ports"
-        :key="`port-${index}`"
-        class="field is-grouped"
-      >
-        <p class="control is-expanded">
-          <input
-            v-model="port.port"
-            class="input"
-            type="number"
-            placeholder="Port"
-          >
-        </p>
-        <p class="control is-expanded">
-          <input
-            v-model="port.name"
-            class="input"
-            type="text"
-            placeholder="Port Name"
-          >
-        </p>
-        <p class="control">
-          <a
-            class="button is-light is-rounded"
-            @click="challengeEdit.ports.splice(index, 1)"
-          >
-            <i class="fas fa-times" />
-          </a>
-        </p>
-      </div>
-      <div class="field">
-        <p class="control">
-          <a
-            class="button is-light is-rounded"
-            @click="onNewPort"
-          >
-            <i class="fas fa-plus plus-icon" />Add Port
-          </a>
-        </p>
       </div>
       <div class="field">
         <label class="label">Total Points</label>
@@ -258,6 +220,8 @@
 import { Prop, Component, Vue } from 'vue-property-decorator';
 import { State, Getter } from 'vuex-class';
 
+import { safeLoad, safeDump } from 'js-yaml';
+
 import vSelect from 'vue-select';
 import EmmentalRichTextEditor from '@/components/EmmentalRichTextEditor.vue';
 
@@ -300,12 +264,20 @@ export default class ChallengeEditCard extends Vue {
       },
     ],
     hints: [],
-    image: '',
-    ports: [],
+    containers: {
+      containers: {
+        dns_name: {
+          image: 'image_name',
+          ports: [],
+        },
+      },
+    },
     challenge_type: '',
     created_at: 0,
     updated_at: 0,
   };
+
+  public containersYaml = safeDump(this.challengeEdit.containers);
 
   public created() {
     if (this.challenge) {
@@ -315,6 +287,9 @@ export default class ChallengeEditCard extends Vue {
       }
       if (this.challengeEdit.flags) {
         this.challengeEdit.flags = [...this.challenge.flags];
+      }
+      if (this.challengeEdit.containers) {
+        this.challengeEdit.containers = { ...this.challenge.containers };
       }
     }
   }
@@ -330,12 +305,13 @@ export default class ChallengeEditCard extends Vue {
     },
   ];
 
-  public onNewPort() {
-    if (!this.challengeEdit.ports) {
-      this.challengeEdit.ports = [];
-    }
-    this.challengeEdit.ports.push({ port: 80, name: '' });
+  public loadYaml(data: string) {
+    this.challengeEdit.containers = safeLoad(data);
   }
+
+  // public containersYaml() {
+  //   return safeDump(this.challengeEdit.containers);
+  // }
 
   public onNewHint() {
     if (!this.challengeEdit.hints) {

@@ -27,7 +27,7 @@ spec:
           imagePullPolicy: Never
           ports:
           {% for port in PORT %}
-            - containerPort: {{ port['port'] }}
+            - containerPort: {{ port['port'] | int }}
           {% endfor %}
           volumeMounts:
             - name: config-volume
@@ -55,11 +55,11 @@ spec:
   ports:
   {% for port in PORT %}
     - name: {{ port['name'] }}
-      port: {{ port['port'] }}
+      port: {{ port['port'] | int }}
   {% endfor %}
 ---
-kind: ConfigMap
 apiVersion: v1
+kind: ConfigMap
 metadata:
   namespace: emmental-challenges
   name: {{ CHALLENGE_NAME_SLUG }}-{{ PARTICIPATION_ID }}
@@ -70,3 +70,27 @@ metadata:
 data:
   secret: |-
     root:{{ SECRET }}
+---
+apiVersion: v1
+kind: NetworkPolicy
+metadata:
+  namespace: emmental-challenges
+  name: {{ CHALLENGE_NAME_SLUG }}-{{ PARTICIPATION_ID }}
+  labels:
+    tier: challenge-instances
+    challenge_id: {{ CHALLENGE_ID }}
+    participation_id: {{ PARTICIPATION_ID }}
+spec:
+  podSelector:
+    matchLabels:
+      tier: challenge-instances
+      challenge_id: {{ CHALLENGE_ID }}
+      participation_id: {{ PARTICIPATION_ID }}
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          color: red
+    ports:
+    - port: 80
+  ingress:

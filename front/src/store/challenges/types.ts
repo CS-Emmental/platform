@@ -12,8 +12,7 @@ export interface Challenge {
   total_points: number;
   flags: Flag[];
   hints: Hint[];
-  image: string;
-  ports: Port[];
+  containers: object;
   challenge_type: string;
   created_at: number;
   updated_at: number;

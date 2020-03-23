@@ -25,3 +25,16 @@ class EmmentalFlagsException(EmmentalException):
 
     def __str__(self):
         return self.internal_message
+
+
+class EmmentalContainersException(EmmentalException):
+    def __init__(self, error_code: int):
+        self.error_code = error_code
+        self.external_message = "Unknown Error"
+        self.internal_message = (
+            "EmmentalFlagsException: challenge containers list not valid. Please check the documentation."
+        )
+        status_code = 500
+
+    def __str__(self):
+        return self.internal_message

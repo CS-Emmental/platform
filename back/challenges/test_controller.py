@@ -52,8 +52,7 @@ class TestUpdateChallenge:
         assert updated_challenge.total_points == expected.total_points
         assert updated_challenge.flags == expected.flags
         assert updated_challenge.hints == expected.hints
-        assert updated_challenge.ports == expected.ports
-        assert updated_challenge.image == expected.image
+        assert updated_challenge.containers == expected.containers
         assert updated_challenge.challenge_type == expected.challenge_type
 
     @pytest.mark.parametrize(
@@ -137,8 +136,7 @@ class TestInsertChallenge:
         assert inserted_challenge.total_points == expected.total_points
         assert inserted_challenge.flags == expected.flags
         assert inserted_challenge.hints == expected.hints
-        assert inserted_challenge.ports == expected.ports
-        assert inserted_challenge.image == expected.image
+        assert inserted_challenge.containers == expected.containers
         assert inserted_challenge.challenge_type == expected.challenge_type
 
     @pytest.mark.parametrize(
