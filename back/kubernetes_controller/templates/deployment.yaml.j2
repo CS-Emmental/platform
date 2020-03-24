@@ -1,0 +1,44 @@
+{% for cname, container in containers.items() %}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ challenge_name_slug }}-{{ participation_id }}-{{ cname }}
+  namespace: emmental-challenges
+  labels:
+    tier: challenge-instances
+    challenge_id: {{ challenge_id }}
+    participation_id: {{ participation_id }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: challenge-instances
+      challenge_id: {{ challenge_id }}
+      participation_id: {{ participation_id }}
+  template:
+    metadata:
+      labels:
+        tier: challenge-instances
+        challenge_id: {{ challenge_id }}
+        participation_id: {{ participation_id }}
+        container: {{ cname }}
+    spec:
+      containers:
+        - name: {{ cname }}
+          image: {{ container['image'] }}
+          imagePullPolicy: IfNotPresent
+          {% if container['ports'] %}
+          ports:
+            {% for port in container['ports'] %}
+            - containerPort: {{ port | int }}
+            {% endfor %}
+          {% endif %}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ challenge_name_slug }}-{{ participation_id }}
+{% endfor %}

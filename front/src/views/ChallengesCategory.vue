@@ -165,8 +165,21 @@ export default class ChallengesCategory extends Vue {
         containers: {
           dns_name: {
             image: 'image_name',
-            ports: [],
+            ports: [80],
+            can_access: [
+              {
+                container: 'other_container_name',
+                ports: [80],
+              },
+              {
+                container: 'container_with_all_ports_accessible',
+              },
+            ],
           },
+        },
+        exposed: {
+          container: 'dns_name',
+          port: 80,
         },
       },
       hints: [],

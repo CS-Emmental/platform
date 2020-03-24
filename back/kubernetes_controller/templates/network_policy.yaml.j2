@@ -1,0 +1,62 @@
+---
+# The exposed port is open
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  namespace: emmental-challenges
+  name: {{ challenge_name_slug }}-{{ participation_id }}-exposed
+  labels:
+    tier: challenge-instances
+    challenge_id: {{ challenge_id }}
+    participation_id: {{ participation_id }}
+spec:
+  podSelector:
+    matchLabels:
+      tier: challenge-instances
+      challenge_id: {{ challenge_id }}
+      participation_id: {{ participation_id }}
+      container: {{ exposed['container'] }}
+  ingress:
+    - ports:
+      - port: {{ exposed['port'] | int }}
+        protocol: TCP
+      - port: {{ exposed['port'] | int }}
+        protocol: UDP
+{% for cname, container in containers.items() %}
+{% if container['can_access'] %}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  namespace: emmental-challenges
+  name: {{ challenge_name_slug }}-{{ participation_id }}-{{ cname }}
+  labels:
+    tier: challenge-instances
+    challenge_id: {{ challenge_id }}
+    participation_id: {{ participation_id }}
+spec:
+  podSelector:
+    matchLabels:
+      tier: challenge-instances
+      challenge_id: {{ challenge_id }}
+      participation_id: {{ participation_id }}
+      container: {{ cname }}
+  egress:
+  {% for target in container['can_access'] %}
+    - to:
+      - podSelector:
+          matchLabels:
+            tier: challenge-instances
+            challenge_id: {{ challenge_id }}
+            participation_id: {{ participation_id }}
+            container: {{ target['container'] }}
+      ports:
+      {% for port in target['ports'] %}
+        - port: {{ port | int }}
+          protocol: TCP
+        - port: {{ port | int }}
+          protocol: UDP
+      {% endfor %}
+  {% endfor %}
+{% endif %}
+{% endfor %}

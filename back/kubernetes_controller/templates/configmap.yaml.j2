@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: emmental-challenges
+  name: {{ challenge_name_slug }}-{{ participation_id }}
+  labels:
+    tier: challenge-instances
+    challenge_id: {{ challenge_id }}
+    participation_id: {{ participation_id }}
+data:
+  secret: |
+    root: {{ secret }}

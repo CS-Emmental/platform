@@ -105,8 +105,13 @@ class Challenge(Document):
 
         if (  # This check could be made more complete
             not isinstance(self.containers, dict)
-            or not isinstance(self.containers["containers"], list)
+            or "containers" not in self.containers
             or len(self.containers["containers"]) == 0
+            or "exposed" not in self.containers
+            or "container" not in self.containers["exposed"]
+            or not isinstance(self.containers["exposed"]["container"], str)
+            or "port" not in self.containers["exposed"]
+            or not isinstance(self.containers["exposed"]["port"], int)
         ):
             raise EmmentalContainersException(error_code=14)
 

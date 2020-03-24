@@ -268,8 +268,21 @@ export default class ChallengeEditCard extends Vue {
       containers: {
         dns_name: {
           image: 'image_name',
-          ports: [],
+          ports: [80],
+          can_access: [
+            {
+              container: 'other_container_name',
+              ports: [80],
+            },
+            {
+              container: 'container_with_all_ports_accessible',
+            },
+          ],
         },
+      },
+      exposed: {
+        container: 'dns_name',
+        port: 80,
       },
     },
     challenge_type: '',
@@ -348,7 +361,6 @@ export default class ChallengeEditCard extends Vue {
 
   public updateContainers(yamlDump: string) {
     this.challengeEdit.containers = safeLoad(yamlDump);
-    console.log(yamlDump);
   }
 }
 </script>
