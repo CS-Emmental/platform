@@ -7,11 +7,8 @@ import kubernetes
 
 
 def deploy_challenge_instance(
-        challenge_id: str,
-        challenge_title: str,
-        participation_id: str,
-        containers: dict
-    ):
+    challenge_id: str, challenge_title: str, participation_id: str, containers: dict
+):
     k8s_core_v1 = kubernetes.client.CoreV1Api(current_app.k8s)
     k8s_apps_v1 = kubernetes.client.AppsV1Api(current_app.k8s)
     k8s_network_v1 = kubernetes.client.NetworkingV1Api(current_app.k8s)
@@ -20,7 +17,7 @@ def deploy_challenge_instance(
         loader=FileSystemLoader(searchpath="./kubernetes_controller"),
         trim_blocks=True,
         lstrip_blocks=True,
-        )
+    )
     template_context = {
         "challenge_name_slug": slug(challenge_title),
         "participation_id": participation_id,
@@ -28,16 +25,13 @@ def deploy_challenge_instance(
         "secret": participation_id,
         "containers": containers["containers"],
         "exposed": containers["exposed"],
-        }
-    rendered_templates = "\n".join([
-        jinja.get_template(f"templates/{k}.yaml.j2").render(template_context)
-        for k in (
-            "deployment",
-            "service",
-            "configmap",
-            "network_policy",
-            )
-        ])
+    }
+    rendered_templates = "\n".join(
+        [
+            jinja.get_template(f"templates/{k}.yaml.j2").render(template_context)
+            for k in ("deployment", "service", "configmap", "network_policy",)
+        ]
+    )
     manifests = yaml.load_all(rendered_templates)
 
     # Create all Kubernetes resources
@@ -45,23 +39,19 @@ def deploy_challenge_instance(
         for manifest in manifests:
             if manifest["kind"] == "Deployment":
                 k8s_apps_v1.create_namespaced_deployment(
-                    body=manifest,
-                    namespace="emmental-challenges"
+                    body=manifest, namespace="emmental-challenges"
                 )
             elif manifest["kind"] == "Service":
                 service_resp = k8s_core_v1.create_namespaced_service(
-                    body=manifest,
-                    namespace="emmental-challenges"
+                    body=manifest, namespace="emmental-challenges"
                 )
             elif manifest["kind"] == "ConfigMap":
                 k8s_core_v1.create_namespaced_config_map(
-                    body=manifest,
-                    namespace="emmental-challenges"
+                    body=manifest, namespace="emmental-challenges"
                 )
             elif manifest["kind"] == "NetworkPolicy":
                 k8s_network_v1.create_namespaced_network_policy(
-                    body=manifest,
-                    namespace="emmental-challenges"
+                    body=manifest, namespace="emmental-challenges"
                 )
     except ApiException as err:
         # Clean any resource which may have been created
@@ -134,21 +124,21 @@ def stop_challenge_instance(challenge_title: str, participation_id: str):
 
     try:
         k8s_apps_v1.delete_collection_namespaced_deployment(
-            label_selector=label_selector,
-            namespace="emmental-challenges"
-            )
-    except ApiException  as err:
+            label_selector=label_selector, namespace="emmental-challenges"
+        )
+    except ApiException as err:
         if err.status != 404:
             # Else the object we want to delete does not exist, which is okay
             raise err
         else:
-            print(f"Warning: Deployments matching labelSelector='{label_selector}' not found.")
+            print(
+                f"Warning: Deployments matching labelSelector='{label_selector}' not found."
+            )
     try:
         k8s_core_v1.delete_namespaced_service(
-            name=name,
-            namespace="emmental-challenges"
-            )
-    except ApiException  as err:
+            name=name, namespace="emmental-challenges"
+        )
+    except ApiException as err:
         if err.status != 404:
             # Else the object we want to delete does not exist, which is okay
             raise err
@@ -156,23 +146,25 @@ def stop_challenge_instance(challenge_title: str, participation_id: str):
             print(f"Warning: Service '{name}' not found.")
     try:
         k8s_core_v1.delete_collection_namespaced_config_map(
-            label_selector=label_selector,
-            namespace="emmental-challenges"
-            )
-    except ApiException  as err:
+            label_selector=label_selector, namespace="emmental-challenges"
+        )
+    except ApiException as err:
         if err.status != 404:
             # Else the object we want to delete does not exist, which is okay
             raise err
         else:
-            print(f"Warning: Configmaps matching labelSelector='{label_selector}' not found.")
+            print(
+                f"Warning: Configmaps matching labelSelector='{label_selector}' not found."
+            )
     try:
         k8s_network_v1.delete_collection_namespaced_network_policy(
-            label_selector=label_selector,
-            namespace="emmental-challenges"
-            )
-    except ApiException  as err:
+            label_selector=label_selector, namespace="emmental-challenges"
+        )
+    except ApiException as err:
         if err.status != 404:
             # Else the object we want to delete does not exist, which is okay
             raise err
         else:
-            print(f"Warning: NetworkPolicies matching labelSelector='{label_selector}' not found.")
+            print(
+                f"Warning: NetworkPolicies matching labelSelector='{label_selector}' not found."
+            )
