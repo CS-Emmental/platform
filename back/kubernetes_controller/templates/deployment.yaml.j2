@@ -26,6 +26,7 @@ spec:
     spec:
       containers:
         - name: {{ cname }}
+          hostname: {{ cname }}
           image: {{ container['image'] }}
           imagePullPolicy: IfNotPresent
           {% if container['env'] %}
