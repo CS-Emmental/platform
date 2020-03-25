@@ -28,6 +28,12 @@ spec:
         - name: {{ cname }}
           image: {{ container['image'] }}
           imagePullPolicy: IfNotPresent
+          {% if container['env'] %}
+          env:
+          {% for key, val in container['env'].items() %}
+            {{ key }}: "{{ val }}"
+          {% endfor %}
+          {% endif %}
           {% if container['ports'] %}
           ports:
             {% for port in container['ports'] %}

@@ -268,6 +268,9 @@ export default class ChallengeEditCard extends Vue {
       containers: {
         dns_name: {
           image: 'image_name',
+          env: {
+            ENV_VAR: 'value',
+          },
           ports: [80],
           can_access: [
             {
