@@ -272,7 +272,7 @@ export default class ChallengeEditCard extends Vue {
             ENV_VAR: 'value',
           },
           ports: [80],
-          can_access: [
+          open: [
             {
               container: 'other_container_name',
               ports: [80],

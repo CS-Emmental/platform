@@ -23,7 +23,7 @@ spec:
       - port: {{ exposed['port'] | int }}
         protocol: UDP
 {% for cname, container in containers.items() %}
-{% if container['can_access'] %}
+{% if container['open'] %}
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -41,17 +41,17 @@ spec:
       challenge_id: {{ challenge_id }}
       participation_id: {{ participation_id }}
       container: {{ cname }}
-  egress:
-  {% for target in container['can_access'] %}
-    - to:
+  ingress:
+  {% for rule in container['open'] %}
+    - from:
       - podSelector:
           matchLabels:
             tier: challenge-instances
             challenge_id: {{ challenge_id }}
             participation_id: {{ participation_id }}
-            container: {{ target['container'] }}
+            container: {{ rule['container'] }}
       ports:
-      {% for port in target['ports'] %}
+      {% for port in rule['ports'] %}
         - port: {{ port | int }}
           protocol: TCP
         - port: {{ port | int }}
