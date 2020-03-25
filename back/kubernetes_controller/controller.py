@@ -1,22 +1,17 @@
-import kubernetes
-import yaml
-from time import sleep
-from flask import current_app
 from jinja2 import Environment, FileSystemLoader
+import yaml
+from flask import current_app
 from kubernetes.client.rest import ApiException
-
-from challenge_participations.model import ChallengeParticipation
-from challenges.manager import ChallengeManager
-from challenges.model import Challenge
 from core.utils import slug
+import kubernetes
 
 
 def deploy_challenge_instance(
-    challenge_id: str,
-    challenge_title: str,
-    participation_id: str,
-    containers: dict
-):
+        challenge_id: str,
+        challenge_title: str,
+        participation_id: str,
+        containers: dict
+    ):
     k8s_core_v1 = kubernetes.client.CoreV1Api(current_app.k8s)
     k8s_apps_v1 = kubernetes.client.AppsV1Api(current_app.k8s)
     k8s_network_v1 = kubernetes.client.NetworkingV1Api(current_app.k8s)
