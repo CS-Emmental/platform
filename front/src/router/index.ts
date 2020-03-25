@@ -6,6 +6,8 @@ import Signup from '../views/Signup.vue';
 import Challenges from '../views/Challenges.vue';
 import ChallengesCategory from '../views/ChallengesCategory.vue';
 import ChallengeDetails from '../views/ChallengeDetails.vue';
+import ChallengeEdit from '../views/ChallengeEdit.vue';
+import ChallengeCreate from '../views/ChallengeCreate.vue';
 
 Vue.use(VueRouter);
 
@@ -37,9 +39,21 @@ const routes = [
     props: true,
   },
   {
+    path: '/challenges/:categorySlug/create',
+    name: 'ChallengeCreate',
+    component: ChallengeCreate,
+    props: true,
+  },
+  {
     path: '/challenges/:categorySlug/:challengeSlug',
     name: 'ChallengeDetails',
     component: ChallengeDetails,
+    props: true,
+  },
+  {
+    path: '/challenges/:categorySlug/:challengeSlug/edit',
+    name: 'ChallengeEdit',
+    component: ChallengeEdit,
     props: true,
   },
 ];

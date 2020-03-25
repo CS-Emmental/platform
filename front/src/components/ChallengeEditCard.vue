@@ -1,20 +1,12 @@
 <template>
   <div
+    v-if="challengeEdit"
     class="card"
-    tabindex="0"
-    @keyup.enter="onSave"
-    @keyup.esc="$emit('quit')"
   >
     <header class="card-header">
       <p class="card-header-title">
         Edit Challenge
       </p>
-      <div class="card-header-icon">
-        <button
-          class="delete"
-          @click="$emit('quit')"
-        />
-      </div>
     </header>
     <div class="card-content">
       <div class="field">
@@ -74,7 +66,7 @@
             type="text"
             placeholder="YAML topology description, see documentation"
             :value="containersDump"
-            @input="updateContainers($event.target.value)"
+            @blur="updateContainers($event.target.value)"
             @keyup.enter.stop=""
           />
         </div>
@@ -83,7 +75,7 @@
         <label class="label">Total Points</label>
         <div class="control">
           <input
-            v-model="challengeEdit.total_points"
+            v-model.number="challengeEdit.total_points"
             class="input"
             type="number"
           >
@@ -206,7 +198,6 @@
     <footer class="card-footer">
       <a
         class="card-footer-item"
-        @click="$emit('quit')"
       >Cancel</a>
       <a
         class="card-footer-item"
@@ -217,7 +208,9 @@
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import {
+  Watch, Prop, Component, Vue,
+} from 'vue-property-decorator';
 import { State, Getter } from 'vuex-class';
 
 import { safeLoad, safeDump } from 'js-yaml';
@@ -248,68 +241,14 @@ export default class ChallengeEditCard extends Vue {
   @Getter('getCategoryById', { namespace: 'challengeCategories' })
   public getCategoryById!: CallableFunction;
 
-  public challengeEdit: Challenge = {
-    challenge_id: '',
-    title: '',
-    title_slug: '',
-    summary: '',
-    description: '',
-    category_id: '',
-    total_points: 100,
-    flags: [
-      {
-        reward: 1,
-        secret: '',
-        text: '',
-      },
-    ],
-    hints: [],
-    containers: {
-      containers: {
-        dns_name: {
-          image: 'image_name',
-          env: {
-            ENV_VAR: 'value',
-          },
-          ports: [80],
-          open: [
-            {
-              container: 'other_container_name',
-              ports: [80],
-            },
-            {
-              container: 'container_with_all_ports_accessible',
-            },
-          ],
-        },
-      },
-      exposed: {
-        container: 'dns_name',
-        port: 80,
-      },
-    },
-    challenge_type: '',
-    created_at: 0,
-    updated_at: 0,
-  };
+  public containersDump = '';
 
-  get containersDump() {
-    return safeDump(this.challengeEdit.containers);
-  }
+  public challengeEdit: Challenge;
 
-  public created() {
-    if (this.challenge) {
-      this.challengeEdit = { ...this.challenge };
-      if (this.challengeEdit.hints) {
-        this.challengeEdit.hints = [...this.challenge.hints];
-      }
-      if (this.challengeEdit.flags) {
-        this.challengeEdit.flags = [...this.challenge.flags];
-      }
-      if (this.challengeEdit.containers) {
-        this.challengeEdit.containers = { ...this.challenge.containers };
-      }
-    }
+  @Watch('challenge', { immediate: true, deep: true })
+  onChallengeChange() {
+    this.challengeEdit = { ...this.challenge };
+    this.containersDump = safeDump(this.challengeEdit.containers);
   }
 
   public challengeTypes: {text: string; value: string}[] = [
@@ -364,6 +303,7 @@ export default class ChallengeEditCard extends Vue {
 
   public updateContainers(yamlDump: string) {
     this.challengeEdit.containers = safeLoad(yamlDump);
+    this.containersDump = safeDump(this.challengeEdit.containers);
   }
 }
 </script>
@@ -382,11 +322,8 @@ export default class ChallengeEditCard extends Vue {
 }
 .card {
   border-radius: 5px;
-  width: 60vw;
-  margin: auto;
 }
 .card-content {
-  height: 80vh;
   overflow-x: auto;
 }
 .field-body .field.cost-field {
@@ -397,6 +334,6 @@ export default class ChallengeEditCard extends Vue {
   margin-right: .2rem;
 }
 .containers-input {
-  min-height: 10rem;
+  min-height: 25rem;
 }
 </style>

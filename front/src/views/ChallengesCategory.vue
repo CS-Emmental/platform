@@ -34,20 +34,13 @@
         :key="challenge.challenge_id"
         :challenge="challenge"
       />
-      <new-box
+      <router-link
         v-if="hasPermission('admin')"
-        collection="challenge"
-        @click.native="createMode=true"
-      />
+        :to="`/challenges/${categorySlug}/create`"
+      >
+        <new-box collection="challenge" />
+      </router-link>
     </div>
-    <emmental-modal :is-active="createMode">
-      <challenge-edit-card
-        v-if="createMode"
-        :challenge="newChallenge"
-        @quit="createMode=false"
-        @save="insert"
-      />
-    </emmental-modal>
     <emmental-modal :is-active="editMode">
       <challenges-category-edit-card
         v-if="editMode"
@@ -102,8 +95,6 @@ export default class ChallengesCategory extends Vue {
 
   public editMode = false;
 
-  public createMode = false;
-
   public confirmDeleteMode = false;
 
   public deleteCategory = `Are you sure you want to delete this challenge category ?
@@ -121,21 +112,8 @@ export default class ChallengesCategory extends Vue {
   @Getter('getChallengesByCategory', { namespace: 'challenges' })
   public getChallengesByCategory!: CallableFunction;
 
-  @Action('insertChallenge', { namespace: 'challenges' })
-  public insertChallenge!: CallableFunction;
-
   @Action('postChallengeCategory', { namespace: 'challengeCategories' })
   public postChallengeCategory!: CallableFunction;
-
-
-  public insert(insertChallenge: Challenge) {
-    const inserted = { ...insertChallenge };
-    delete inserted.challenge_id;
-    this.insertChallenge(inserted).then(() => {
-      this.createMode = false;
-      this.$toasted.show(`New challenge '${inserted.title}' created`);
-    });
-  }
 
   public save(edited: ChallengeCategory) {
     this.postChallengeCategory(edited).then(() => {

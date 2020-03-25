@@ -6,7 +6,7 @@
     <emmental-box
       :actions="actions"
       class="header-box"
-      @edit="editMode=true"
+      @edit="$router.push(`/challenges/${categorySlug}/${challengeSlug}/edit`)"
       @delete="confirmDeleteMode=true"
     >
       <template v-slot:header>
@@ -49,13 +49,6 @@
         />
       </div>
     </div>
-    <emmental-modal :is-active="editMode">
-      <challenge-edit-card
-        :challenge="challenge"
-        @quit="editMode=false"
-        @save="save"
-      />
-    </emmental-modal>
     <confirm-modal
       title="Delete Challenge"
       message="Are you sure you want to delete this challenge ?"
@@ -75,7 +68,6 @@ import {
 import { State, Getter, Action } from 'vuex-class';
 import { Challenge } from '../store/challenges/types';
 import { ChallengeParticipation } from '../store/challengeParticipations/types';
-import { slug } from '../store/utils';
 
 import EmmentalBox from '@/components/EmmentalBox.vue';
 import EmmentalCard from '@/components/EmmentalCard.vue';
@@ -143,34 +135,15 @@ export default class ChallengeDetails extends Vue {
     return actions;
   }
 
-  // Challenge Edit
-
-  public editMode = false;
-
-  @Getter('getCategoryById', { namespace: 'challengeCategories' })
-  public getCategoryById!: CallableFunction;
-
-  @Action('postChallenge', { namespace: 'challenges' })
-  public postChallenge!: CallableFunction;
-
-  public save(edited: Challenge) {
-    this.postChallenge(edited).then(() => {
-      this.editMode = false;
-      if (edited.title !== this.challenge.title
-        || edited.category_id !== this.challenge.category_id) {
-        const catSlug = this.getCategoryById(edited.category_id).title_slug;
-        const challSlug = slug(edited.title);
-        this.$router.push(`/challenges/${catSlug}/${challSlug}`);
-      }
-    });
-  }
-
   // Challenge Delete
 
   public confirmDeleteMode = false;
 
   @Action('deleteChallenge', { namespace: 'challenges' })
   public deleteChallenge!: CallableFunction;
+
+  @Getter('getCategoryById', { namespace: 'challengeCategories' })
+  public getCategoryById!: CallableFunction;
 
   public onDelete() {
     const catSlug = this.getCategoryById(this.challenge.category_id).title_slug;
