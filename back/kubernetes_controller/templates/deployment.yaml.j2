@@ -32,7 +32,8 @@ spec:
           {% if container['env'] %}
           env:
           {% for key, val in container['env'].items() %}
-            {{ key }}: "{{ val }}"
+            - name: {{ key }}
+              value: "{{ val }}"
           {% endfor %}
           {% endif %}
           {% if container['ports'] %}
