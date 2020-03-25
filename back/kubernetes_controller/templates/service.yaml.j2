@@ -17,3 +17,4 @@ spec:
     container: {{ exposed['container'] }}
   ports:
     - port: {{ exposed['port'] | int }}
+      targetPort: {{ exposed['port'] | int }}
