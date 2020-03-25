@@ -27,18 +27,8 @@ data_controller_update = [
                 }
             ],
             "hints": [{"cost": 0.5, "text": "Try some common passwords ;)",}],
-            "containers": [
-                {
-                    "name": "container",
-                    "image": "docker-image",
-                    "ports": [
-                        {
-                            "port": 8888,
-                            "exposed": True,
-                        }
-                    ]
-                }
-            ]
+            "containers": {},
+        },
         Challenge(
             title="Very Simple Challenge",
             description="Lorem ipsum dolor sit amet.",
@@ -53,18 +43,7 @@ data_controller_update = [
                 }
             ],
             hints=[{"cost": 0.5, "text": "Try some common passwords ;)",}],
-            containers=[
-                {
-                    "name": "container",
-                    "image": "docker-image",
-                    "ports": [
-                        {
-                            "port": 8888,
-                            "exposed": True,
-                        }
-                    ]
-                }
-            ],
+            containers={},
             challenge_type="web",
         ),
     ),
@@ -212,18 +191,7 @@ data_controller_insert = [
                 }
             ],
             "hints": [{"cost": 0.5, "text": "Try some common passwords ;)",}],
-            "containers": [
-                {
-                    "name": "container",
-                    "image": "docker-image",
-                    "ports": [
-                        {
-                            "port": 8888,
-                            "exposed": True,
-                        }
-                    ]
-                }
-            ],
+            "containers": {},
             "challenge_type": "web",
         },
         {"nInserted": 1},
@@ -242,18 +210,7 @@ data_controller_insert = [
                 }
             ],
             hints=[{"cost": 0.5, "text": "Try some common passwords ;)",}],
-            containers=[
-                {
-                    "name": "container",
-                    "image": "docker-image",
-                    "ports": [
-                        {
-                            "port": 8888,
-                            "exposed": True,
-                        }
-                    ]
-                }
-            ],
+            containers={},
             challenge_type="web",
         ),
     ),

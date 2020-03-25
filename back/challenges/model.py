@@ -1,5 +1,8 @@
-from challenges.exceptions import EmmentalFlagsException, \
-    EmmentalHintsException, EmmentalContainersException
+from challenges.exceptions import (
+    EmmentalFlagsException,
+    EmmentalHintsException,
+    EmmentalContainersException,
+)
 from core.exceptions import EmmentalEmptyFieldException, EmmentalTypeException
 from core.model import Document
 from core.utils import slug
@@ -16,7 +19,7 @@ class Challenge(Document):
         "flags",
         "hints",
         "challenge_type",
-        "containers"
+        "containers",
     ]
 
     export_fields = Document.export_fields + [
@@ -30,7 +33,7 @@ class Challenge(Document):
         "flags",
         "hints",
         "challenge_type",
-        "containers"
+        "containers",
     ]
 
     editable_fields = Document.editable_fields + [
@@ -42,7 +45,7 @@ class Challenge(Document):
         "flags",
         "hints",
         "challenge_type",
-        "containers"
+        "containers",
     ]
 
     def __init__(

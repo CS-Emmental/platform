@@ -52,9 +52,8 @@ def stop_participation(participation_id: str):
     challenge = ChallengeManager().get(participation.challenge_id)
 
     stop_challenge_instance(
-        challenge_title=challenge.title,
-        participation_id=participation.participation_id
-        )
+        challenge_title=challenge.title, participation_id=participation.participation_id
+    )
     participation.status = "stopped"
     participation.port = None
 
@@ -66,7 +65,7 @@ def stop_old_participations():
     old_timediff = current_app.config["INSTANCE_TIME_TO_LIVE_HOURS"] * 3600
     old_threshold = int(time.time()) - old_timediff
     old_participations = ChallengeParticipationManager().get_query(
-        {"status": "ongoing", "started_at": {"$lte": old_threshold, }, }
+        {"status": "ongoing", "started_at": {"$lte": old_threshold,},}
     )
     for participation in old_participations:
         stop_participation(participation.participation_id)
@@ -124,8 +123,8 @@ def validate_flag(participation_id: str, flag_index: int, flag_value: str):
         if participation.status == "ongoing":
             stop_challenge_instance(
                 challenge_title=challenge.title,
-                participation_id=participation.participation_id
-                )
+                participation_id=participation.participation_id,
+            )
         participation.port = None
         participation.status = "finished"
 
