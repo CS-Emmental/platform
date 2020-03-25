@@ -52,7 +52,7 @@ def stop_participation(participation_id: str):
     challenge = ChallengeManager().get(participation.challenge_id)
 
     stop_challenge_instance(
-        challenge_title=challenge,
+        challenge_title=challenge.title,
         participation_id=participation.participation_id
         )
     participation.status = "stopped"
@@ -123,7 +123,7 @@ def validate_flag(participation_id: str, flag_index: int, flag_value: str):
     if len(participation.found_flags) == len(challenge.flags):
         if participation.status == "ongoing":
             stop_challenge_instance(
-                challenge_title=challenge,
+                challenge_title=challenge.title,
                 participation_id=participation.participation_id
                 )
         participation.port = None

@@ -70,7 +70,7 @@ def deploy_challenge_instance(
                 )
     except ApiException as err:
         # Clean any resource which may have been created
-        stop_challenge_instance(slug(challenge_title), participation_id)
+        stop_challenge_instance(challenge_title, participation_id)
         raise err
 
     # WIP to get a local DNS
@@ -130,12 +130,12 @@ def stop_challenge_instance(challenge_title: str, participation_id: str):
     """
     Send a request to k8s that stop the challenge instance linked to this ChallengeParticipation
     """
-    name = f"{challenge_title}-{participation_id}"
+    name = f"{slug(challenge_title)}-{participation_id}"
     label_selector = f"tier=challenge-instances,participation_id={participation_id}"
 
     k8s_core_v1 = kubernetes.client.CoreV1Api(current_app.k8s)
     k8s_apps_v1 = kubernetes.client.AppsV1Api(current_app.k8s)
-    k8s_network_v1 = kubernetes.client.ExtensionsV1beta1Api(current_app.k8s)
+    k8s_network_v1 = kubernetes.client.NetworkingV1Api(current_app.k8s)
 
     try:
         k8s_apps_v1.delete_collection_namespaced_deployment(
