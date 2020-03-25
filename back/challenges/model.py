@@ -1,4 +1,8 @@
-from challenges.exceptions import EmmentalFlagsException, EmmentalHintsException
+from challenges.exceptions import (
+    EmmentalFlagsException,
+    EmmentalHintsException,
+    EmmentalContainersException,
+)
 from core.exceptions import EmmentalEmptyFieldException, EmmentalTypeException
 from core.model import Document
 from core.utils import slug
@@ -14,9 +18,8 @@ class Challenge(Document):
         "summary",
         "flags",
         "hints",
-        "ports",
-        "image",
         "challenge_type",
+        "containers",
     ]
 
     export_fields = Document.export_fields + [
@@ -29,9 +32,8 @@ class Challenge(Document):
         "summary",
         "flags",
         "hints",
-        "ports",
-        "image",
         "challenge_type",
+        "containers",
     ]
 
     editable_fields = Document.editable_fields + [
@@ -42,9 +44,8 @@ class Challenge(Document):
         "summary",
         "flags",
         "hints",
-        "ports",
-        "image",
         "challenge_type",
+        "containers",
     ]
 
     def __init__(
@@ -57,8 +58,7 @@ class Challenge(Document):
         total_points: int = 0,
         flags: list = None,  # List[flag] where flag: {"reward": int, "secret": str, "text": str}
         hints: list = None,  # List[hint] where hint: {"cost": float, "text": str}
-        ports: list = None,  # List[int]
-        image: str = "",
+        containers: dict = None,  # See documentation
         challenge_type: str = "",
         **kwargs,
     ):
@@ -75,8 +75,7 @@ class Challenge(Document):
         self.category_id = category_id
         self.flags = flags if flags else []
         self.hints = hints
-        self.ports = ports
-        self.image = image
+        self.containers = containers
         self.challenge_type = challenge_type
 
         self.verify()
@@ -107,11 +106,17 @@ class Challenge(Document):
         if not isinstance(self.challenge_type, str):
             raise EmmentalTypeException(error_code=13, incorrect_input="challenge_type")
 
-        if not isinstance(self.image, str):
-            raise EmmentalTypeException(error_code=14, incorrect_input="image")
-
-        if self.ports and not isinstance(self.ports, list):
-            raise EmmentalTypeException(error_code=15, incorrect_input="ports")
+        if (  # This check could be made more complete
+            not isinstance(self.containers, dict)
+            or "containers" not in self.containers
+            or len(self.containers["containers"]) == 0
+            or "exposed" not in self.containers
+            or "container" not in self.containers["exposed"]
+            or not isinstance(self.containers["exposed"]["container"], str)
+            or "port" not in self.containers["exposed"]
+            or not isinstance(self.containers["exposed"]["port"], int)
+        ):
+            raise EmmentalContainersException(error_code=14)
 
         if self.hints and (
             sum([hint["cost"] for hint in self.hints]) > 1

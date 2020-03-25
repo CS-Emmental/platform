@@ -39,6 +39,7 @@
     "node_modules"
   ],
   "files": [
+    "./typedefs/js-yaml.d.ts",
     "./typedefs/tiptap.d.ts",
     "./typedefs/tiptap-extensions.d.ts"
   ]

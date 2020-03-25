@@ -1,20 +1,12 @@
 <template>
   <div
+    v-if="challengeEdit"
     class="card"
-    tabindex="0"
-    @keyup.enter="onSave"
-    @keyup.esc="$emit('quit')"
   >
     <header class="card-header">
       <p class="card-header-title">
         Edit Challenge
       </p>
-      <div class="card-header-icon">
-        <button
-          class="delete"
-          @click="$emit('quit')"
-        />
-      </div>
     </header>
     <div class="card-content">
       <div class="field">
@@ -67,61 +59,23 @@
         </div>
       </div>
       <div class="field">
-        <label class="label">Docker Image</label>
+        <label class="label">Containers</label>
         <div class="control">
-          <input
-            v-model="challengeEdit.image"
-            class="input"
+          <textarea
+            class="input containers-input"
             type="text"
-          >
+            placeholder="YAML topology description, see documentation"
+            :value="containersDump"
+            @blur="updateContainers($event.target.value)"
+            @keyup.enter.stop=""
+          />
         </div>
-      </div>
-      <label class="label">Ports</label>
-      <div
-        v-for="(port, index) in challengeEdit.ports"
-        :key="`port-${index}`"
-        class="field is-grouped"
-      >
-        <p class="control is-expanded">
-          <input
-            v-model="port.port"
-            class="input"
-            type="number"
-            placeholder="Port"
-          >
-        </p>
-        <p class="control is-expanded">
-          <input
-            v-model="port.name"
-            class="input"
-            type="text"
-            placeholder="Port Name"
-          >
-        </p>
-        <p class="control">
-          <a
-            class="button is-light is-rounded"
-            @click="challengeEdit.ports.splice(index, 1)"
-          >
-            <i class="fas fa-times" />
-          </a>
-        </p>
-      </div>
-      <div class="field">
-        <p class="control">
-          <a
-            class="button is-light is-rounded"
-            @click="onNewPort"
-          >
-            <i class="fas fa-plus plus-icon" />Add Port
-          </a>
-        </p>
       </div>
       <div class="field">
         <label class="label">Total Points</label>
         <div class="control">
           <input
-            v-model="challengeEdit.total_points"
+            v-model.number="challengeEdit.total_points"
             class="input"
             type="number"
           >
@@ -244,7 +198,6 @@
     <footer class="card-footer">
       <a
         class="card-footer-item"
-        @click="$emit('quit')"
       >Cancel</a>
       <a
         class="card-footer-item"
@@ -255,8 +208,12 @@
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import {
+  Watch, Prop, Component, Vue,
+} from 'vue-property-decorator';
 import { State, Getter } from 'vuex-class';
+
+import { safeLoad, safeDump } from 'js-yaml';
 
 import vSelect from 'vue-select';
 import EmmentalRichTextEditor from '@/components/EmmentalRichTextEditor.vue';
@@ -284,39 +241,14 @@ export default class ChallengeEditCard extends Vue {
   @Getter('getCategoryById', { namespace: 'challengeCategories' })
   public getCategoryById!: CallableFunction;
 
-  public challengeEdit: Challenge = {
-    challenge_id: '',
-    title: '',
-    title_slug: '',
-    summary: '',
-    description: '',
-    category_id: '',
-    total_points: 100,
-    flags: [
-      {
-        reward: 1,
-        secret: '',
-        text: '',
-      },
-    ],
-    hints: [],
-    image: '',
-    ports: [],
-    challenge_type: '',
-    created_at: 0,
-    updated_at: 0,
-  };
+  public containersDump = '';
 
-  public created() {
-    if (this.challenge) {
-      this.challengeEdit = { ...this.challenge };
-      if (this.challengeEdit.hints) {
-        this.challengeEdit.hints = [...this.challenge.hints];
-      }
-      if (this.challengeEdit.flags) {
-        this.challengeEdit.flags = [...this.challenge.flags];
-      }
-    }
+  public challengeEdit: Challenge;
+
+  @Watch('challenge', { immediate: true, deep: true })
+  onChallengeChange() {
+    this.challengeEdit = { ...this.challenge };
+    this.containersDump = safeDump(this.challengeEdit.containers);
   }
 
   public challengeTypes: {text: string; value: string}[] = [
@@ -330,11 +262,8 @@ export default class ChallengeEditCard extends Vue {
     },
   ];
 
-  public onNewPort() {
-    if (!this.challengeEdit.ports) {
-      this.challengeEdit.ports = [];
-    }
-    this.challengeEdit.ports.push({ port: 80, name: '' });
+  public loadYaml(data: string) {
+    this.challengeEdit.containers = safeLoad(data);
   }
 
   public onNewHint() {
@@ -371,6 +300,11 @@ export default class ChallengeEditCard extends Vue {
       this.$toasted.show('Challenge form is invalid');
     }
   }
+
+  public updateContainers(yamlDump: string) {
+    this.challengeEdit.containers = safeLoad(yamlDump);
+    this.containersDump = safeDump(this.challengeEdit.containers);
+  }
 }
 </script>
 
@@ -388,11 +322,8 @@ export default class ChallengeEditCard extends Vue {
 }
 .card {
   border-radius: 5px;
-  width: 60vw;
-  margin: auto;
 }
 .card-content {
-  height: 80vh;
   overflow-x: auto;
 }
 .field-body .field.cost-field {
@@ -401,5 +332,8 @@ export default class ChallengeEditCard extends Vue {
 }
 .plus-icon {
   margin-right: .2rem;
+}
+.containers-input {
+  min-height: 25rem;
 }
 </style>

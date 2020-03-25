@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ challenge_name_slug }}-{{ participation_id }}
+  namespace: emmental-challenges
+  labels:
+    tier: challenge-instances
+    challenge_id: {{ challenge_id }}
+    participation_id: {{ participation_id }}
+spec:
+  type: NodePort
+  selector:
+    tier: challenge-instances
+    challenge_id: {{ challenge_id }}
+    participation_id: {{ participation_id }}
+    container: {{ exposed['container'] }}
+  ports:
+    - port: {{ exposed['port'] | int }}
+      targetPort: {{ exposed['port'] | int }}

@@ -27,9 +27,7 @@ data_controller_update = [
                 }
             ],
             "hints": [{"cost": 0.5, "text": "Try some common passwords ;)",}],
-            "ports": [8888],
-            "image": "my-docker-image",
-            "challenge_type": "web",
+            "containers": {},
         },
         Challenge(
             title="Very Simple Challenge",
@@ -45,8 +43,7 @@ data_controller_update = [
                 }
             ],
             hints=[{"cost": 0.5, "text": "Try some common passwords ;)",}],
-            ports=[8888],
-            image="my-docker-image",
+            containers={},
             challenge_type="web",
         ),
     ),
@@ -131,14 +128,14 @@ data_controller_update_errors = [
         EmmentalFlagsException,
     ),
     (
-        # Sum oh cost of hint cannot exceed 1
+        # Sum of cost of hint cannot exceed 1
         Challenge(title="old title"),
         0,
         {"hints": [{"cost": 10, "text": "What are the first four digits ?",},]},
         EmmentalHintsException,
     ),
     (
-        # Sum oh cost of hint cannot exceed 1
+        # Sum of cost of hint cannot exceed 1
         Challenge(title="old title"),
         0,
         {
@@ -157,7 +154,7 @@ data_controller_update_errors = [
         EmmentalHintsException,
     ),
     (
-        # Sum oh cost of hint cannot exceed 1
+        # Sum of cost of hint cannot exceed 1
         Challenge(title="old title"),
         0,
         {
@@ -194,8 +191,7 @@ data_controller_insert = [
                 }
             ],
             "hints": [{"cost": 0.5, "text": "Try some common passwords ;)",}],
-            "ports": [8888],
-            "image": "my-docker-image",
+            "containers": {},
             "challenge_type": "web",
         },
         {"nInserted": 1},
@@ -214,8 +210,7 @@ data_controller_insert = [
                 }
             ],
             hints=[{"cost": 0.5, "text": "Try some common passwords ;)",}],
-            ports=[8888],
-            image="my-docker-image",
+            containers={},
             challenge_type="web",
         ),
     ),
@@ -292,13 +287,13 @@ data_controller_insert_errors = [
         EmmentalFlagsException,
     ),
     (
-        # Sum oh cost of hint cannot exceed 1
+        # Sum of cost of hint cannot exceed 1
         0,
         {"hints": [{"cost": 10, "text": "What are the first four digits ?",},]},
         EmmentalHintsException,
     ),
     (
-        # Sum oh cost of hint cannot exceed 1
+        # Sum of cost of hint cannot exceed 1
         0,
         {
             "hints": [
@@ -315,7 +310,7 @@ data_controller_insert_errors = [
         EmmentalHintsException,
     ),
     (
-        # Sum oh cost of hint cannot exceed 1
+        # Sum of cost of hint cannot exceed 1
         0,
         {
             "hints": [

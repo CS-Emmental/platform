@@ -3,10 +3,17 @@ from core.exceptions import EmmentalNotUniqueException
 
 
 data_controller_get = [
-    (ChallengeCategory(_id="id", title="title"), ChallengeCategory(_id="id", title="title")),
     (
-        ChallengeCategory(_id="id", title="title", description="Lorem ipsum dolor sit amet."),
-        ChallengeCategory(_id="id", title="title", description="Lorem ipsum dolor sit amet."),
+        ChallengeCategory(_id="id", title="title"),
+        ChallengeCategory(_id="id", title="title"),
+    ),
+    (
+        ChallengeCategory(
+            _id="id", title="title", description="Lorem ipsum dolor sit amet."
+        ),
+        ChallengeCategory(
+            _id="id", title="title", description="Lorem ipsum dolor sit amet."
+        ),
     ),
 ]
 
@@ -22,7 +29,11 @@ data_controller_update = [
         # More complete example
         ChallengeCategory(_id="const_id", title="old title"),
         0,
-        {"title": "Brand new title 1", "icon": "another_icon", "description": "lalalalala"},
+        {
+            "title": "Brand new title 1",
+            "icon": "another_icon",
+            "description": "lalalalala",
+        },
         ChallengeCategory(
             _id="const_id",
             title="Brand new title 1",
@@ -52,7 +63,11 @@ data_controller_update_errors = [
 
 data_controller_remove = [
     # Very simple test with dummy test data. To improve when the function tested becomes more complex
-    (ChallengeCategory(_id="id", title="title"), {"n": 1, "ok": 1.0}, {"n": 1, "ok": 1.0})
+    (
+        ChallengeCategory(_id="id", title="title"),
+        {"n": 1, "ok": 1.0},
+        {"n": 1, "ok": 1.0},
+    )
 ]
 
 data_controller_insert = [

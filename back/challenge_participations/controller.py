@@ -22,8 +22,7 @@ def start_participation(options: dict):
         challenge_id=challenge.challenge_id,
         challenge_title=challenge.title,
         participation_id=new_participation.participation_id,
-        ports=challenge.ports,
-        image=challenge.image,
+        containers=challenge.containers,
     )
     new_participation.started_at = int(time.time())
 
@@ -39,8 +38,7 @@ def restart_participation(participation_id: str):
         challenge_id=challenge.challenge_id,
         challenge_title=challenge.title,
         participation_id=participation.participation_id,
-        ports=challenge.ports,
-        image=challenge.image,
+        containers=challenge.containers,
     )
     participation.status = "ongoing"
     participation.started_at = int(time.time())
@@ -54,8 +52,7 @@ def stop_participation(participation_id: str):
     challenge = ChallengeManager().get(participation.challenge_id)
 
     stop_challenge_instance(
-        challenge_title=challenge.title,
-        participation_id=participation.participation_id,
+        challenge_title=challenge.title, participation_id=participation.participation_id
     )
     participation.status = "stopped"
     participation.port = None
@@ -68,7 +65,7 @@ def stop_old_participations():
     old_timediff = current_app.config["INSTANCE_TIME_TO_LIVE_HOURS"] * 3600
     old_threshold = int(time.time()) - old_timediff
     old_participations = ChallengeParticipationManager().get_query(
-        {"status": "ongoing", "started_at": {"$lte": old_threshold, }, }
+        {"status": "ongoing", "started_at": {"$lte": old_threshold,},}
     )
     for participation in old_participations:
         stop_participation(participation.participation_id)
