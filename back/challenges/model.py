@@ -106,7 +106,7 @@ class Challenge(Document):
         if not isinstance(self.challenge_type, str):
             raise EmmentalTypeException(error_code=13, incorrect_input="challenge_type")
 
-        if (  # This check could be made more complete
+        if self.containers and (  # This check could be made more complete
             not isinstance(self.containers, dict)
             or "containers" not in self.containers
             or len(self.containers["containers"]) == 0

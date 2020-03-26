@@ -28,6 +28,8 @@ data_controller_update = [
             ],
             "hints": [{"cost": 0.5, "text": "Try some common passwords ;)",}],
             "containers": {},
+            "challenge_type":"web",
+
         },
         Challenge(
             title="Very Simple Challenge",
